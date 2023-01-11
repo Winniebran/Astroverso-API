@@ -32,3 +32,5 @@ export const createUsersSchema: SchemaOf<IUserRequest> = yup.object().shape({
     createdAt: yup.date().required(),
     updatedAt: yup.date().required(),
   });
+
+  export const listUsersWithoutPassword = yup.array(userWithoutPasswordSchema);
