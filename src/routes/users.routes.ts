@@ -6,6 +6,7 @@ import { updateUsersController } from "../controllers/user/updateUsers.controlle
 import { AuthMiddleware } from "../middlewares/authentication.middleware";
 import { dataIsValidMiddleware } from "../middlewares/dataIsValid.middleware";
 import { isAdmMiddleware } from "../middlewares/isAdm.middleware";
+import { isValidToUpdateMiddleware } from "../middlewares/isValidToUpdate.middleware";
 import { createUsersSchema, updateUsersSchema } from "../schemas/users.schema";
 
 export const usersRouter = Router();
@@ -16,12 +17,23 @@ usersRouter.post(
   createUsersController
 );
 
-usersRouter.get("", AuthMiddleware, isAdmMiddleware,  listUsersController)
+usersRouter.get("", AuthMiddleware, isAdmMiddleware, listUsersController);
 
-usersRouter.get("/:id/score", isAdmMiddleware, AuthMiddleware) 
+usersRouter.get("/:id/score", AuthMiddleware, isAdmMiddleware); //falta service e controller
 
-usersRouter.get("/:id/favoritePosts", isAdmMiddleware, AuthMiddleware) 
+usersRouter.get("/:id/favoritePosts", AuthMiddleware, isAdmMiddleware); //falta service e controller
 
-usersRouter.patch("/:id", AuthMiddleware, dataIsValidMiddleware(updateUsersSchema), updateUsersController) //falta middleware
+usersRouter.patch(
+  "/:id",
+  AuthMiddleware,
+  isValidToUpdateMiddleware,
+  dataIsValidMiddleware(updateUsersSchema),
+  updateUsersController
+); //falta middleware isSameUser
 
-usersRouter.delete("/:id", AuthMiddleware, isAdmMiddleware, deleteUsersController)
+usersRouter.delete(
+  "/:id",
+  AuthMiddleware,
+  isAdmMiddleware,
+  deleteUsersController
+);
