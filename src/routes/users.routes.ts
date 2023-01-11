@@ -19,8 +19,6 @@ usersRouter.post(
 
 usersRouter.get("", AuthMiddleware, isAdmMiddleware, listUsersController);
 
-usersRouter.get("/:id/score", AuthMiddleware, isAdmMiddleware); //falta service e controller
-
 usersRouter.get("/:id/favoritePosts", AuthMiddleware, isAdmMiddleware); //falta service e controller
 
 usersRouter.patch(
