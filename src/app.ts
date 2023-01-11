@@ -2,11 +2,12 @@ import express from "express";
 import "express-async-errors";
 import "reflect-metadata";
 import { handleError } from "./errors/handleError";
+import { usersRouter } from "./routes/users.routes";
 
 export const app = express();
 app.use(express.json());
 
-app.use("/users", );
+app.use("/users", usersRouter);
 app.use("/login", );
 app.use("/favoritePosts", );
 app.use("/posts", );
