@@ -3,6 +3,7 @@ import { createUsersController } from "../controllers/user/createUsers.controlle
 import { deleteUsersController } from "../controllers/user/deleteUsers.controller";
 import { listUsersController } from "../controllers/user/listUsers.controller";
 import { updateUsersController } from "../controllers/user/updateUsers.controller";
+import { AuthMiddleware } from "../middlewares/authentication.middleware";
 import { dataIsValidMiddleware } from "../middlewares/dataIsValid.middleware";
 import { createUsersSchema, updateUsersSchema } from "../schemas/users.schema";
 
@@ -14,12 +15,12 @@ usersRouter.post(
   createUsersController
 );
 
-usersRouter.get("", listUsersController) //faltam middlewares
+usersRouter.get("", AuthMiddleware,  listUsersController) //faltam middlewares
 
-usersRouter.get("/:id/score") 
+usersRouter.get("/:id/score", AuthMiddleware) 
 
-usersRouter.get("/:id/favoritePosts") 
+usersRouter.get("/:id/favoritePosts", AuthMiddleware) 
 
-usersRouter.patch("/:id", dataIsValidMiddleware(updateUsersSchema), updateUsersController) //faltam middlewares
+usersRouter.patch("/:id", AuthMiddleware, dataIsValidMiddleware(updateUsersSchema), updateUsersController) //faltam middlewares
 
-usersRouter.delete("/:id", deleteUsersController) //faltam middlewares
+usersRouter.delete("/:id", AuthMiddleware, deleteUsersController) //faltam middlewares
