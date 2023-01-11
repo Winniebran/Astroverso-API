@@ -1,10 +1,10 @@
 import * as yup from "yup";
 import { SchemaOf } from "yup";
-import { IUserRequest, IUserResponse } from "../interfaces/user";
+import { IUserRequest, IUserResponse, IUserUpdate } from "../interfaces/user";
 
 export const createUsersSchema: SchemaOf<IUserRequest> = yup.object().shape({
-    name: yup.string().min(2).trim().required("Name is required"),
-    password: yup
+  name: yup.string().min(2).trim().required("Name is required"),
+  password: yup
     .string()
     .trim()
     .matches(/[A-Z]/, "Must contain a capital letter")
@@ -13,15 +13,17 @@ export const createUsersSchema: SchemaOf<IUserRequest> = yup.object().shape({
     .matches(/(\W)|_/, "Must contain a special character")
     .matches(/.{8,}/, "Must contain at least 8 characters")
     .required("Password is required"),
-    email: yup
-      .string()
-      .trim()
-      .email("Invalid email format")
-      .required("Mail is required"),
-    isAdm: yup.boolean().required("Adm is required"),
-  });
+  email: yup
+    .string()
+    .trim()
+    .email("Invalid email format")
+    .required("Mail is required"),
+  isAdm: yup.boolean().required("Adm is required"),
+});
 
-  export const userWithoutPasswordSchema: SchemaOf<IUserResponse> = yup.object().shape({
+export const userWithoutPasswordSchema: SchemaOf<IUserResponse> = yup
+  .object()
+  .shape({
     id: yup.string().uuid().required(),
     name: yup.string().min(2).trim().required(),
     email: yup.string().trim().email("Invalid email format").required(),
@@ -33,4 +35,10 @@ export const createUsersSchema: SchemaOf<IUserRequest> = yup.object().shape({
     updatedAt: yup.date().required(),
   });
 
-  export const listUsersWithoutPassword = yup.array(userWithoutPasswordSchema);
+export const listUsersWithoutPassword = yup.array(userWithoutPasswordSchema);
+
+export const updateUsersSchema: SchemaOf<IUserUpdate> = yup.object().shape({
+  name: yup.string().min(2).trim(),
+  email: yup.string().trim().email(),
+  password: yup.string().trim(),
+});

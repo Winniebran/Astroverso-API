@@ -3,7 +3,7 @@ import { createUsersController } from "../controllers/user/createUsers.controlle
 import { listUsersController } from "../controllers/user/listUsers.controller";
 import { updateUsersController } from "../controllers/user/updateUsers.controller";
 import { dataIsValidMiddleware } from "../middlewares/dataIsValid.middleware";
-import { createUsersSchema } from "../schemas/users.schema";
+import { createUsersSchema, updateUsersSchema } from "../schemas/users.schema";
 
 export const usersRouter = Router();
 
@@ -15,4 +15,4 @@ usersRouter.post(
 
 usersRouter.get("", listUsersController) //faltam middlewares
 
-usersRouter.patch("/:id", updateUsersController) //faltam middlewares
+usersRouter.patch("/:id", dataIsValidMiddleware(updateUsersSchema), updateUsersController) //faltam middlewares
