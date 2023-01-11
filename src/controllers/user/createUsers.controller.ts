@@ -7,4 +7,3 @@ export const createUsersController = async (req: Request, res: Response) => {
     const data = await createUsersService(userData);
     return res.status(201).json(data);
   };
-  
