@@ -32,4 +32,10 @@ describe("/users", () => {
     expect(response.body).toHaveLength(1);
     expect(response.body[0]).not.toHaveProperty("password");
   });
+
+  test("GET /users -  shouldn't be able to list users without authentication", async () => {
+    const response = await request(app).get("/users");
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message");
+  });
 });
