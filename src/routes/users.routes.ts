@@ -6,6 +6,7 @@ import { listUsersController } from "../controllers/user/listUsers.controller";
 import { updateUsersController } from "../controllers/user/updateUsers.controller";
 import { AuthMiddleware } from "../middlewares/authentication.middleware";
 import { dataIsValidMiddleware } from "../middlewares/dataIsValid.middleware";
+import { idIsValidMiddleware } from "../middlewares/IdIsValid.middleware";
 import { isAdmMiddleware } from "../middlewares/isAdm.middleware";
 import { isSameUsersMiddleware } from "../middlewares/isSameUsers.middleware";
 import { isValidToUpdateMiddleware } from "../middlewares/isValidToUpdate.middleware";
@@ -21,13 +22,20 @@ usersRouter.post(
 
 usersRouter.get("", AuthMiddleware, isAdmMiddleware, listUsersController);
 
-usersRouter.get("/:id/favoritePosts", AuthMiddleware, isAdmMiddleware, listFavoritePostFromUserController);
+usersRouter.get(
+  "/:id/favoritePosts",
+  AuthMiddleware,
+  isAdmMiddleware,
+  idIsValidMiddleware,
+  listFavoritePostFromUserController
+);
 
 usersRouter.patch(
   "/:id",
   AuthMiddleware,
   isValidToUpdateMiddleware,
   dataIsValidMiddleware(updateUsersSchema),
+  idIsValidMiddleware,
   isSameUsersMiddleware,
   updateUsersController
 );
@@ -36,5 +44,6 @@ usersRouter.delete(
   "/:id",
   AuthMiddleware,
   isAdmMiddleware,
+  idIsValidMiddleware,
   deleteUsersController
 );
