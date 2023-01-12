@@ -3,7 +3,7 @@ import { Options } from "../../entities/options.entity";
 import { AppError } from "../../errors/AppErrors";
 import { IOptions } from "../../interfaces/options";
 
-const createOptionsService = async (
+export const createOptionsService = async (
   optionData: IOptions
 ): Promise<[number, object]> => {
   try {
@@ -16,5 +16,3 @@ const createOptionsService = async (
     throw new AppError(error as string);
   }
 };
-
-export default createOptionsService;

@@ -1,8 +1,8 @@
 import { app } from "./app";
-import AppDataSource from "./data-source";
+import dataSourceConfig from "./data-source";
 
 (async () => {
-  await AppDataSource.initialize().catch((err) => {
+  await dataSourceConfig.initialize().catch((err) => {
     console.error("Error during Data Source initialization", err);
   });
 

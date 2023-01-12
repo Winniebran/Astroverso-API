@@ -13,7 +13,7 @@ const verifyCorrectOptionsMiddleware = async (
     if (data.point === 0 && data.isCorrect === true) {
       return res
         .status(400)
-        .json({ message: "Correct answer must have a score of 2" });
+        .json({ message: "Correct answer must have a score equal to 2" });
     } else {
       req.body = { ...req.body, isCorrect: false };
     }
