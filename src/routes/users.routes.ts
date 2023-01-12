@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { createUsersController } from "../controllers/user/createUsers.controller";
 import { deleteUsersController } from "../controllers/user/deleteUsers.controller";
+import { listFavoritePostFromUserController } from "../controllers/user/listFavoritePostFromUser.controller";
 import { listUsersController } from "../controllers/user/listUsers.controller";
 import { updateUsersController } from "../controllers/user/updateUsers.controller";
 import { AuthMiddleware } from "../middlewares/authentication.middleware";
@@ -19,7 +20,7 @@ usersRouter.post(
 
 usersRouter.get("", AuthMiddleware, isAdmMiddleware, listUsersController);
 
-usersRouter.get("/:id/favoritePosts", AuthMiddleware, isAdmMiddleware); //falta service e controller
+usersRouter.get("/:id/favoritePosts", AuthMiddleware, isAdmMiddleware, listFavoritePostFromUserController);
 
 usersRouter.patch(
   "/:id",
