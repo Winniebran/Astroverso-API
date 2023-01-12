@@ -50,4 +50,5 @@ describe("/users", () => {
   });
 
   // GET /users/:id/favoritePosts
+  
 });
