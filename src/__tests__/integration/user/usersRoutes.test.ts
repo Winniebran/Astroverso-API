@@ -2,7 +2,7 @@ import { DataSource } from "typeorm";
 import dataSourceConfig from "../../../data-source";
 import request from "supertest";
 import { app } from "../../../app";
-import { mockAdm, mockAdmLogin } from "../../mocks";
+import { mockAdm, mockAdmLogin, mockUser, mockUserLogin } from "../../mocks";
 
 describe("/users", () => {
   let connection: DataSource;
@@ -38,4 +38,16 @@ describe("/users", () => {
     expect(response.status).toBe(401);
     expect(response.body).toHaveProperty("message");
   });
+
+  test("GET /users -  shouldn't be able to list users not being admin", async () => {
+    await request(app).post("/users").send(mockUser);
+    const userLogin = await request(app).post("/login").send(mockUserLogin);
+    const res = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${userLogin.body.token}`);
+    expect(res.status).toBe(403);
+    expect(res.body).toHaveProperty("message");
+  });
+
+  // GET /users/:id/favoritePosts
 });
