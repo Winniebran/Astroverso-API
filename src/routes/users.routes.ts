@@ -7,6 +7,7 @@ import { updateUsersController } from "../controllers/user/updateUsers.controlle
 import { AuthMiddleware } from "../middlewares/authentication.middleware";
 import { dataIsValidMiddleware } from "../middlewares/dataIsValid.middleware";
 import { isAdmMiddleware } from "../middlewares/isAdm.middleware";
+import { isSameUsersMiddleware } from "../middlewares/isSameUsers.middleware";
 import { isValidToUpdateMiddleware } from "../middlewares/isValidToUpdate.middleware";
 import { createUsersSchema, updateUsersSchema } from "../schemas/users.schema";
 
@@ -27,8 +28,9 @@ usersRouter.patch(
   AuthMiddleware,
   isValidToUpdateMiddleware,
   dataIsValidMiddleware(updateUsersSchema),
+  isSameUsersMiddleware,
   updateUsersController
-); //falta middleware isSameUser
+);
 
 usersRouter.delete(
   "/:id",

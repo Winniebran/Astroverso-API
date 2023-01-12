@@ -23,6 +23,7 @@ export const AuthMiddleware = (
 
     req.users = {
       id: decoded.sub,
+      isAdm: decoded.isAdm
     };
 
     return next();
