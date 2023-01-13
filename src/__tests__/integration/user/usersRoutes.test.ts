@@ -114,6 +114,26 @@ describe("/users", () => {
     expect(res.body).toHaveProperty("message");
   });
 
+  test("PATCH /users/:id - Should be able to update another user with admin permission", async () => {
+    const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const valuesToBeUpdated = { name: "Daniel", email: "daniel@mail.com" };
+    const userToBeUpdated = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+    const res = await request(app)
+      .patch(`/users/${userToBeUpdated.body[2].id}`)
+      .set("Authorization", `Bearer ${admLogin.body.token}`)
+      .send(valuesToBeUpdated);
+
+    const updatedUser = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+    expect(res.status).toBe(200);
+    expect(updatedUser.body[2].name).toEqual("Daniel");
+    expect(updatedUser.body[2].email).toEqual("daniel@mail.com");
+    expect(updatedUser.body[2]).not.toHaveProperty("password");
+  });
+
   test("PATCH /users/:id - Should be able to update user", async () => {
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const userToBeUpdated = await request(app)
@@ -129,7 +149,6 @@ describe("/users", () => {
     const updatedUser = await request(app)
       .get("/users")
       .set("Authorization", `Bearer ${admLogin.body.token}`);
-      console.log(updatedUser.body)
     expect(res.status).toBe(200);
     expect(updatedUser.body[0].name).toEqual("Admin");
     expect(updatedUser.body[0].email).toEqual("admin@mail.com");
