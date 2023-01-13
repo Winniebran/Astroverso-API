@@ -160,6 +160,20 @@ describe("/users", () => {
     expect(res.body).toHaveProperty("message");
   });
 
+  test("PATCH /users/:id - shouldn't be able to update isActive field value", async () => {
+    const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const userToBeUpdated = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+    const valuesToBeUpdated = { isActive: false };
+    const res = await request(app)
+      .patch(`/users/${userToBeUpdated.body[0].id}`)
+      .set("Authorization", `Bearer ${admLogin.body.token}`)
+      .send(valuesToBeUpdated);
+    expect(res.body).toHaveProperty("message");
+    expect(res.status).toBe(401);
+  });
+
   test("PATCH /users/:id - Should be able to update user", async () => {
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const userToBeUpdated = await request(app)
