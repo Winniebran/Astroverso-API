@@ -72,20 +72,25 @@ describe("/users", () => {
   // POST /users
 
   test("POST /users -  Must be able to create a user", async () => {
-    const response = await request(app).post("/users").send(mockUser2);
+    const res = await request(app).post("/users").send(mockUser2);
+    expect(res.body).toHaveProperty("id");
+    expect(res.body).toHaveProperty("name");
+    expect(res.body).toHaveProperty("email");
+    expect(res.body).toHaveProperty("isAdm");
+    expect(res.body).toHaveProperty("score");
+    expect(res.body).toHaveProperty("isActive");
+    expect(res.body).toHaveProperty("createdAt");
+    expect(res.body).toHaveProperty("updatedAt");
+    expect(res.body).not.toHaveProperty("password");
+    expect(res.body.name).toEqual("João");
+    expect(res.body.email).toEqual("joao@mail.com");
+    expect(res.body.isAdm).toEqual(false);
+    expect(res.status).toBe(201);
+  });
 
-    expect(response.body).toHaveProperty("id");
-    expect(response.body).toHaveProperty("name");
-    expect(response.body).toHaveProperty("email");
-    expect(response.body).toHaveProperty("isAdm");
-    expect(response.body).toHaveProperty("score");
-    expect(response.body).toHaveProperty("isActive");
-    expect(response.body).toHaveProperty("createdAt");
-    expect(response.body).toHaveProperty("updatedAt");
-    expect(response.body).not.toHaveProperty("password");
-    expect(response.body.name).toEqual("João");
-    expect(response.body.email).toEqual("joao@mail.com");
-    expect(response.body.isAdm).toEqual(false);
-    expect(response.status).toBe(201);
+  test("POST /users -  shouldn't be able to create a user that already exists", async () => {
+    const res = await request(app).post("/users").send(mockUser);
+    expect(res.status).toBe(409);
+    expect(res.body).toHaveProperty("message");
   });
 });
