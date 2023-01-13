@@ -2,7 +2,7 @@ import { DataSource } from "typeorm";
 import dataSourceConfig from "../../../data-source";
 import request from "supertest";
 import { app } from "../../../app";
-import { mockAdm, mockAdmLogin, mockUser, mockUserLogin } from "../../mocks";
+import { mockAdm, mockAdmLogin, mockUser, mockUserLogin } from "../../mocks/users.mocks";
 
 describe("/users", () => {
   let connection: DataSource;
@@ -50,5 +50,5 @@ describe("/users", () => {
   });
 
   // GET /users/:id/favoritePosts
-  
+
 });
