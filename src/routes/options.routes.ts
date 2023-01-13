@@ -4,6 +4,8 @@ import { createOptionsController } from "../controllers/options/createOptions.co
 import { dataIsValidMiddleware } from "../middlewares/dataIsValid.middleware";
 import verifyCorrectOptionsMiddleware from "../middlewares/verifyIsCorrectOptions.middleware";
 import { postOptionsSchema } from "../schemas/options.schema";
+import { verifyOptionsExistsMiddleware } from "../middlewares/verifyOptinIdExists.middleware";
+import { deleteOptionController } from "../controllers/options/deleteOptions.controller";
 
 const optionsRouter = Router();
 
@@ -15,5 +17,11 @@ optionsRouter.post(
 );
 
 optionsRouter.get("", getOptionsController);
+
+optionsRouter.delete(
+  "/:id",
+  verifyOptionsExistsMiddleware,
+  deleteOptionController
+);
 
 export default optionsRouter;
