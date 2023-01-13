@@ -15,17 +15,17 @@ import { ensureAstrosExistsMiddleware } from "../middlewares/astros/ensureAstros
 import { idIsValidMiddleware } from "../middlewares/IdIsValid.middleware";
 import { isValidToUpdateMiddleware } from "../middlewares/isValidToUpdate.middleware";
 
-export const astrosRoutes = Router();
+export const astrosRouter = Router();
 
-astrosRoutes.post(
+astrosRouter.post(
 	"",
 	AuthMiddleware,
 	isAdmMiddleware,
 	dataIsValidMiddleware(astrosRequestSchema),
 	createAstrosController
 );
-astrosRoutes.get("", listAstrosController);
-astrosRoutes.patch(
+astrosRouter.get("", listAstrosController);
+astrosRouter.patch(
 	"/:id",
 	AuthMiddleware,
 	isAdmMiddleware,
@@ -35,7 +35,7 @@ astrosRoutes.patch(
 	updateAstrosExistsMiddleware,
 	updateAstrosController
 );
-astrosRoutes.delete(
+astrosRouter.delete(
 	"/:id",
 	AuthMiddleware,
 	isAdmMiddleware,

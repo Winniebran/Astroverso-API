@@ -12,17 +12,17 @@ import { ensureCategoriesExistsMiddleware } from "../middlewares/categories/ensu
 import { idIsValidMiddleware } from "../middlewares/IdIsValid.middleware";
 import { isValidToUpdateMiddleware } from "../middlewares/isValidToUpdate.middleware";
 
-export const categoriesRoutes = Router();
+export const categoriesRouter = Router();
 
-categoriesRoutes.post(
+categoriesRouter.post(
 	"",
 	AuthMiddleware,
 	isAdmMiddleware,
 	dataIsValidMiddleware(categoriesRequestSchema),
 	createCategoriesController
 );
-categoriesRoutes.get("", listCategoriesController);
-categoriesRoutes.patch(
+categoriesRouter.get("", listCategoriesController);
+categoriesRouter.patch(
 	"/:id",
 	AuthMiddleware,
 	isAdmMiddleware,
@@ -32,7 +32,7 @@ categoriesRoutes.patch(
 	updateCategoriesExistsMiddleware,
 	updateCategoriesController
 );
-categoriesRoutes.delete(
+categoriesRouter.delete(
 	"/:id",
 	AuthMiddleware,
 	isAdmMiddleware,
