@@ -134,6 +134,18 @@ describe("/users", () => {
     expect(updatedUser.body[2]).not.toHaveProperty("password");
   });
 
+  test("PATCH /users/:id - shouldn't be able to update user with invalid id", async () => {
+    const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const valuesToBeUpdated = { name: "Daniel", email: "daniel@mail.com" };
+    const res = await request(app)
+      .patch(`/users/1`)
+      .set("Authorization", `Bearer ${admLogin.body.token}`)
+      .send(valuesToBeUpdated);
+    console.log(res.body);
+    expect(res.status).toBe(404);
+    expect(res.body).toHaveProperty("message");
+  });
+
   test("PATCH /users/:id - Should be able to update user", async () => {
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const userToBeUpdated = await request(app)
