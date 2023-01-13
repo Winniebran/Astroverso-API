@@ -10,6 +10,7 @@ import {
 import { verifyOptionsExistsMiddleware } from "../middlewares/verifyOptinIdExists.middleware";
 import { deleteOptionController } from "../controllers/options/deleteOptions.controller";
 import { updateOptionsController } from "../controllers/options/updateOptions.controller";
+import { verifyOptionsLimitMiddleware } from "../middlewares/verifyOptionsLimit.middleware";
 
 const optionsRouter = Router();
 
@@ -17,6 +18,7 @@ optionsRouter.post(
   "",
   dataIsValidMiddleware(postOptionsSchema),
   verifyCorrectOptionsMiddleware,
+  verifyOptionsLimitMiddleware,
   createOptionsController
 );
 
