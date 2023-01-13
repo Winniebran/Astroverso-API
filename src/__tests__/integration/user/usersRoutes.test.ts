@@ -28,24 +28,23 @@ describe("/users", () => {
     await connection.destroy();
   });
 
-  test("GET /users -  Must be able to list users", async () => {
+  test("GET /users - Must be able to list users", async () => {
     await request(app).post("/users").send(mockAdm);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const res = await request(app)
       .get("/users")
       .set("Authorization", `Bearer ${admLogin.body.token}`);
-
     expect(res.body).toHaveLength(1);
     expect(res.body[0]).not.toHaveProperty("password");
   });
 
-  test("GET /users -  shouldn't be able to list users without authentication", async () => {
-    const res = await request(app).get("/users");
+  test("GET /users - Shouldn't be able to list users without authentication", async () => {
+    const res = await request(app).get('/users')
     expect(res.status).toBe(401);
     expect(res.body).toHaveProperty("message");
   });
 
-  test("GET /users -  shouldn't be able to list users not being admin", async () => {
+  test("GET /users - Shouldn't be able to list users not being admin", async () => {
     await request(app).post("/users").send(mockUser);
     const userLogin = await request(app).post("/login").send(mockUserLogin);
     const res = await request(app)
@@ -57,13 +56,13 @@ describe("/users", () => {
 
   // GET /users/:id/favoritePosts
 
-  //   test("GET /users/:id/favoritePosts -  shouldn't be able to list favorite posts without authentication", async () => {
+  //   test("GET /users/:id/favoritePosts - Shouldn't be able to list favorite posts without authentication", async () => {
   //     const userLogin = await request(app).post("/login").send(mockUserLogin);
-  //     await request(app)
+  //     const loggedUSer = await request(app)
   //       .get("/users")
   //       .set("Authorization", `Bearer ${userLogin.body.token}`);
   //     const res = await request(app).get(
-  //       `/users/${userLogin.body[0].id}/favoritePosts`
+  //       `/users/${loggedUSer.body[0].id}/favoritePosts`
   //     );
   //     expect(res.status).toBe(401);
   //     expect(res.body).toHaveProperty("message");
@@ -71,7 +70,7 @@ describe("/users", () => {
 
   // POST /users
 
-  test("POST /users -  Must be able to create a user", async () => {
+  test("POST /users - Must be able to create a user", async () => {
     const res = await request(app).post("/users").send(mockUser2);
     expect(res.body).toHaveProperty("id");
     expect(res.body).toHaveProperty("name");
@@ -88,9 +87,23 @@ describe("/users", () => {
     expect(res.status).toBe(201);
   });
 
-  test("POST /users -  shouldn't be able to create a user that already exists", async () => {
+  test("POST /users - Shouldn't be able to create a user that already exists", async () => {
     const res = await request(app).post("/users").send(mockUser);
     expect(res.status).toBe(409);
     expect(res.body).toHaveProperty("message");
   });
+
+  // UPDATE /users/:id
+
+  test("PATCH /users/:id - Shouldn't be able to update user without authentication", async () => {
+    const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const updatedUser = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+    const res = await request(app).patch(`/users/${updatedUser.body[0].id}`);
+    expect(res.status).toBe(401);
+    expect(res.body).toHaveProperty("message");
+  });
+
+
 });
