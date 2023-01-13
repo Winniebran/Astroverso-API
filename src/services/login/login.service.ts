@@ -23,7 +23,7 @@ export const loginService = async ({
   if (!passwordMatch) {
     throw new AppError("Email or password is invalid", 403);
   }
-console.log(user.id)
+
   const token = jwt.sign({ email: user.email, isAdm: user.isAdm }, process.env.SECRET_KEY!, {
     subject: user.id,
     expiresIn: "24h",
