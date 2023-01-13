@@ -141,8 +141,22 @@ describe("/users", () => {
       .patch(`/users/1`)
       .set("Authorization", `Bearer ${admLogin.body.token}`)
       .send(valuesToBeUpdated);
-    console.log(res.body);
     expect(res.status).toBe(404);
+    expect(res.body).toHaveProperty("message");
+  });
+
+  test("PATCH /users/:id - shouldn't be able to update isAdm field value", async () => {
+    const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const userToBeUpdated = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+
+    const valuesToBeUpdated = { isAdm: false };
+    const res = await request(app)
+      .patch(`/users/${userToBeUpdated.body[0].id}`)
+      .set("Authorization", `Bearer ${admLogin.body.token}`)
+      .send(valuesToBeUpdated);
+    expect(res.status).toBe(401);
     expect(res.body).toHaveProperty("message");
   });
 
