@@ -107,10 +107,32 @@ describe("/users", () => {
 
   test("PATCH /users/:id - Shouldn't be able to update another user without admin permission", async () => {
     const userLogin = await request(app).post("/login").send(mockUserLogin);
-    const updatedUSer = await request(app)
+    const res = await request(app)
       .get("/users")
       .set("Authorization", `Bearer ${userLogin.body.token}`);
-    expect(updatedUSer.status).toBe(403);
-    expect(updatedUSer.body).toHaveProperty("message");
+    expect(res.status).toBe(403);
+    expect(res.body).toHaveProperty("message");
+  });
+
+  test("PATCH /users/:id - Should be able to update user", async () => {
+    const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const userToBeUpdated = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+
+    const valuesToBeUpdated = { name: "Admin", email: "admin@mail.com" };
+    const res = await request(app)
+      .patch(`/users/${userToBeUpdated.body[0].id}`)
+      .set("Authorization", `Bearer ${admLogin.body.token}`)
+      .send(valuesToBeUpdated);
+
+    const updatedUser = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+      console.log(updatedUser.body)
+    expect(res.status).toBe(200);
+    expect(updatedUser.body[0].name).toEqual("Admin");
+    expect(updatedUser.body[0].email).toEqual("admin@mail.com");
+    expect(updatedUser.body[0]).not.toHaveProperty("password");
   });
 });
