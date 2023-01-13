@@ -1,10 +1,10 @@
 import DataSource from "../../data-source";
 import { Options } from "../../entities/options.entity";
 import { AppError } from "../../errors/AppErrors";
-import { IOptions } from "../../interfaces/options";
+import { IupdateOption } from "../../interfaces/options";
 
 export const updateOptionsService = async (
-  newData: IOptions,
+  newData: IupdateOption,
   optionId: string
 ): Promise<Options> => {
   try {
