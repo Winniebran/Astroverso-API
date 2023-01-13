@@ -39,7 +39,7 @@ describe("/users", () => {
   });
 
   test("GET /users - Shouldn't be able to list users without authentication", async () => {
-    const res = await request(app).get('/users')
+    const res = await request(app).get("/users");
     expect(res.status).toBe(401);
     expect(res.body).toHaveProperty("message");
   });
@@ -105,5 +105,12 @@ describe("/users", () => {
     expect(res.body).toHaveProperty("message");
   });
 
-
+  test("PATCH /users/:id - Shouldn't be able to update another user without admin permission", async () => {
+    const userLogin = await request(app).post("/login").send(mockUserLogin);
+    const updatedUSer = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${userLogin.body.token}`);
+    expect(updatedUSer.status).toBe(403);
+    expect(updatedUSer.body).toHaveProperty("message");
+  });
 });
