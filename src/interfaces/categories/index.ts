@@ -1,3 +1,10 @@
 export interface ICategories {
-  name: string;
+	name: string;
+}
+export interface ICategoriesRequest {
+	name: string;
+}
+
+export interface ICategoriesResponse extends ICategoriesRequest {
+	id: string;
 }
