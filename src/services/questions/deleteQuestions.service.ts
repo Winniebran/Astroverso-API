@@ -1,23 +1,17 @@
-import  DataSource  from "../../data-source";
+import dataSourceConfig from "../../data-source";
 import { Questions } from "../../entities/questions.entity";
 
-const deleteQuestionsService = async (id:string) => {
+const deleteQuestionsService = async (questionId:string) => {
 
-    const repository = DataSource.getRepository(Questions)
+    const repository = dataSourceConfig.getRepository(Questions)
 
-    const findQuestion = await repository.findOneBy({ id: id })
-
+    const findQuestion = await repository.findOneBy({ id: questionId })
     
     if(!findQuestion){
         throw new Error('Id não encontrado')
-    } else if( findQuestion){
     }
 
-   
-
-    await repository.save(findQuestion)
-  
-    
+    await repository.delete(questionId);
 };
 
 export default deleteQuestionsService;

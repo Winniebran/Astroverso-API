@@ -1,7 +1,6 @@
-import  DataSource  from "../../data-source";
+import DataSource from "../../data-source";
 import { Questions } from "../../entities/questions.entity";
 import { IQuestions } from "../../interfaces/questions";
-import { Users } from "../../entities/users.entity";
 
 const createQuestionsService = async (data: IQuestions): Promise<Array<Questions | number | string | {}>> => {
 
