@@ -4,6 +4,7 @@ import "reflect-metadata";
 import { handleError } from "./errors/handleError";
 import { loginRouter } from "./routes/login.routes";
 import { usersRouter } from "./routes/users.routes";
+import { questionsRouter } from "./routes/questions.routes";
 
 
 export const app = express();
@@ -16,7 +17,7 @@ app.use("/login", loginRouter);
 // app.use("/astros");
 // app.use("/categories");
 // app.use("/quiz");
-// app.use("/questions");
+app.use("/questions", questionsRouter);
 // app.use("/options");
 // app.use("/extras");
 // app.use("/types");
