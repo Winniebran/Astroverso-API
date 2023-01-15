@@ -83,6 +83,19 @@ describe("/users", () => {
     expect(res.body[0]).not.toHaveProperty("password");
   });
 
+  test("GET /users/:id - Shouldn't be able to list another user without admin permission", async () => {
+    const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const getAllUsers = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+    const userLogin = await request(app).post("/login").send(mockUserLogin);
+    const res = await request(app)
+      .get(`/users/${getAllUsers.body[0].id}`)
+      .set("Authorization", `Bearer ${userLogin.body.token}`);
+    expect(res.status).toBe(403);
+    expect(res.body).toHaveProperty("message");
+  });
+
   // GET /users/:id/favoritePosts
 
   //   test("GET /users/:id/favoritePosts - Shouldn't be able to list favorite posts without authentication", async () => {
@@ -141,9 +154,13 @@ describe("/users", () => {
   });
 
   test("DELETE /users/:id - Shouldn't be able to delete user without admin permission", async () => {
+    const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const getAllUsers = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
     const userLogin = await request(app).post("/login").send(mockUserLogin);
     const res = await request(app)
-      .get("/users")
+      .delete(`/users/${getAllUsers.body[0].id}`)
       .set("Authorization", `Bearer ${userLogin.body.token}`);
     expect(res.status).toBe(403);
     expect(res.body).toHaveProperty("message");
@@ -199,9 +216,13 @@ describe("/users", () => {
   });
 
   test("PATCH /users/:id - Shouldn't be able to update another user without admin permission", async () => {
+    const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const users = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
     const userLogin = await request(app).post("/login").send(mockUserLogin);
     const res = await request(app)
-      .get("/users")
+      .patch(`/users/${users.body[0].id}`)
       .set("Authorization", `Bearer ${userLogin.body.token}`);
     expect(res.status).toBe(403);
     expect(res.body).toHaveProperty("message");
