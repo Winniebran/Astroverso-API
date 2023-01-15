@@ -15,7 +15,7 @@ export const loginService = async ({
   const user = await userRepository.findOneBy({ email: email });
 
   if (!user) {
-    throw new AppError("Email or password is invalid", 400);
+    throw new AppError("Email or password is invalid", 403);
   }
 
   const passwordMatch = await compare(password, user.password);
