@@ -7,5 +7,7 @@ export const mockAstro: IAstrosRequest = {
 };
 
 export const mockAstroUpdate: IAstrosUpdate = {
-	name: "AstroUpdate"
+	name: "AstroUpdate",
+	image:
+		"https://www.visualcapitalist.com/wp-content/uploads/2022/06/The-entire-universe-1000x600.jpeg"
 };

@@ -9,9 +9,20 @@ import {
 	mockUserLogin
 } from "../../mocks/users.mocks";
 import { mockAstro, mockAstroUpdate } from "../../mocks/astros.mocks";
+import { SchemaOf, string, TypeOf, ValidationError } from "yup";
+import { astrosResponseSchema } from "../../../schemas/astros.schema";
+import { IAstrosResponse } from "../../../interfaces/astros";
+import { Astros } from "../../../entities/astros.entity";
+import { match } from "assert";
+import { URL, Url, UrlObject } from "url";
+import { url } from "inspector";
 
 describe("/astros", () => {
 	let connection: DataSource;
+
+	interface errors extends Partial<ValidationError> {
+		errors: string[];
+	}
 
 	beforeAll(async () => {
 		await dataSourceConfig
@@ -37,9 +48,22 @@ describe("/astros", () => {
 			.set("Authorization", `Bearer ${admLogin.body.token}`)
 			.send(mockAstro);
 
-		expect(response.body).toHaveProperty("name");
-		expect(response.body).toHaveProperty("id");
 		expect(response.status).toBe(201);
+		expect(response.body).toHaveProperty("id");
+		expect(response.body).toHaveProperty("name");
+		expect(response.body).toHaveProperty("image");
+	});
+
+	test("POST /astros -  should not be able to create astro with empty field(s)", async () => {
+		const admLogin = await request(app).post("/login").send(mockAdmLogin);
+		const response = await request(app)
+			.post("/astros")
+			.set("Authorization", `Bearer ${admLogin.body.token}`)
+			.send({ name: "", image: "" });
+
+		const mockError = { errors: response.body.error };
+		expect(response.status).toBe(400);
+		expect(mockError).toMatchObject<Partial<ValidationError>>(mockError);
 	});
 
 	test("POST /astros -  should not be able to create astro that already exists", async () => {
@@ -98,6 +122,20 @@ describe("/astros", () => {
 
 		expect(response.status).toBe(200);
 		expect(response.body.name).toEqual(mockAstroUpdate.name);
+	});
+
+	test("PATCH /astros/:id -  should not be able to update astro with empty field(s)", async () => {
+		const admLogin = await request(app).post("/login").send(mockAdmLogin);
+		const astroTobeUpdate = await request(app).get("/astros");
+
+		const response = await request(app)
+			.patch(`/astros/${astroTobeUpdate.body[0].id}`)
+			.set("Authorization", `Bearer ${admLogin.body.token}`)
+			.send({ name: "", image: "" });
+
+		const mockError = { errors: response.body.error };
+		expect(response.status).toBe(400);
+		expect(mockError).toMatchObject<Partial<ValidationError>>(mockError);
 	});
 
 	test("PATCH /astros/:id - should not be able to update astro without authentication", async () => {
