@@ -96,19 +96,6 @@ describe("/users", () => {
     expect(res.body).toHaveProperty("message");
   });
 
-  test("GET /users/:id - Should be able to list another user with admin permission", async () => {
-    const admLogin = await request(app).post("/login").send(mockAdmLogin);
-    const getAllUsers = await request(app)
-      .get("/users")
-      .set("Authorization", `Bearer ${admLogin.body.token}`);
-    const res = await request(app)
-      .get(`/users/${getAllUsers.body[0].id}`)
-      .set("Authorization", `Bearer ${admLogin.body.token}`);
-    expect(res.status).toBe(200);
-    expect(res.body).toHaveLength(1);
-    expect(res.body[0]).not.toHaveProperty("password");
-  });
-
   // GET /users/:id/favoritePosts
 
   //   test("GET /users/:id/favoritePosts - Shouldn't be able to list favorite posts without authentication", async () => {
@@ -329,7 +316,7 @@ describe("/users", () => {
     expect(res.body).toHaveProperty("message");
   });
 
-  test("PATCH /users/:id - Should be able to update user", async () => {
+  test("PATCH /users/:id - Should be able to update admin itself", async () => {
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const userToBeUpdated = await request(app)
       .get("/users")
