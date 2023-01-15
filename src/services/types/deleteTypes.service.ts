@@ -1,9 +1,14 @@
 import dataSource from "../../data-source";
 import { Types } from "../../entities/type.entity";
+import { AppError } from "../../errors/AppErrors";
 
 const deleteTypesService = async (id: string) => {
   const repositoryData = dataSource.getRepository(Types);
-  await repositoryData.delete(id);
+  const verifyType = await repositoryData.findOneBy({ id: id });
+  if (verifyType === null || "") {
+    throw new AppError("Type not found", 409);
+  }
+  return await repositoryData.delete(id);
 };
 
 export default deleteTypesService;
