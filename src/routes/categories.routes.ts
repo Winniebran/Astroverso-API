@@ -26,9 +26,9 @@ categoriesRouter.patch(
 	"/:id",
 	AuthMiddleware,
 	isAdmMiddleware,
-	dataIsValidMiddleware(categoriesRequestSchema),
 	idIsValidMiddleware,
 	isValidToUpdateMiddleware,
+	dataIsValidMiddleware(categoriesRequestSchema),
 	updateCategoriesExistsMiddleware,
 	updateCategoriesController
 );
