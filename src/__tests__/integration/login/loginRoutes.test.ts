@@ -25,4 +25,13 @@ describe("/login", () => {
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty("token");
   });
+
+  test("POST /login - Shouldn't be able to login with incorrect password or email", async () => {
+    const res = await request(app).post("/login").send({
+      email: "kenzinho10@mail.com",
+      password: "1234",
+    });
+    expect(res.status).toBe(403);
+    expect(res.body).toHaveProperty("message");
+  });
 });
