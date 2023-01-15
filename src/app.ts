@@ -9,7 +9,11 @@ import { loginRouter } from "./routes/login.routes";
 import { usersRouter } from "./routes/users.routes";
 import { astrosRouter } from "./routes/astros.routes";
 import { categoriesRouter } from "./routes/categories.routes";
+<<<<<<< HEAD
 >>>>>>> 5d564ac1504b9237ee373dd01a428b98193e0702
+=======
+import { questionsRouter } from "./routes/questions.routes";
+>>>>>>> 8d34b33628618fec971cda942a07037412b15b81
 
 export const app = express();
 app.use(express.json());
@@ -34,7 +38,7 @@ app.use("/login", loginRouter);
 app.use("/astros", astrosRouter);
 app.use("/categories", categoriesRouter);
 // app.use("/quiz");
-// app.use("/questions");
+app.use("/questions", questionsRouter);
 // app.use("/options");
 // app.use("/extras");
 // app.use("/types");
