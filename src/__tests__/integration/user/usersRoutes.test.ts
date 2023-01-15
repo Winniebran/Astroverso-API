@@ -98,8 +98,8 @@ describe("/users", () => {
   });
 
   // DELETE /users/:id
-  
-  test("DELETE /users/:id -  Shouldn't be able to delete user without authentication", async () => {
+
+  test("DELETE /users/:id - Shouldn't be able to delete user without authentication", async () => {
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const UserTobeDeleted = await request(app)
       .get("/users")
@@ -111,7 +111,7 @@ describe("/users", () => {
     expect(res.body).toHaveProperty("message");
   });
 
-  test("DELETE /users/:id -  Shouldn't be able to delete user without admin permission", async () => {
+  test("DELETE /users/:id - Shouldn't be able to delete user without admin permission", async () => {
     const userLogin = await request(app).post("/login").send(mockUserLogin);
     const res = await request(app)
       .get("/users")
@@ -120,7 +120,7 @@ describe("/users", () => {
     expect(res.body).toHaveProperty("message");
   });
 
-  test("DELETE /users/:id -  Must be able to soft delete user", async () => {
+  test("DELETE /users/:id - Must be able to soft delete user", async () => {
     await request(app).post("/users").send(mockUser3);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const UserTobeDeleted = await request(app)
@@ -136,7 +136,7 @@ describe("/users", () => {
     expect(findUser.body[3].isActive).toBe(false);
   });
 
-  test("DELETE /users/:id -  Shouldn't be able to delete user with isActive = false", async () => {
+  test("DELETE /users/:id - Shouldn't be able to delete user with isActive = false", async () => {
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const UserTobeDeleted = await request(app)
       .get("/users")
@@ -148,7 +148,7 @@ describe("/users", () => {
     expect(res.body).toHaveProperty("message");
   });
 
-  test("DELETE /users/:id -  Shouldn't be able to delete user with invalid id", async () => {
+  test("DELETE /users/:id - Shouldn't be able to delete user with invalid id", async () => {
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const res = await request(app)
       .delete(`/users/1`)
