@@ -144,6 +144,15 @@ describe("/users", () => {
     expect(res.body).toHaveProperty("message");
   });
 
+  test("DELETE /users/:id -  Shouldn't be able to delete user with invalid id", async () => {
+    const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const res = await request(app)
+      .delete(`/users/1`)
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+    expect(res.status).toBe(404);
+    expect(res.body).toHaveProperty("message");
+  });
+
   // UPDATE /users/:id
 
   test("PATCH /users/:id - Shouldn't be able to update user without authentication", async () => {
