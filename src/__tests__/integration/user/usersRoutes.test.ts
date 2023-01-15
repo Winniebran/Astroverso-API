@@ -72,6 +72,8 @@ describe("/users", () => {
   // POST /users
 
   test("POST /users - Must be able to create a user", async () => {
+    const pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])(?:([0-9a-zA-Z$*&@#])(?!\1)){8,}$/
+
     const res = await request(app).post("/users").send(mockUser2);
     expect(res.body).toHaveProperty("id");
     expect(res.body).toHaveProperty("name");
@@ -82,6 +84,7 @@ describe("/users", () => {
     expect(res.body).toHaveProperty("createdAt");
     expect(res.body).toHaveProperty("updatedAt");
     expect(res.body).not.toHaveProperty("password");
+    // expect(res.body.password).toMatch(pattern);
     expect(res.body.name).toEqual("João");
     expect(res.body.email).toEqual("joao@mail.com");
     expect(res.body.isAdm).toEqual(false);
@@ -95,6 +98,7 @@ describe("/users", () => {
   });
 
   // DELETE /users/:id
+  
   test("DELETE /users/:id -  Shouldn't be able to delete user without authentication", async () => {
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const UserTobeDeleted = await request(app)
