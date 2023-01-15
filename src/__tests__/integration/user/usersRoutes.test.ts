@@ -29,6 +29,8 @@ describe("/users", () => {
     await connection.destroy();
   });
 
+  // GET /users
+
   test("GET /users - Must be able to list users", async () => {
     await request(app).post("/users").send(mockAdm);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
@@ -55,6 +57,18 @@ describe("/users", () => {
     expect(res.body).toHaveProperty("message");
   });
 
+  // GET /users/:id
+
+  test("GET /users/:id - Shouldn't be able to list one user without authentication", async () => {
+    const userLogin = await request(app).post("/login").send(mockUserLogin);
+    const user = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${userLogin.body.token}`);
+    const res = await request(app).get(`/users/${user.body.id}`);
+    expect(res.status).toBe(401);
+    expect(res.body).toHaveProperty("message");
+  });
+
   // GET /users/:id/favoritePosts
 
   //   test("GET /users/:id/favoritePosts - Shouldn't be able to list favorite posts without authentication", async () => {
@@ -72,7 +86,8 @@ describe("/users", () => {
   // POST /users
 
   test("POST /users - Must be able to create a user", async () => {
-    const pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])(?:([0-9a-zA-Z$*&@#])(?!\1)){8,}$/
+    const pattern =
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])(?:([0-9a-zA-Z$*&@#])(?!\1)){8,}$/;
 
     const res = await request(app).post("/users").send(mockUser2);
     expect(res.body).toHaveProperty("id");
