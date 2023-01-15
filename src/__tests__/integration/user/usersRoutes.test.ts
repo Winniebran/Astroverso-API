@@ -94,7 +94,7 @@ describe("/users", () => {
   });
 
   // DELETE /users/:id
-  test("DELETE /users/:id -  should not be able to delete user without authentication", async () => {
+  test("DELETE /users/:id -  shouldn't be able to delete user without authentication", async () => {
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const UserTobeDeleted = await request(app)
       .get("/users")
@@ -105,6 +105,15 @@ describe("/users", () => {
     expect(res.status).toBe(401);
     expect(res.body).toHaveProperty("message");
   });
+
+  test("DELETE /users/:id -  Shouldn't be able to delete user without admin permission",async () => {
+    const userLogin = await request(app).post("/login").send(mockUserLogin);
+    const res = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${userLogin.body.token}`);
+    expect(res.status).toBe(403);
+    expect(res.body).toHaveProperty("message");
+})
 
   // UPDATE /users/:id
 
