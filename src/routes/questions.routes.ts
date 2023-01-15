@@ -39,7 +39,7 @@ questionsRouter.patch(
     editQuestionsController
 );
 
-// DELETAR PERGUNTA
+// DELETAR PERGUNTA 
 questionsRouter.delete(
     "/:id",
     ensureQuestionsExistsMiddleware,

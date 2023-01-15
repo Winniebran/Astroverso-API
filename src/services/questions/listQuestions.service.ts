@@ -1,18 +1,18 @@
-import  DataSource  from "../../data-source";
+import dataSource from "../../data-source";
 import { Questions } from "../../entities/questions.entity";
 import { IQuestions } from "../../interfaces/questions";
-import { createUsersSchema } from "../../schemas/users.schema";
+import { QuestionSchema } from "../../schemas/questions.schema";
 
-const listQuestionsService = async (): Promise<any> => {
+const listQuestionsService = async (): Promise<IQuestions> => {
 
-    const repository = DataSource.getRepository(Questions);
+    const repository = dataSource.getRepository(Questions);
     const querys = await repository.find();
   
-    const listQuerys = await createUsersSchema.validate( querys, { stripUnknown: true })
+    const listQuerys = await QuestionSchema.validate( querys, { stripUnknown: true })
   
-    return listQuerys ;
-  };
+    return listQuerys;
+};
   
-  export default listQuestionsService;
+export default listQuestionsService;
 
   
