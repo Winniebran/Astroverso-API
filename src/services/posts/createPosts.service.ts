@@ -6,16 +6,18 @@ import { Posts } from './../../entities/posts.entity';
 import dataSourceConfig from '../../data-source';
 import { IPosts, IPostsResponse } from './../../interfaces/posts/index';
 
-export const createPostService = async (postData: IPosts): Promise<void> => {
+export const createPostService = async (
+  postData: IPosts
+): Promise<IPostsResponse> => {
   const postsRep = dataSourceConfig.getRepository(Posts);
   const categoryRep = dataSourceConfig.getRepository(Categories);
   const astrosRep = dataSourceConfig.getRepository(Astros);
 
-  const astroFound = astrosRep.findOneBy({
+  const astroFound = await astrosRep.findOneBy({
     id: postData.astrosId,
   });
 
-  const categoryFound = categoryRep.findOneBy({
+  const categoryFound = await categoryRep.findOneBy({
     id: postData.categoriesId,
   });
 
@@ -27,18 +29,13 @@ export const createPostService = async (postData: IPosts): Promise<void> => {
     throw new AppError('Category not found', 404);
   }
 
-  // const newPost = postsRep.create([{
-  //     description: postData.description,
-  //     astros: astroFound,
-  //     categories: categoryFound,
-  //   }]
-  // );
+  const newPost = postsRep.create({
+    description: postData.description,
+    astros: astroFound,
+    categories: categoryFound,
+  });
 
-  // await postsRep.save(newPost);
+  await postsRep.save(newPost);
 
-  // const validatedResponse = await postsResponseSchema.validate(newPost, {
-  //   stripUnknown: true,
-  // });
-
-  // return newPost;
+  return newPost;
 };

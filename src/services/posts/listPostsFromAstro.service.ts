@@ -1,22 +1,20 @@
-import { Astros } from './../../entities/astros.entity';
-import { AppError } from './../../errors/AppErrors';
+import { Posts } from './../../entities/posts.entity';
 import dataSourceConfig from '../../data-source';
 
 export const listPostsFromAstroService = async (astroId: string) => {
-  const astroRep = dataSourceConfig.getRepository(Astros);
+  const postsRep = dataSourceConfig.getRepository(Posts);
 
-  const astro = await astroRep.findOne({
-    where: {
-      id: astroId,
-    },
+  const posts = await postsRep.find({
     relations: {
-      posts: true,
+      astros: true,
+      categories: true,
+    },
+    where: {
+      astros: {
+        id: astroId,
+      },
     },
   });
 
-  if (!astro) {
-    throw new AppError('Astro not found', 404);
-  }
-
-  return astro?.posts;
+  return posts;
 };
