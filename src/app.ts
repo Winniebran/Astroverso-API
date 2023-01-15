@@ -6,6 +6,8 @@ import { loginRouter } from "./routes/login.routes";
 import { usersRouter } from "./routes/users.routes";
 import { astrosRouter } from "./routes/astros.routes";
 import { categoriesRouter } from "./routes/categories.routes";
+import { typesRouter } from "./routes/types.routes"; 
+import { extrasRouter } from "./routes/extras.routes";
 
 export const app = express();
 app.use(express.json());
@@ -19,7 +21,7 @@ app.use("/categories", categoriesRouter);
 // app.use("/quiz");
 // app.use("/questions");
 // app.use("/options");
-// app.use("/extras");
-// app.use("/types");
+app.use("/extras", extrasRouter);
+app.use("/types", typesRouter);
 
 app.use(handleError);
