@@ -1,10 +1,10 @@
-import DataSource from "../../data-source";
+import dataSource from "../../data-source";
 import { Questions } from "../../entities/questions.entity";
 import { IQuestions } from "../../interfaces/questions";
 
 const createQuestionsService = async (data: IQuestions): Promise<Array<Questions | number | string | {}>> => {
 
-    const repository = DataSource.getRepository(Questions);
+    const repository = dataSource.getRepository(Questions);
     
     const query = repository.create(data);
   
