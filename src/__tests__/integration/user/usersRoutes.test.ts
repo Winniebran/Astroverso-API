@@ -95,7 +95,7 @@ describe("/users", () => {
   });
 
   // DELETE /users/:id
-  test("DELETE /users/:id -  shouldn't be able to delete user without authentication", async () => {
+  test("DELETE /users/:id -  Shouldn't be able to delete user without authentication", async () => {
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const UserTobeDeleted = await request(app)
       .get("/users")
@@ -130,6 +130,18 @@ describe("/users", () => {
       .set("Authorization", `Bearer ${admLogin.body.token}`);
     expect(res.status).toBe(204);
     expect(findUser.body[3].isActive).toBe(false);
+  });
+
+  test("DELETE /users/:id -  Shouldn't be able to delete user with isActive = false", async () => {
+    const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const UserTobeDeleted = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+    const res = await request(app)
+      .delete(`/users/${UserTobeDeleted.body[3].id}`)
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty("message");
   });
 
   // UPDATE /users/:id
@@ -173,7 +185,7 @@ describe("/users", () => {
     expect(updatedUser.body[2]).not.toHaveProperty("password");
   });
 
-  test("PATCH /users/:id - shouldn't be able to update user with invalid id", async () => {
+  test("PATCH /users/:id - Shouldn't be able to update user with invalid id", async () => {
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const valuesToBeUpdated = { name: "Daniel", email: "daniel@mail.com" };
     const res = await request(app)
@@ -184,7 +196,7 @@ describe("/users", () => {
     expect(res.body).toHaveProperty("message");
   });
 
-  test("PATCH /users/:id - shouldn't be able to update isAdm field value", async () => {
+  test("PATCH /users/:id - Shouldn't be able to update isAdm field value", async () => {
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const userToBeUpdated = await request(app)
       .get("/users")
@@ -199,7 +211,7 @@ describe("/users", () => {
     expect(res.body).toHaveProperty("message");
   });
 
-  test("PATCH /users/:id - shouldn't be able to update isActive field value", async () => {
+  test("PATCH /users/:id - Shouldn't be able to update isActive field value", async () => {
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const userToBeUpdated = await request(app)
       .get("/users")
@@ -213,7 +225,7 @@ describe("/users", () => {
     expect(res.body).toHaveProperty("message");
   });
 
-  test("PATCH /users/:id - shouldn't be able to update score field value", async () => {
+  test("PATCH /users/:id - Shouldn't be able to update score field value", async () => {
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const userToBeUpdated = await request(app)
       .get("/users")
@@ -227,7 +239,7 @@ describe("/users", () => {
     expect(res.body).toHaveProperty("message");
   });
 
-  test("PATCH /users/:id - shouldn't be able to update id field value", async () => {
+  test("PATCH /users/:id - Shouldn't be able to update id field value", async () => {
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const userToBeUpdated = await request(app)
       .get("/users")
