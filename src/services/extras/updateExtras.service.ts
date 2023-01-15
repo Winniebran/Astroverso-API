@@ -17,7 +17,7 @@ const updateExtrasService = async (extraId: string, extrasData: IExtrasRequest) 
     const extraTypes = await repositoryTypes.findOneBy({ id: typesId })
 
     if(!extraAlrealdyExists){
-		throw new AppError("Extra doesn't exist!", 409)
+		throw new AppError("Extra doesn't exist!", 404)
     }
 
 	const newExtra = repositoryData.create({ ...extrasData,  types: extraTypes! })

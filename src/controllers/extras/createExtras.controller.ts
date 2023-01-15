@@ -6,7 +6,7 @@ import updateExtrasService from "../../services/extras/updateExtras.service";
 import deleteExtrasService from "../../services/extras/deleteExtras.service";
 
 export const createExtrasController = async (req: Request, res: Response) => {
-    const extra: IExtras = req.body;
+    const extra: IExtrasRequest = req.body;
     const data = await createExtraService(extra);
     return res.status(201).json(data);
 };
