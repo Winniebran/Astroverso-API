@@ -9,18 +9,18 @@ export const createExtraService = async (
   extrasData: IExtrasRequest
 ): Promise<Extras> => {
   const extrasRepository = dataSource.getRepository(Extras);
-  const extraAlrealdyExists = await extrasRepository.findOne({
-    where: {
+  const extraAlrealdyExists = await extrasRepository.findOne({ 
+	relations: {
+		types: true,
+	  },
+	where: {
       title: extrasData.title,
       image: extrasData.image,
       author: extrasData.author,
       description: extrasData.description,
       link: extrasData.link,
       types: { id: extrasData.typesId },
-    },
-    relations: {
-      types: true,
-    },
+    }
   });
 
   const { typesId } = extrasData;
