@@ -8,3 +8,12 @@ export interface IExtras {
   link: string;
   types: ITypes;
 }
+
+export interface IExtrasRequest {
+  image: string;
+  author: string;
+  title: string;
+  description: string;
+  link: string;
+  typesId: string;
+}
