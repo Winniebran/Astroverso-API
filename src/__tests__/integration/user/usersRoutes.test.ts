@@ -7,6 +7,7 @@ import {
   mockAdmLogin,
   mockUser,
   mockUser2,
+  mockUser3,
   mockUserLogin,
 } from "../../mocks/users.mocks";
 
@@ -106,14 +107,30 @@ describe("/users", () => {
     expect(res.body).toHaveProperty("message");
   });
 
-  test("DELETE /users/:id -  Shouldn't be able to delete user without admin permission",async () => {
+  test("DELETE /users/:id -  Shouldn't be able to delete user without admin permission", async () => {
     const userLogin = await request(app).post("/login").send(mockUserLogin);
     const res = await request(app)
       .get("/users")
       .set("Authorization", `Bearer ${userLogin.body.token}`);
     expect(res.status).toBe(403);
     expect(res.body).toHaveProperty("message");
-})
+  });
+
+  test("DELETE /users/:id -  Must be able to soft delete user", async () => {
+    await request(app).post("/users").send(mockUser3);
+    const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const UserTobeDeleted = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+    const res = await request(app)
+      .delete(`/users/${UserTobeDeleted.body[3].id}`)
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+    const findUser = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+    expect(res.status).toBe(204);
+    expect(findUser.body[3].isActive).toBe(false);
+  });
 
   // UPDATE /users/:id
 
