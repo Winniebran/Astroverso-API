@@ -17,8 +17,8 @@ const questionsRouter = Router();
 // CRIAR PERGUNTA
 questionsRouter.post(
     "",
-    //AuthMiddleware, 
-    //isAdmMiddleware,
+    AuthMiddleware, 
+    isAdmMiddleware,
     createQuestionsController
 );
 

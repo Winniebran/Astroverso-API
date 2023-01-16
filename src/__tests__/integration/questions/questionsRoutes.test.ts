@@ -57,25 +57,32 @@ describe("/questions", () => {
     })
 
     test("GET /questions -  Must be able to list all questions",async () => {
-      
-        const response = await request(app).get('/questions')
+        //const userLoginResponse = await request(app).post("/login").send(mockUser);
+        /*const response = await request(app).get("/questions")
         expect(response.body).toHaveLength(1)
-        expect(response.status).toBe(200)
+        expect(response.status).toBe(200)*/
+
+        const userLoginResponse = await request(app).post("/login").send(mockUser);
+        const response = await request(app).get('/questions').set("Authorization", `Bearer ${userLoginResponse.body.token}`)
+
+        expect(response.body).toHaveProperty("message")
+        expect(response.status).toBe(200);
+        expect(response.body).toHaveLength(1);
      
     })
+
     /*
     test("GET /questions/:id -  Must be able to list question",async () => {
       
-        const category = await request(app).get('/categories')
-        const response = await request(app).get(`/categories/${category.body[0].id}/properties`)
+        const question = await request(app).get('/questions')
+        const response = await request(app).get(`/questions/${question.body[0].id}`)
         expect(response.status).toBe(200)
         expect(response.body).toHaveProperty("id")
-        expect(response.body).toHaveProperty("name")
-        expect(response.body).toHaveProperty("properties")
+        expect(response.body).toHaveProperty("question")
         
     })
 
-    test("GET /categories/:id/properties -  Should not be able to list properties of a category with invalid id",async () => {
+    /*test("GET /categories/:id/properties -  Should not be able to list properties of a category with invalid id",async () => {
       
         const response = await request(app).get(`/categories/13970660-5dbe-423a-9a9d-5c23b37943cf/properties`)
         expect(response.body).toHaveProperty("message")
@@ -103,6 +110,19 @@ describe("/questions", () => {
         expect(response.body).toHaveProperty("message")
      
     })
+
+    test("DELETE /questions/:id - should be able to delete category", async () => {
+		const admLoginResponse = await request(app)
+			.post("/login")
+			.send(mockAdm);
+		const questionTobeDelete = await request(app).get("/questions");
+
+		const response = await request(app)
+			.delete(`/questions/${questionTobeDelete.body[0].id}`)
+			.set("Authorization", `Bearer ${admLoginResponse.body.token}`);
+
+		expect(response.status).toBe(204);
+	})
 
     test("PATCH /questions/:id -  should not be able to update questions not being admin",async () => {
         const userLoginResponse = await request(app).post("/login").send(mockUser);
