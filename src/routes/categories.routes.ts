@@ -21,17 +21,20 @@ categoriesRouter.post(
 	dataIsValidMiddleware(categoriesRequestSchema),
 	createCategoriesController
 );
+
 categoriesRouter.get("", listCategoriesController);
+
 categoriesRouter.patch(
 	"/:id",
 	AuthMiddleware,
 	isAdmMiddleware,
-	dataIsValidMiddleware(categoriesRequestSchema),
 	idIsValidMiddleware,
 	isValidToUpdateMiddleware,
+	dataIsValidMiddleware(categoriesRequestSchema),
 	updateCategoriesExistsMiddleware,
 	updateCategoriesController
 );
+
 categoriesRouter.delete(
 	"/:id",
 	AuthMiddleware,

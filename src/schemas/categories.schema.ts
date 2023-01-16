@@ -8,7 +8,7 @@ import {
 export const categoriesRequestSchema: SchemaOf<ICategoriesRequest> = yup
 	.object()
 	.shape({
-		name: yup.string().required()
+		name: yup.string().required("Name is required")
 	});
 
 export const categoriesResponseSchema: SchemaOf<ICategoriesResponse> = yup

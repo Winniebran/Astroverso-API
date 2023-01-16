@@ -8,6 +8,5 @@ export const createCategoriesController = async (
 ) => {
 	const category: ICategoriesRequest = req.body;
 	const newCategory = await createCategoriesService(category);
-
 	return res.status(201).json(newCategory);
 };

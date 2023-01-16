@@ -8,6 +8,5 @@ export const updateCategoriesController = async (
 ) => {
 	const categoryData: ICategoriesResponse = req.body;
 	const updatedCategory = await updateCategoriesService(categoryData);
-
 	return res.status(200).json(updatedCategory);
 };

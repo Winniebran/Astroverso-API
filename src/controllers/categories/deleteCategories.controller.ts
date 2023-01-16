@@ -5,9 +5,7 @@ export const deleteCategoriesController = async (
 	req: Request,
 	res: Response
 ) => {
-	/*const userReqIsAdm = req.user.isAdm;*/
 	const categoryId = req.params.id;
 	await deleteCategoriesService(categoryId);
-
 	return res.status(204).json();
 };

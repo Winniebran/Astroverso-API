@@ -9,8 +9,8 @@ import {
 export const astrosRequestSchema: SchemaOf<IAstrosRequest> = yup
 	.object()
 	.shape({
-		name: yup.string().required(),
-		image: yup.string().url().required()
+		name: yup.string().required("Name is required"),
+		image: yup.string().url().required("Image is required")
 	});
 
 export const astrosUpdateSchema: SchemaOf<IAstrosUpdate> = yup.object().shape({
