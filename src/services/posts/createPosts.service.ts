@@ -1,10 +1,10 @@
-import { AppError } from "./../../errors/AppErrors";
 import { Astros } from "./../../entities/astros.entity";
 import { Categories } from "./../../entities/categories.entity";
 import { postsResponseSchema } from "./../../schemas/posts.schema";
 import { Posts } from "./../../entities/posts.entity";
 import dataSourceConfig from "../../data-source";
 import { IPosts, IPostsResponse } from "./../../interfaces/posts/index";
+import { AppError } from "../../errors/AppErrors";
 
 export const createPostService = async (
   postData: IPosts
@@ -27,6 +27,14 @@ export const createPostService = async (
 
   if (!categoryFound) {
     throw new AppError("Category not found", 404);
+  }
+
+  const postFound = await postsRep.findOneBy({
+    description: postData.description,
+  });
+
+  if (postFound) {
+    throw new AppError("Post already exists!", 409);
   }
 
   const newPost = postsRep.create({
