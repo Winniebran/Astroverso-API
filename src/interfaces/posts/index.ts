@@ -1,5 +1,5 @@
-import { ICategoriesResponse } from './../categories/index';
-import { IAstrosResponse } from './../astros/index';
+import { ICategoriesResponse } from "./../categories/index";
+import { IAstrosResponse } from "./../astros/index";
 export interface IPosts {
   description: string;
   astrosId: string;

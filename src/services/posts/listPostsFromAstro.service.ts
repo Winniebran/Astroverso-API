@@ -1,5 +1,5 @@
-import { Posts } from './../../entities/posts.entity';
-import dataSourceConfig from '../../data-source';
+import { Posts } from "./../../entities/posts.entity";
+import dataSourceConfig from "../../data-source";
 
 export const listPostsFromAstroService = async (astroId: string) => {
   const postsRep = dataSourceConfig.getRepository(Posts);

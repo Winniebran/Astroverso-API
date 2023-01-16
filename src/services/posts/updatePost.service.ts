@@ -1,8 +1,7 @@
-import { postsResponseSchema } from './../../schemas/posts.schema';
-import { IPostsUpdate, IPostsResponse } from './../../interfaces/posts/index';
-import { AppError } from './../../errors/AppErrors';
-import { Posts } from './../../entities/posts.entity';
-import setDataSourceConfig from '../../data-source';
+import { IPostsUpdate, IPostsResponse } from "./../../interfaces/posts/index";
+import { AppError } from "./../../errors/AppErrors";
+import { Posts } from "./../../entities/posts.entity";
+import setDataSourceConfig from "../../data-source";
 
 export const updatePostsService = async (
   postId: string,
@@ -15,7 +14,7 @@ export const updatePostsService = async (
   });
 
   if (!postFound) {
-    throw new AppError('Post not found!', 404);
+    throw new AppError("Post not found!", 404);
   }
 
   const updatedPost = postRep.create({
