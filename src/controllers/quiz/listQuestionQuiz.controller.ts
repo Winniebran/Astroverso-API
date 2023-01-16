@@ -5,6 +5,7 @@ export const listQuestionQuizController = async (
   req: Request,
   res: Response
 ) => {
-  const listQuestionsQuizzes = await listQuestionQuizService(req.params.id);
+  const id: string = req.params.id;
+  const listQuestionsQuizzes = await listQuestionQuizService(id);
   return res.status(201).json(listQuestionsQuizzes);
 };

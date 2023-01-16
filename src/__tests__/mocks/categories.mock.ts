@@ -1,9 +1,9 @@
 import { ICategoriesRequest } from "../../interfaces/categories";
 
 export const mockCategory: ICategoriesRequest = {
-	name: "planetas"
+  name: "planetas",
 };
 
 export const mockCategoryUpdate = {
-	name: "categoryUpdate"
+  name: "categoryUpdate",
 };

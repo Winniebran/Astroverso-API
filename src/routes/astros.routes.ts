@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
-	astrosRequestSchema,
-	astrosUpdateSchema
+  astrosRequestSchema,
+  astrosUpdateSchema,
 } from "../schemas/astros.schema";
 import { isAdmMiddleware } from "../middlewares/isAdm.middleware";
 import { AuthMiddleware } from "../middlewares/authentication.middleware";
@@ -18,28 +18,31 @@ import { isValidToUpdateMiddleware } from "../middlewares/isValidToUpdate.middle
 export const astrosRouter = Router();
 
 astrosRouter.post(
-	"",
-	AuthMiddleware,
-	isAdmMiddleware,
-	dataIsValidMiddleware(astrosRequestSchema),
-	createAstrosController
+  "",
+  AuthMiddleware,
+  isAdmMiddleware,
+  dataIsValidMiddleware(astrosRequestSchema),
+  createAstrosController
 );
+
 astrosRouter.get("", listAstrosController);
+
 astrosRouter.patch(
-	"/:id",
-	AuthMiddleware,
-	isAdmMiddleware,
-	idIsValidMiddleware,
-	isValidToUpdateMiddleware,
-	dataIsValidMiddleware(astrosUpdateSchema),
-	updateAstrosExistsMiddleware,
-	updateAstrosController
+  "/:id",
+  AuthMiddleware,
+  isAdmMiddleware,
+  idIsValidMiddleware,
+  isValidToUpdateMiddleware,
+  dataIsValidMiddleware(astrosUpdateSchema),
+  updateAstrosExistsMiddleware,
+  updateAstrosController
 );
+
 astrosRouter.delete(
-	"/:id",
-	AuthMiddleware,
-	isAdmMiddleware,
-	idIsValidMiddleware,
-	ensureAstrosExistsMiddleware,
-	deleteAstrosController
+  "/:id",
+  AuthMiddleware,
+  isAdmMiddleware,
+  idIsValidMiddleware,
+  ensureAstrosExistsMiddleware,
+  deleteAstrosController
 );

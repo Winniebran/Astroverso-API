@@ -15,25 +15,22 @@ export const quizRouter = Router();
 
 quizRouter.post(
   "",
-  //   AuthMiddleware,
-  //   isAdmMiddleware,
-  //   dataIsValidMiddleware(createQuizSchema),
+  AuthMiddleware,
+  isAdmMiddleware,
+  dataIsValidMiddleware(createQuizSchema),
   createQuizController
 );
-quizRouter.get(
-  "",
-  //   AuthMiddleware,
 
-  //   isAdmMiddleware,
-  listQuizzesController
-);
+quizRouter.get("", AuthMiddleware, isAdmMiddleware, listQuizzesController);
+
 quizRouter.get(
-  "/:id/question",
+  "/:id/questions",
   AuthMiddleware,
   isAdmMiddleware,
   idIsValidMiddleware,
   listQuestionQuizController
 );
+
 quizRouter.patch(
   "/:id",
   AuthMiddleware,
@@ -42,6 +39,7 @@ quizRouter.patch(
   idIsValidMiddleware,
   updateQuizController
 );
+
 quizRouter.delete(
   "/:id",
   AuthMiddleware,

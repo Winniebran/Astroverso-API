@@ -13,28 +13,29 @@ import { typesRequestSchema } from "../schemas/types.schema";
 export const typesRouter = Router();
 
 typesRouter.post(
-    "",
-    AuthMiddleware,
-    isAdmMiddleware,
-    dataIsValidMiddleware(typesRequestSchema),
-    createTypesController
-  );
-  typesRouter.get("", listTypesController);
-  typesRouter.patch(
-    "/:id",
-    AuthMiddleware,
-    isAdmMiddleware,
-    dataIsValidMiddleware(typesRequestSchema),
-    idIsValidMiddleware,
-    isValidToUpdateMiddleware,
-    updateTypesController
-  );
-  typesRouter.delete(
-    "/:id",
-    AuthMiddleware,
-    isAdmMiddleware,
-    idIsValidMiddleware,
-    deleteTypesController
-  );
+  "",
+  AuthMiddleware,
+  isAdmMiddleware,
+  dataIsValidMiddleware(typesRequestSchema),
+  createTypesController
+);
 
+typesRouter.get("", listTypesController);
 
+typesRouter.patch(
+  "/:id",
+  AuthMiddleware,
+  isAdmMiddleware,
+  dataIsValidMiddleware(typesRequestSchema),
+  idIsValidMiddleware,
+  isValidToUpdateMiddleware,
+  updateTypesController
+);
+
+typesRouter.delete(
+  "/:id",
+  AuthMiddleware,
+  isAdmMiddleware,
+  idIsValidMiddleware,
+  deleteTypesController
+);

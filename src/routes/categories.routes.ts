@@ -15,28 +15,31 @@ import { isValidToUpdateMiddleware } from "../middlewares/isValidToUpdate.middle
 export const categoriesRouter = Router();
 
 categoriesRouter.post(
-	"",
-	AuthMiddleware,
-	isAdmMiddleware,
-	dataIsValidMiddleware(categoriesRequestSchema),
-	createCategoriesController
+  "",
+  AuthMiddleware,
+  isAdmMiddleware,
+  dataIsValidMiddleware(categoriesRequestSchema),
+  createCategoriesController
 );
+
 categoriesRouter.get("", listCategoriesController);
+
 categoriesRouter.patch(
-	"/:id",
-	AuthMiddleware,
-	isAdmMiddleware,
-	idIsValidMiddleware,
-	isValidToUpdateMiddleware,
-	dataIsValidMiddleware(categoriesRequestSchema),
-	updateCategoriesExistsMiddleware,
-	updateCategoriesController
+  "/:id",
+  AuthMiddleware,
+  isAdmMiddleware,
+  idIsValidMiddleware,
+  isValidToUpdateMiddleware,
+  dataIsValidMiddleware(categoriesRequestSchema),
+  updateCategoriesExistsMiddleware,
+  updateCategoriesController
 );
+
 categoriesRouter.delete(
-	"/:id",
-	AuthMiddleware,
-	isAdmMiddleware,
-	idIsValidMiddleware,
-	ensureCategoriesExistsMiddleware,
-	deleteCategoriesController
+  "/:id",
+  AuthMiddleware,
+  isAdmMiddleware,
+  idIsValidMiddleware,
+  ensureCategoriesExistsMiddleware,
+  deleteCategoriesController
 );

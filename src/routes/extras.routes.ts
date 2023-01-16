@@ -8,7 +8,10 @@ import { dataIsValidMiddleware } from "../middlewares/dataIsValid.middleware";
 import { idIsValidMiddleware } from "../middlewares/IdIsValid.middleware";
 import { isAdmMiddleware } from "../middlewares/isAdm.middleware";
 import { isValidToUpdateMiddleware } from "../middlewares/isValidToUpdate.middleware";
-import { extrasRequestSchema, extrasUpdateSchema } from "../schemas/extras.schema";
+import {
+  extrasRequestSchema,
+  extrasUpdateSchema,
+} from "../schemas/extras.schema";
 
 export const extrasRouter = Router();
 
@@ -19,7 +22,9 @@ extrasRouter.post(
   dataIsValidMiddleware(extrasRequestSchema),
   createExtrasController
 );
+
 extrasRouter.get("", listExtrasController);
+
 extrasRouter.patch(
   "/:id",
   AuthMiddleware,
@@ -29,6 +34,7 @@ extrasRouter.patch(
   isValidToUpdateMiddleware,
   updateExtrasController
 );
+
 extrasRouter.delete(
   "/:id",
   AuthMiddleware,
