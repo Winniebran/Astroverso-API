@@ -2,7 +2,7 @@ import { IExtras, IExtrasRequest } from "../../interfaces/extras";
 import { createExtraService } from "../../services/extras/createExtras.service";
 import { listExtrasService } from "../../services/extras/listExtras.service";
 import { Request, Response } from "express";
-import deleteExtrasService from "../../services/extras/deleteExtras.service";
+import { deleteExtrasService } from "../../services/extras/deleteExtras.service";
 import { updateExtrasService } from "../../services/extras/updateExtras.service";
 
 export const createExtrasController = async (req: Request, res: Response) => {
