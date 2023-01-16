@@ -1,3 +1,4 @@
+import { postsRouter } from "./routes/posts.routes";
 import express from "express";
 import "express-async-errors";
 import "reflect-metadata";
@@ -15,7 +16,7 @@ app.use(express.json());
 app.use("/users", usersRouter);
 app.use("/login", loginRouter);
 // app.use("/favoritePosts");
-// app.use("/posts");
+app.use("/posts", postsRouter);
 app.use("/astros", astrosRouter);
 app.use("/categories", categoriesRouter);
 app.use("/quizzes");
