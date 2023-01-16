@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { createTypesController, deleteTypesController, listTypesController, updateTypesController } from "../controllers/types/listTypes.controller";
+import { createTypesController } from "../controllers/types/createTypes.controller";
+import { deleteTypesController } from "../controllers/types/deleteTypes.controller";
+import { listTypesController } from "../controllers/types/listTypes.controller";
+import { updateTypesController } from "../controllers/types/updateTypes.controller";
 import { AuthMiddleware } from "../middlewares/authentication.middleware";
 import { dataIsValidMiddleware } from "../middlewares/dataIsValid.middleware";
 import { idIsValidMiddleware } from "../middlewares/IdIsValid.middleware";

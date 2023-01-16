@@ -1,10 +1,8 @@
 import { Router } from "express";
-import {
-  createExtrasController,
-  deleteExtrasController,
-  listExtrasController,
-  updateExtrasController,
-} from "../controllers/extras/createExtras.controller";
+import { createExtrasController } from "../controllers/extras/createExtras.controller";
+import { deleteExtrasController } from "../controllers/extras/deleteExtras.controller";
+import { listExtrasController } from "../controllers/extras/listExtras.controller";
+import { updateExtrasController } from "../controllers/extras/updateExtras.controller";
 import { AuthMiddleware } from "../middlewares/authentication.middleware";
 import { dataIsValidMiddleware } from "../middlewares/dataIsValid.middleware";
 import { idIsValidMiddleware } from "../middlewares/IdIsValid.middleware";
