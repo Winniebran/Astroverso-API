@@ -1,4 +1,3 @@
-import  DataSource  from "../../data-source";
 import { IQuestions } from "../../interfaces/questions";
 import { Request, Response } from "express";
 import createQuestionsService from "../../services/questions/createQuestions.service";
