@@ -16,7 +16,7 @@ app.use("/login", loginRouter);
 // app.use("/posts");
 app.use("/astros", astrosRouter);
 app.use("/categories", categoriesRouter);
-// app.use("/quiz");
+app.use("/quiz");
 // app.use("/questions");
 // app.use("/options");
 // app.use("/extras");

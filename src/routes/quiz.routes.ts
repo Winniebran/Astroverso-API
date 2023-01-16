@@ -1,7 +1,6 @@
 import { Router } from "express";
 
 import { deleteQuizController } from "../controllers/quiz/deleteQuiz.controller";
-import { listQuestionQuizController } from "../controllers/quiz/listQuestionQuiz.controller";
 import { listQuizzesController } from "../controllers/quiz/listQuizzes.controller";
 import { updateQuizController } from "../controllers/quiz/updateQuiz.controller";
 import { AuthMiddleware } from "../middlewares/authentication.middleware";
@@ -15,25 +14,19 @@ export const quizRouter = Router();
 
 quizRouter.post(
   "",
-  //   AuthMiddleware,
-  //   isAdmMiddleware,
-  //   dataIsValidMiddleware(createQuizSchema),
+  AuthMiddleware,
+  isAdmMiddleware,
+  dataIsValidMiddleware(createQuizSchema),
   createQuizController
 );
 quizRouter.get(
   "",
-  //   AuthMiddleware,
+  AuthMiddleware,
 
-  //   isAdmMiddleware,
+  isAdmMiddleware,
   listQuizzesController
 );
-quizRouter.get(
-  "/:id/question",
-  AuthMiddleware,
-  isAdmMiddleware,
-  idIsValidMiddleware,
-  listQuestionQuizController
-);
+
 quizRouter.patch(
   "/:id",
   AuthMiddleware,
