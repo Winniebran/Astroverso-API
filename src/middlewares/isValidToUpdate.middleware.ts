@@ -15,9 +15,5 @@ export const isValidToUpdateMiddleware = (
 		throw new AppError("Change not allowed", 401);
 	}
 
-	if (Object.values(req.body).includes("")) {
-		throw new AppError("Invalid field(s)");
-	}
-
 	return next();
 };

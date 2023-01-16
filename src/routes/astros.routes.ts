@@ -24,17 +24,20 @@ astrosRouter.post(
   dataIsValidMiddleware(astrosRequestSchema),
   createAstrosController
 );
+
 astrosRouter.get("", listAstrosController);
+
 astrosRouter.patch(
   "/:id",
   AuthMiddleware,
   isAdmMiddleware,
-  dataIsValidMiddleware(astrosUpdateSchema),
   idIsValidMiddleware,
   isValidToUpdateMiddleware,
+  dataIsValidMiddleware(astrosUpdateSchema),
   updateAstrosExistsMiddleware,
   updateAstrosController
 );
+
 astrosRouter.delete(
   "/:id",
   AuthMiddleware,
