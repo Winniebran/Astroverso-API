@@ -23,7 +23,7 @@ usersRouter.post(
 
 usersRouter.get("", AuthMiddleware, isAdmMiddleware, listUsersController);
 
-usersRouter.get("/:id", AuthMiddleware, isSameUsersMiddleware, listOneUserController);
+usersRouter.get("/:id", AuthMiddleware, idIsValidMiddleware, isSameUsersMiddleware, listOneUserController);
 
 usersRouter.get(
   "/:id/favoritePosts",
