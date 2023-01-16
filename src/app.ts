@@ -1,4 +1,3 @@
-import { postsRouter } from "./routes/posts.routes";
 import express from "express";
 import "express-async-errors";
 import "reflect-metadata";
@@ -11,6 +10,7 @@ import { typesRouter } from "./routes/types.routes";
 import { extrasRouter } from "./routes/extras.routes";
 import { quizzesRouter } from "./routes/quiz.routes";
 import { optionsRouter } from "./routes/options.routes";
+import { postsRouter } from "./routes/posts.routes";
 import { questionsRouter } from "./routes/questions.routes";
 
 export const app = express();
