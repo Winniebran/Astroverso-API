@@ -29,9 +29,9 @@ astrosRouter.patch(
 	"/:id",
 	AuthMiddleware,
 	isAdmMiddleware,
-	dataIsValidMiddleware(astrosUpdateSchema),
 	idIsValidMiddleware,
 	isValidToUpdateMiddleware,
+	dataIsValidMiddleware(astrosUpdateSchema),
 	updateAstrosExistsMiddleware,
 	updateAstrosController
 );
