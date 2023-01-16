@@ -11,7 +11,7 @@ import { idIsValidMiddleware } from "../middlewares/IdIsValid.middleware";
 import { createQuizSchema, updateQuizSchema } from "../schemas/quiz.schema";
 import { createQuizController } from "../controllers/quiz/createQuiz.controller";
 
-export const quizRouter = Router();
+export const quizzesRouter = Router();
 
 quizRouter.post(
   "",
