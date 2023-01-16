@@ -4,24 +4,24 @@ import { AppError } from "../../errors/AppErrors";
 import { IUpdateOption } from "../../interfaces/options";
 
 export const updateOptionsService = async (
-	newData: IUpdateOption,
-	optionId: string
+  newData: IUpdateOption,
+  optionId: string
 ): Promise<Options> => {
-	try {
-		const myTable = DataSource.getRepository(Options);
-		const option = await myTable.findOneBy({
-			id: optionId
-		});
+  const optionsRepository = DataSource.getRepository(Options);
 
-		const update = myTable.create({
-			...option,
-			...newData
-		});
+  const findOption = await optionsRepository.findOneBy({
+    id: optionId,
+  });
 
-		const save = await myTable.save(update);
+  if (!findOption) {
+    throw new AppError("Option not found!", 404);
+  }
 
-		return save;
-	} catch (error) {
-		throw new AppError(error as string);
-	}
+  const updateOption = optionsRepository.create({
+    ...findOption,
+    ...newData,
+  });
+  await optionsRepository.save(updateOption);
+
+  return updateOption;
 };

@@ -21,27 +21,31 @@ postsRouter.post(
   dataIsValidMiddleware(postsRequestSchema),
   createPostController
 );
+
 postsRouter.get("", listAllPostsController);
+
 postsRouter.get(
   "/category/:id",
   ensureCategoriesExistsMiddleware,
   listPostsFromCategoryController
 );
+
 postsRouter.get(
   "/astro/:id",
   ensureAstrosExistsMiddleware,
   listPostsFromAstroController
 );
+
 postsRouter.patch(
   "/:id",
   AuthMiddleware,
   isAdmMiddleware,
   updatePostController
 );
+
 postsRouter.delete(
   "/:id",
   AuthMiddleware,
   isAdmMiddleware,
   deletePostController
 );
-// postsRouter.get('/users/:id');
