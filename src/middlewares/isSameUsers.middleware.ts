@@ -16,5 +16,5 @@ export const isSameUsersMiddleware = async (
     return next();
   }
 
-  throw new AppError("You aren't authorized to update another user.", 403);
+  throw new AppError("You aren't authorized to complete this request", 403);
 };
