@@ -1,18 +1,27 @@
-import dataSource from "../../data-source";
+import dataSourceConfig from "../../data-source";
+
+import { AppError } from "../../errors/AppErrors";
+
 import { Questions } from "../../entities/questions.entity";
-import { IQuestions } from "../../interfaces/questions";
+import { IQuestions, IQuestionsResponse } from "../../interfaces/questions";
+import { QuestionsWithoutOptions } from "../../schemas/questions.schema"
 
-const createQuestionsService = async (data: IQuestions): Promise<Array<Questions | number | string | {}>> => {
+const createQuestionsService = async (data: IQuestions): Promise<IQuestionsResponse> => {
 
-    const repository = dataSource.getRepository(Questions);
+    const { question } = data
+    const repository = dataSourceConfig.getRepository(Questions);
+
+    const questionExist = await repository.findOneBy({ question: question });
+
+    if (!questionExist) {
+      const query = repository.create(data);
+      await repository.save(query);
+      const newQuestion = await QuestionsWithoutOptions.validate(query, { stripUnknown: true, });
+
+      return newQuestion;
+    }
     
-    const query = repository.create(data);
-  
-    await repository.save(query);
-  
-    const {...newData} = query
-  
-    return [201, newData];
-  };
+    throw new AppError("Question already exists!", 401);
+};
 
-export default createQuestionsService
+export default createQuestionsService;

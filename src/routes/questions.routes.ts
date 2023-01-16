@@ -17,34 +17,33 @@ const questionsRouter = Router();
 // CRIAR PERGUNTA
 questionsRouter.post(
     "",
-    dataIsValidMiddleware(QuestionSchema),
-    AuthMiddleware, 
-    isAdmMiddleware,
+    //AuthMiddleware, 
+    //isAdmMiddleware,
     createQuestionsController
 );
 
 // LISTAR PERGUNTAS
 questionsRouter.get("", 
-    AuthMiddleware,
+    //AuthMiddleware,
     listQuestionsController
 );
 
 // ALTERAR PERGUNTA
 questionsRouter.patch(
     "/:id",
-    dataIsValidMiddleware(QuestionSchema),
+    /*dataIsValidMiddleware(QuestionSchema),
     ensureQuestionsExistsMiddleware,
     AuthMiddleware,
-    isAdmMiddleware,
+    isAdmMiddleware,*/
     editQuestionsController
 );
 
 // DELETAR PERGUNTA 
 questionsRouter.delete(
     "/:id",
-    ensureQuestionsExistsMiddleware,
+    /*ensureQuestionsExistsMiddleware,
     AuthMiddleware,
-    isAdmMiddleware,
+    isAdmMiddleware,*/
     deleteQuestionsController
 );
 

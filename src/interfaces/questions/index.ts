@@ -3,7 +3,8 @@ export interface IQuestions {
 }
 export interface IQuestionsResponse extends IQuestions {
   id: string;
+  question: string;
 }
 export interface IQuestionsEdit {
-  question: string
+  question?: string;
 }

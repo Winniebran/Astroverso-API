@@ -1,9 +1,9 @@
 import { IQuestions, IQuestionsEdit } from "../../interfaces/questions";
 
 export const mockQuestion: IQuestions = {
-    question: "Pergunta Um",
+    question: "Pergunta outrapergunsdafasftaa",
 }
 
 export const mockQuestionEdit: IQuestionsEdit = {
-    question: "Pergunta Dois",
+    question: "Pergunta aeeeehhgsdgshgsdhh",
 };
