@@ -11,10 +11,10 @@ export const createQuizService = async (
 
   const quizExist = await quizRepository.findOneBy({ name: name });
 
-  if (!quizExist) {
-    const quiz = quizRepository.create(quizData);
-    await quizRepository.save(quiz);
-    return quiz;
+  if (quizExist) {
+    throw new AppError("Quiz already exists", 409);
   }
-  throw new AppError("Quiz already exists", 409);
+  const quiz = quizRepository.create(quizData);
+  await quizRepository.save(quiz);
+  return quiz;
 };

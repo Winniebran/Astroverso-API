@@ -1,7 +1,6 @@
 import { Router } from "express";
 
 import { deleteQuizController } from "../controllers/quiz/deleteQuiz.controller";
-import { listQuestionQuizController } from "../controllers/quiz/listQuestionQuiz.controller";
 import { listQuizzesController } from "../controllers/quiz/listQuizzes.controller";
 import { updateQuizController } from "../controllers/quiz/updateQuiz.controller";
 import { AuthMiddleware } from "../middlewares/authentication.middleware";
@@ -20,16 +19,7 @@ quizzesRouter.post(
   dataIsValidMiddleware(createQuizSchema),
   createQuizController
 );
-
 quizzesRouter.get("", AuthMiddleware, isAdmMiddleware, listQuizzesController);
-
-quizzesRouter.get(
-  "/:id/questions",
-  AuthMiddleware,
-  isAdmMiddleware,
-  idIsValidMiddleware,
-  listQuestionQuizController
-);
 
 quizzesRouter.patch(
   "/:id",
@@ -39,7 +29,6 @@ quizzesRouter.patch(
   idIsValidMiddleware,
   updateQuizController
 );
-
 quizzesRouter.delete(
   "/:id",
   AuthMiddleware,
