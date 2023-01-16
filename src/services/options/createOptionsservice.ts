@@ -6,13 +6,12 @@ import { IOptions } from "../../interfaces/options";
 const createOptionsService = async (
   optionData: IOptions
 ): Promise<[number, object]> => {
+  const myTable = DataSource.getRepository(Options);
+
+  const saveData = await myTable.save(optionData);
+
+  return [201, saveData];
   try {
-    
-    const myTable = DataSource.getRepository(Options);
-
-    const saveData = await myTable.save(optionData);
-
-    return [201, saveData];
   } catch (error) {
     throw new AppError(error as string);
   }

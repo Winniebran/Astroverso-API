@@ -14,7 +14,7 @@ import { updateOptionsController } from "../controllers/options/updateOptions.co
 import { verifyOptionsLimitMiddleware } from "../middlewares/verifyOptionsLimit.middleware";
 import { dataIsValidMiddleware } from "../middlewares/dataIsValid.middleware";
 
-const optionsRouter = Router();
+export const optionsRouter = Router();
 
 optionsRouter.post("", verifyCorrectOptionsMiddleware, createOptionsController);
 optionsRouter.post(
@@ -41,4 +41,3 @@ optionsRouter.patch(
   updateOptionsController
 );
 
-export default optionsRouter;

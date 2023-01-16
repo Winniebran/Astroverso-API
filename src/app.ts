@@ -10,7 +10,7 @@ import { categoriesRouter } from "./routes/categories.routes";
 import { typesRouter } from "./routes/types.routes";
 import { extrasRouter } from "./routes/extras.routes";
 import { quizzesRouter } from "./routes/quiz.routes";
-import optionsRouter from "./routes/options.routes";
+import { optionsRouter } from "./routes/options.routes";
 
 export const app = express();
 app.use(express.json());
