@@ -6,12 +6,14 @@ import {
   mockCreateOptionFalse02,
   mockCreateOptionFalse03,
   mockCreateOptionTrue,
-} from "./../../mocks/options.mock";
+} from "../../mocks/options.mock";
 import { DataSource } from "typeorm";
 import dataSource from "../../../data-source";
 import request from "supertest";
 import { app } from "../../../app";
 import { mockAdm, mockAdmLogin } from "../../mocks/users.mocks";
+import { mockQuestion } from "../../mocks/questions.mocks";
+import { IOptions } from "../../../interfaces/options";
 
 describe("/options", () => {
   let connect: DataSource;
@@ -32,17 +34,34 @@ describe("/options", () => {
   test("POST /optons Shold be able to create a new option", async () => {
     await request(app).post("/users").send(mockAdm);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const question = await request(app)
+      .post("/questions")
+      .set("Authorization", `Bearer ${admLogin.body.token}`)
+      .send(mockQuestion);
+    const questionId = question.body.id;
+
+    const { answer, point, isCorrect } = mockCreateOptionTrue;
+
+    const data: IOptions = {
+      answer,
+      point,
+      isCorrect,
+      questionsId: questionId,
+    };
 
     const response = await request(app)
       .post("/options")
       .set("Authorization", `Bearer ${admLogin.body.token}`)
-      .send(mockCreateOptionTrue);
+      .send(data);
 
     expect(response.status).toBe(201);
-    expect(response.body).toContain({
-      ...mockCreateOptionTrue,
-      id: response.body.id,
-    });
+    expect(response.body).toHaveProperty([
+      "id",
+      "answer",
+      "point",
+      "isCorrect",
+      "questionsId",
+    ]);
   });
 
   test("POST /options Shold be create other options", async () => {
