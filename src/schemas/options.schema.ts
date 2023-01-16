@@ -1,7 +1,6 @@
-import { IupdateOption } from "./../interfaces/options/index";
 import * as yup from "yup";
 import { SchemaOf } from "yup";
-import { IOptions } from "../interfaces/options";
+import { IOptions, IUpdateOption } from "../interfaces/options";
 
 export const postOptionsSchema: SchemaOf<IOptions> = yup.object().shape({
   answer: yup.string().required(),
@@ -10,7 +9,7 @@ export const postOptionsSchema: SchemaOf<IOptions> = yup.object().shape({
   questionsId: yup.string().required(),
 });
 
-export const updateOptionsSchema: SchemaOf<IupdateOption> = yup.object().shape({
+export const updateOptionsSchema: SchemaOf<IUpdateOption> = yup.object().shape({
   answer: yup.string(),
   point: yup.number(),
   isCorrect: yup.boolean(),
