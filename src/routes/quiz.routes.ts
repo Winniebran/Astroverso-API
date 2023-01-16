@@ -13,7 +13,7 @@ import { createQuizController } from "../controllers/quiz/createQuiz.controller"
 
 export const quizzesRouter = Router();
 
-quizRouter.post(
+quizzesRouter.post(
   "",
   AuthMiddleware,
   isAdmMiddleware,
@@ -21,9 +21,9 @@ quizRouter.post(
   createQuizController
 );
 
-quizRouter.get("", AuthMiddleware, isAdmMiddleware, listQuizzesController);
+quizzesRouter.get("", AuthMiddleware, isAdmMiddleware, listQuizzesController);
 
-quizRouter.get(
+quizzesRouter.get(
   "/:id/questions",
   AuthMiddleware,
   isAdmMiddleware,
@@ -31,7 +31,7 @@ quizRouter.get(
   listQuestionQuizController
 );
 
-quizRouter.patch(
+quizzesRouter.patch(
   "/:id",
   AuthMiddleware,
   isAdmMiddleware,
@@ -40,7 +40,7 @@ quizRouter.patch(
   updateQuizController
 );
 
-quizRouter.delete(
+quizzesRouter.delete(
   "/:id",
   AuthMiddleware,
   isAdmMiddleware,
