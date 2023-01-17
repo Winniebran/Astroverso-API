@@ -1,7 +1,5 @@
-import { IAstrosResponse } from "./../../../interfaces/astros/index";
 import { mockAstro } from "./../../mocks/astros.mocks";
 import { mockCategory } from "./../../mocks/categories.mock";
-import { mockNewPost } from "./../../mocks/posts.mocks";
 import request from "supertest";
 import { app } from "../../../app";
 import { DataSource } from "typeorm";
@@ -347,6 +345,25 @@ describe("/posts", () => {
 
     expect(response.status).toBe(200);
     expect(response.body.astros.name).toEqual("Sol");
+  });
+
+  test("PATCH - Should not be able to update id", async () => {
+    const admLoginResponse = await request(app)
+      .post("/login")
+      .send(mockAdmLogin);
+
+    const postToUpdate = await request(app).get("/posts");
+
+    const response = await request(app)
+      .patch(`/posts/${postToUpdate.body[0].id}`)
+      .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
+      .send({
+        id: "6ee20de0-f24b-4938-8330-9bdef2ce79b3",
+        description: "Descrição atualizada",
+      });
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(401);
   });
 
   test("PATCH - Should not be able to update post without authorization", async () => {

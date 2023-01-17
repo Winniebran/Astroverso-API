@@ -1,6 +1,13 @@
-import { IPosts } from "../posts";
+import { IPostsResponse } from "../posts";
+import { IUserResponse } from "../user";
 
 export interface IFavoritePosts {
   usersId: string;
-  posts?: IPosts[];
+  postsId: string;
+}
+
+export interface IFavoritePostsResponse {
+  id: string
+  posts: IPostsResponse
+  users: IUserResponse
 }
