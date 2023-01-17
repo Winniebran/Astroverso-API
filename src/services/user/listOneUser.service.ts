@@ -1,24 +1,19 @@
 import { IUserResponse } from "../../interfaces/user";
 import dataSourceConfig from "../../data-source";
+import { userWithoutPasswordSchema } from "../../schemas/users.schema";
 import { Users } from "../../entities/users.entity";
-import { listUsersWithoutPassword } from "../../schemas/users.schema";
-import { AppError } from "../../errors/AppErrors";
 
 export const listOneUserService = async (
   id: string
-): Promise<IUserResponse[] | undefined> => {
+): Promise<IUserResponse> => {
   const userRepository = dataSourceConfig.getRepository(Users);
 
-  const user = await userRepository.find({
+  const user = await userRepository.findOne({
     where: { id: id },
     withDeleted: true,
   });
 
-  if (!user) {
-    throw new AppError("User not found", 404);
-  }
-
-  const userWithoutPassword = await listUsersWithoutPassword.validate(user, {
+  const userWithoutPassword = await userWithoutPasswordSchema.validate(user, {
     stripUnknown: true,
   });
 

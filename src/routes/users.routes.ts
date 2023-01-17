@@ -37,9 +37,9 @@ usersRouter.patch(
   "/:id",
   AuthMiddleware,
   isValidToUpdateMiddleware,
-  dataIsValidMiddleware(updateUsersSchema),
   idIsValidMiddleware,
   isSameUsersMiddleware,
+  dataIsValidMiddleware(updateUsersSchema),
   updateUsersController
 );
 
