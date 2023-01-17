@@ -26,9 +26,9 @@ typesRouter.patch(
   "/:id",
   AuthMiddleware,
   isAdmMiddleware,
-  dataIsValidMiddleware(typesRequestSchema),
   idIsValidMiddleware,
   isValidToUpdateMiddleware,
+  dataIsValidMiddleware(typesRequestSchema),
   updateTypesController
 );
 

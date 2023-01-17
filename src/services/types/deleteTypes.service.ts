@@ -6,7 +6,7 @@ const deleteTypesService = async (id: string) => {
   const repositoryData = dataSource.getRepository(Types);
   const verifyType = await repositoryData.findOneBy({ id: id });
   if (verifyType === null || "") {
-    throw new AppError("Type not found", 409);
+    throw new AppError("Type not found", 404);
   }
   return await repositoryData.delete(id);
 };
