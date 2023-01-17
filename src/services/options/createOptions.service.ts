@@ -32,6 +32,7 @@ export const createOptionsService = async (
     isCorrect: optionData.isCorrect,
     questions: questionsExists,
   });
+  console.log(newOption)
   await optionsRepository.save(newOption);
 
   return newOption;

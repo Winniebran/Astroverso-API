@@ -2,7 +2,7 @@ import { IOptions } from "../../interfaces/options";
 import { Request, Response, NextFunction } from "express";
 import { AppError } from "../../errors/AppErrors";
 
-const verifyCorrectOptionsMiddleware = async (
+export const verifyCorrectOptionsMiddleware = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -29,5 +29,3 @@ const verifyCorrectOptionsMiddleware = async (
 		throw new AppError(error as string);
 	}
 };
-
-export default verifyCorrectOptionsMiddleware;
