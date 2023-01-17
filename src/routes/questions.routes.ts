@@ -24,26 +24,26 @@ questionsRouter.post(
 
 // LISTAR PERGUNTAS
 questionsRouter.get("", 
-    //AuthMiddleware,
+    AuthMiddleware,
     listQuestionsController
 );
 
 // ALTERAR PERGUNTA
 questionsRouter.patch(
     "/:id",
-    /*dataIsValidMiddleware(QuestionSchema),
-    ensureQuestionsExistsMiddleware,
+    /*dataIsValidMiddleware(QuestionSchema),*/
     AuthMiddleware,
-    isAdmMiddleware,*/
+    isAdmMiddleware,
+    ensureQuestionsExistsMiddleware,
     editQuestionsController
 );
 
 // DELETAR PERGUNTA 
 questionsRouter.delete(
     "/:id",
-    /*ensureQuestionsExistsMiddleware,
+    ensureQuestionsExistsMiddleware,
     AuthMiddleware,
-    isAdmMiddleware,*/
+    isAdmMiddleware,
     deleteQuestionsController
 );
 

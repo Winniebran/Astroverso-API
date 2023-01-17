@@ -7,7 +7,7 @@ import { listQuestionsWithoutOptions } from "../../schemas/questions.schema"
 const listQuestionsService = async (): Promise<IQuestionsResponse[] | undefined> => {
 
     const repository = dataSourceConfig.getRepository(Questions);
-    const querys = await repository.find({ withDeleted: true });
+    const querys = await repository.find();
   
     const listQuerys = await listQuestionsWithoutOptions.validate( querys, { stripUnknown: true })
   

@@ -3,12 +3,11 @@ import { IQuestionsEdit } from "../../interfaces/questions";
 import editQuestionsService from "../../services/questions/editQuestions.service";
 
 const editQuestionsController = async(req: Request, res: Response) =>{
-    const isAdm = req.body.isAdm
-    const newData : IQuestionsEdit = req.body
-    const id = req.params.id
+    const data : IQuestionsEdit = req.body
+    const id: string = req.params.id;
 
-    const editQuestion = await editQuestionsService(newData, id, isAdm)
-    return res.json(editQuestion)
+    const editQuestion = await editQuestionsService(id, data);
+    return res.status(200).json(editQuestion);
 }
 
 export default editQuestionsController;

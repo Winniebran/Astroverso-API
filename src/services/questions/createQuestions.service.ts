@@ -21,7 +21,7 @@ const createQuestionsService = async (data: IQuestions): Promise<IQuestionsRespo
       return newQuestion;
     }
     
-    throw new AppError("Question already exists!", 401);
+    throw new AppError("Question already exists!", 409);
 };
 
 export default createQuestionsService;
