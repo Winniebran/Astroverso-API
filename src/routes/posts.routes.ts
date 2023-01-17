@@ -23,10 +23,10 @@ postsRouter.post(
   "",
   AuthMiddleware,
   isAdmMiddleware,
+  dataIsValidMiddleware(postsRequestSchema),
   idIsValidMiddleware,
   ensureCategoryExistsInPostsMiddleware,
   ensureAstroExistsInPostsMiddleware,
-  dataIsValidMiddleware(postsRequestSchema),
   createPostController
 );
 
@@ -51,6 +51,8 @@ postsRouter.patch(
   AuthMiddleware,
   isAdmMiddleware,
   idIsValidMiddleware,
+  ensureAstroExistsInPostsMiddleware,
+  ensureCategoryExistsInPostsMiddleware,
   updatePostController
 );
 

@@ -11,24 +11,25 @@ export const ensureAstroExistsInPostsMiddleware = async (
 ) => {
   const astroId = req.body.astrosId;
 
-  try {
-    const uuid = yup.string().uuid();
-    await uuid.validate(astroId);
-
-    const astroRep = dataSourceConfig.getRepository(Astros);
-
-    const astroFound = await astroRep.findOneBy({
-      id: astroId,
+  const uuid = yup.string().uuid();
+  await uuid
+    .validate(astroId)
+    .then((res) => res)
+    .catch((error) => {
+      if (error instanceof yup.ValidationError) {
+        throw new AppError("Astro id is not a valid uuid", 404);
+      }
     });
 
-    if (!astroFound) {
-      throw new AppError("Astro not found!", 404);
-    }
+  const astroRep = dataSourceConfig.getRepository(Astros);
 
-    next();
-  } catch (error) {
-    if (error instanceof yup.ValidationError) {
-      throw new AppError(error.message, 404);
-    }
+  const astroFound = await astroRep.findOneBy({
+    id: astroId,
+  });
+
+  if (!astroFound) {
+    throw new AppError("Astro not found!", 404);
   }
+
+  next();
 };
