@@ -28,6 +28,7 @@ quizzesRouter.patch(
   isAdmMiddleware,
   idIsValidMiddleware,
   isValidToUpdateMiddleware,
+
   dataIsValidMiddleware(updateQuizSchema),
   updateQuizController
 );
