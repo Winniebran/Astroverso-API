@@ -11,24 +11,25 @@ export const ensureCategoryExistsInPostsMiddleware = async (
 ) => {
   const categoryId = req.body.categoriesId;
 
-  try {
-    const uuid = yup.string().uuid();
-    await uuid.validate(categoryId);
-
-    const categoryRep = dataSourceConfig.getRepository(Categories);
-
-    const categoryFound = await categoryRep.findOneBy({
-      id: categoryId,
+  const uuid = yup.string().uuid();
+  await uuid
+    .validate(categoryId)
+    .then((res) => res)
+    .catch((error) => {
+      if (error instanceof yup.ValidationError) {
+        throw new AppError("Category id is not a valid uuid", 404);
+      }
     });
 
-    if (!categoryFound) {
-      throw new AppError("Category not found!", 404);
-    }
+  const categoryRep = dataSourceConfig.getRepository(Categories);
 
-    next();
-  } catch (error) {
-    if (error instanceof yup.ValidationError) {
-      throw new AppError(error.message, 404);
-    }
+  const categoryFound = await categoryRep.findOneBy({
+    id: categoryId,
+  });
+
+  if (!categoryFound) {
+    throw new AppError("Category not found!", 404);
   }
+
+  next();
 };
