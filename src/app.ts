@@ -11,6 +11,7 @@ import { extrasRouter } from "./routes/extras.routes";
 import { quizzesRouter } from "./routes/quiz.routes";
 import { optionsRouter } from "./routes/options.routes";
 import { postsRouter } from "./routes/posts.routes";
+import { questionsRouter } from "./routes/questions.routes";
 
 export const app = express();
 app.use(express.json());
@@ -22,7 +23,7 @@ app.use("/posts", postsRouter);
 app.use("/astros", astrosRouter);
 app.use("/categories", categoriesRouter);
 app.use("/quizzes", quizzesRouter);
-// app.use("/questions");
+app.use("/questions", questionsRouter);
 app.use("/options", optionsRouter);
 app.use("/extras", extrasRouter);
 app.use("/types", typesRouter);
