@@ -9,6 +9,12 @@ export const updatePostsService = async (
   postId: string,
   postData: IPostsUpdate
 ): Promise<IPostsResponse> => {
+  const dataKeys = Object.keys(postData);
+
+  if (dataKeys.includes("id")) {
+    throw new AppError("Id is an invalid field", 401);
+  }
+
   const postRep = setDataSourceConfig.getRepository(Posts);
   const astroRep = setDataSourceConfig.getRepository(Astros);
   const categoryRep = setDataSourceConfig.getRepository(Categories);
