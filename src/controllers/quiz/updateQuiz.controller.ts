@@ -6,5 +6,5 @@ export const updateQuizController = async (req: Request, res: Response) => {
   const id: string = req.params.id;
   const quizData: IQuizzes = req.body;
   const updatedQuiz = await updateQuizService(id, quizData);
-  return res.status(201).json(updatedQuiz);
+  return res.status(200).json(updatedQuiz);
 };
