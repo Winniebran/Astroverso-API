@@ -9,7 +9,7 @@ export const deleteQuizService = async (id: string) => {
   });
 
   if (!existQuiz) {
-    throw new AppError("Quiz not found", 409);
+    throw new AppError("Quiz not found", 404);
   }
 
   if (!existQuiz?.isActive) {
