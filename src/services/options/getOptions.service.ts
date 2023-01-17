@@ -1,7 +1,8 @@
 import DataSource from "../../data-source";
 import { Options } from "../../entities/options.entity";
+import { AppError } from "../../errors/AppErrors";
 
-export const getOptionsSrvice = async (): Promise<Options[]> => {
+export const getOptionsService = async (): Promise<Options[]> => {
   try {
     const myTable = DataSource.getRepository(Options);
 
