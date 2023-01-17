@@ -67,28 +67,19 @@ describe("/posts", () => {
   });
 
   test("POST /posts - Should not be able to create a post that already exists", async () => {
-    await request(app).post("/users").send(mockAdm);
     const admLoginResponse = await request(app)
       .post("/login")
       .send(mockAdmLogin);
 
-    const categoryId = await request(app)
-      .post("/categories")
-      .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
-      .send(mockCategory);
-
-    const astroId = await request(app)
-      .post("/astros")
-      .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
-      .send(mockAstro);
-
+    const categoryResponse = await request(app).get("/categories");
+    const astroResponse = await request(app).get("/astros");
     const response = await request(app)
       .post("/posts")
       .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
       .send({
         description: "Teste de descrição",
-        astrosId: `${astroId.body.id}`,
-        categoriesId: `${categoryId.body.id}`,
+        astrosId: `${astroResponse.body[0].id}`,
+        categoriesId: `${categoryResponse.body[0].id}`,
       });
 
     expect(response.body).toHaveProperty("message");
@@ -100,23 +91,16 @@ describe("/posts", () => {
       .post("/login")
       .send(mockAdmLogin);
 
-    const categoryId = await request(app)
-      .post("/categories")
-      .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
-      .send(mockCategory);
-
-    const astroId = await request(app)
-      .post("/astros")
-      .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
-      .send(mockAstro);
+    const categoryResponse = await request(app).get("/categories");
+    const astroResponse = await request(app).get("/astros");
 
     const response = await request(app)
       .post("/posts")
       .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
       .send({
         description: "",
-        astrosId: `${astroId.body.id}`,
-        categoriesId: `${categoryId.body.id}`,
+        astrosId: `${categoryResponse.body[0].id}`,
+        categoriesId: `${astroResponse.body[0].id}`,
       });
 
     const mockError = { errors: response.body.error };
@@ -129,17 +113,14 @@ describe("/posts", () => {
       .post("/login")
       .send(mockAdmLogin);
 
-    const astroId = await request(app)
-      .post("/astros")
-      .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
-      .send(mockAstro);
+    const astroResponse = await request(app).get("/astros");
 
     const response = await request(app)
       .post("/posts")
       .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
       .send({
         description: "Teste description",
-        astrosId: `${astroId.body.id}`,
+        astrosId: `${astroResponse.body[0].id}`,
         categoriesId: "",
       });
 
@@ -148,15 +129,12 @@ describe("/posts", () => {
     expect(mockError).toMatchObject<Partial<ValidationError>>(mockError);
   });
 
-  test("POST /posts - Should not be able to create a post without description", async () => {
+  test("POST /posts - Should not be able to create a post without astro", async () => {
     const admLoginResponse = await request(app)
       .post("/login")
       .send(mockAdmLogin);
 
-    const categoryId = await request(app)
-      .post("/categories")
-      .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
-      .send(mockCategory);
+    const categoryResponse = await request(app).get("/categories");
 
     const response = await request(app)
       .post("/posts")
@@ -164,7 +142,7 @@ describe("/posts", () => {
       .send({
         description: "Teste description",
         astrosId: "",
-        categoriesId: `${categoryId.body.id}`,
+        categoriesId: `${categoryResponse.body[0].id}`,
       });
 
     const mockError = { errors: response.body.error };
@@ -173,56 +151,37 @@ describe("/posts", () => {
   });
 
   test("POST /posts - Should not be able to create a post without authentication", async () => {
-    await request(app).post("/users").send(mockAdm);
-    const admLoginResponse = await request(app)
-      .post("/login")
-      .send(mockAdmLogin);
-
-    const categoryId = await request(app)
-      .post("/categories")
-      .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
-      .send(mockCategory);
-
-    const astroId = await request(app)
-      .post("/astros")
-      .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
-      .send(mockAstro);
+    const categoryResponse = await request(app).get("/categories");
+    const astroResponse = await request(app).get("/astros");
 
     const response = await request(app)
       .post("/posts")
       .send({
         description: "Teste de descrição",
-        astrosId: `${astroId.body.id}`,
-        categoriesId: `${categoryId.body.id}`,
+        astrosId: `${astroResponse.body[0].id}`,
+        categoriesId: `${categoryResponse.body[0].id}`,
       });
 
     expect(response.body).toHaveProperty("message");
     expect(response.status).toBe(401);
   });
 
-  test("POST /posts - Should not be able to create a post not being adm", async () => {
+  test("POST /posts - Should not be able to create a post without adm permission", async () => {
     await request(app).post("/users").send(mockUser);
     const userLoginResponse = await request(app)
       .post("/login")
       .send(mockUserLogin);
 
-    const categoryId = await request(app)
-      .post("/categories")
-      .set("Authorization", `Bearer ${userLoginResponse.body.token}`)
-      .send(mockCategory);
-
-    const astroId = await request(app)
-      .post("/astros")
-      .set("Authorization", `Bearer ${userLoginResponse.body.token}`)
-      .send(mockAstro);
+    const categoryResponse = await request(app).get("/categories");
+    const astroResponse = await request(app).get("/astros");
 
     const response = await request(app)
       .post("/posts")
       .set("Authorization", `Bearer ${userLoginResponse.body.token}`)
       .send({
         description: "Teste de descrição s/ adm",
-        astrosId: `${astroId.body.id}`,
-        categoriesId: `${categoryId.body.id}`,
+        astrosId: `${astroResponse.body[0].id}`,
+        categoriesId: `${categoryResponse.body[0].id}`,
       });
 
     expect(response.body).toHaveProperty("message");
@@ -230,22 +189,18 @@ describe("/posts", () => {
   });
 
   test("POST /posts - Should not be able to create a post with invalid category", async () => {
-    await request(app).post("/users").send(mockAdm);
     const admLoginResponse = await request(app)
       .post("/login")
       .send(mockAdmLogin);
 
-    const astroId = await request(app)
-      .post("/astros")
-      .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
-      .send(mockAstro);
+    const astroResponse = await request(app).get("/astros");
 
     const response = await request(app)
       .post("/posts")
       .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
       .send({
         description: "Teste de descrição",
-        astrosId: `${astroId.body.id}`,
+        astrosId: `${astroResponse.body[0].id}`,
         categoriesId: "931a0eb6-bd87-4c24-a779-237db9c3e8",
       });
 
@@ -259,10 +214,7 @@ describe("/posts", () => {
       .post("/login")
       .send(mockAdmLogin);
 
-    const categoryId = await request(app)
-      .post("/categories")
-      .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
-      .send(mockCategory);
+    const astroResponse = await request(app).get("/astros");
 
     const response = await request(app)
       .post("/posts")
@@ -270,26 +222,232 @@ describe("/posts", () => {
       .send({
         description: "Teste de descrição",
         astrosId: "931a0eb6-bd87-4c24-a779-237db9c3e36",
-        categoriesId: `${categoryId.body.id}`,
+        categoriesId: `${astroResponse.body[0].id}`,
       });
 
     expect(response.body).toHaveProperty("message");
     expect(response.status).toBe(404);
   });
 
-  //GET
+  //GET;
 
-  //   test("GET - Must be able to list all posts", async () => {
-  //     const response = await request(app).get("/posts");
+  test("GET - Must be able to list all posts", async () => {
+    const response = await request(app).get("/posts");
 
-  //     expect(response.body).toHaveLength(1);
-  //     expect(response.status).toBe(200);
-  //   });
+    expect(response.body).toHaveLength(1);
+    expect(response.status).toBe(200);
+  });
 
-  //   test('GET - Must be able to list all posts from a category',async () => {
+  test("GET - Must be able to list all posts from a category", async () => {
+    const category = await request(app).get("/categories");
+    const response = await request(app).get(
+      `/posts/category/${category.body[0].id}`
+    );
 
-  //     const category = await request(app).get('/categories')
-  //     const response = await request(app).get(`/posts/${category.body[0].id}`)
+    expect(response.body[0]).toHaveProperty("categories");
+    expect(response.body[0]).toHaveProperty("astros");
+    expect(response.body[0]).toHaveProperty("description");
+    expect(response.body[0]).toHaveProperty("id");
+    expect(response.status).toBe(200);
+  });
 
-  //   })
+  test("GET - Should not be able to list posts from an invalid category", async () => {
+    const response = await request(app).get(
+      "/posts/category/bedce604-4580-4f93-8b5f-c00f"
+    );
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(404);
+  });
+
+  test("GET - Must be able to list all posts from an astro", async () => {
+    const astro = await request(app).get("/astros");
+    const response = await request(app).get(`/posts/astro/${astro.body[0].id}`);
+
+    expect(response.body[0]).toHaveProperty("categories");
+    expect(response.body[0]).toHaveProperty("astros");
+    expect(response.body[0]).toHaveProperty("description");
+    expect(response.body[0]).toHaveProperty("id");
+    expect(response.status).toBe(200);
+  });
+
+  test("GET - Should not be able to list posts from an invalid astro", async () => {
+    const response = await request(app).get(
+      "/posts/astro/bedce604-4580-4f93-8b5f-c00f"
+    );
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(404);
+  });
+
+  //PATCH
+
+  test("PATCH - Must be able to update the description of a post", async () => {
+    const admLoginResponse = await request(app)
+      .post("/login")
+      .send(mockAdmLogin);
+
+    const postToUpdate = await request(app).get("/posts");
+
+    const response = await request(app)
+      .patch(`/posts/${postToUpdate.body[0].id}`)
+      .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
+      .send({
+        description: "Descrição atualizada",
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.description).toEqual("Descrição atualizada");
+  });
+
+  test("PATCH - Must be able to update the category of a post", async () => {
+    const admLoginResponse = await request(app)
+      .post("/login")
+      .send(mockAdmLogin);
+
+    const postToUpdate = await request(app).get("/posts");
+
+    const newCategory = await request(app)
+      .post("/categories")
+      .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
+      .send({ name: "estrelas" });
+
+    const response = await request(app)
+      .patch(`/posts/${postToUpdate.body[0].id}`)
+      .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
+      .send({
+        categoriesId: newCategory.body.id,
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.categories.name).toEqual("estrelas");
+  });
+
+  test("PATCH - Must be able to update the astro of a post", async () => {
+    const admLoginResponse = await request(app)
+      .post("/login")
+      .send(mockAdmLogin);
+
+    const postToUpdate = await request(app).get("/posts");
+
+    const newAstro = await request(app)
+      .post("/astros")
+      .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
+      .send({
+        name: "Sol",
+        image: "https://www.infoescola.com/wp-content/uploads/2013/08/sol.jpg",
+      });
+
+    const response = await request(app)
+      .patch(`/posts/${postToUpdate.body[0].id}`)
+      .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
+      .send({
+        astrosId: newAstro.body.id,
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.astros.name).toEqual("Sol");
+  });
+
+  test("PATCH - Should not be able to update post without authorization", async () => {
+    const postToUpdate = await request(app).get("/posts");
+
+    const response = await request(app)
+      .patch(`/posts/${postToUpdate.body[0].id}`)
+      .send({
+        description: "Descrição atualizada",
+      });
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(401);
+  });
+
+  test("PATCH - Should not be able to update post without adm permission", async () => {
+    const userLoginResponse = await request(app)
+      .post("/login")
+      .send(mockUserLogin);
+
+    const postToUpdate = await request(app).get("/posts");
+
+    const response = await request(app)
+      .patch(`/posts/${postToUpdate.body[0].id}`)
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`)
+      .send({
+        description: "Descrição atualizada",
+      });
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(403);
+  });
+
+  test("PATCH - Should not be able to update post with an invalid id", async () => {
+    const admLoginResponse = await request(app)
+      .post("/login")
+      .send(mockAdmLogin);
+
+    const response = await request(app)
+      .patch("/posts/bedce604-4580-4f93-8b5f-c00f")
+      .set("Authorization", `Bearer ${admLoginResponse.body.token}`)
+      .send({
+        description: "Descrição atualizada",
+      });
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(404);
+  });
+
+  //DELETE
+
+  test("DELETE - Should not be able to delete without authorization", async () => {
+    const postToDelete = await request(app).get("/posts");
+
+    const response = await request(app).delete(
+      `/posts/${postToDelete.body[0].id}`
+    );
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(401);
+  });
+
+  test("DELETE - Should not be able to delete without adm permission", async () => {
+    const userLoginResponse = await request(app)
+      .post("/login")
+      .send(mockUserLogin);
+
+    const postToDelete = await request(app).get("/posts");
+
+    const response = await request(app)
+      .delete(`/posts/${postToDelete.body[0].id}`)
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(403);
+  });
+
+  test("DELETE - Should not be able to delete with an invalid id", async () => {
+    const admLoginResponse = await request(app)
+      .post("/login")
+      .send(mockAdmLogin);
+
+    const response = await request(app)
+      .delete("/posts/bedce604-4580-4f93-8b5f-c00f")
+      .set("Authorization", `Bearer ${admLoginResponse.body.token}`);
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(404);
+  });
+
+  test("DELETE - Should be able to delete a post", async () => {
+    const admLoginResponse = await request(app)
+      .post("/login")
+      .send(mockAdmLogin);
+
+    const postToDelete = await request(app).get("/posts");
+
+    const response = await request(app)
+      .delete(`/posts/${postToDelete.body[0].id}`)
+      .set("Authorization", `Bearer ${admLoginResponse.body.token}`);
+
+    expect(response.status).toBe(204);
+  });
 });
