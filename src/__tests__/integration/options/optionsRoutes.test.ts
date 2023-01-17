@@ -55,25 +55,40 @@ describe("/options", () => {
       .send(data);
 
     expect(response.status).toBe(201);
-    expect(response.body).toHaveProperty([
-      "id",
-      "answer",
-      "point",
-      "isCorrect",
-      "questionsId",
-    ]);
+    expect(response.body).toHaveProperty("answer");
+    expect(response.body).toHaveProperty("point");
+    expect(response.body).toHaveProperty("isCorrect");
+    expect(response.body).toHaveProperty("id");
   });
 
   test("POST /options Shold be create other options", async () => {
+    await request(app).post("/users").send(mockAdm);
+    const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const question = await request(app)
+      .get("/questions")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+
+    console.log(question.body);
+
+    const { answer, point, isCorrect } = mockCreateOptionFalse01;
+
+    const data: IOptions = {
+      answer,
+      point,
+      isCorrect,
+      questionsId: question.body[0].id,
+    };
+
     const response = await request(app)
       .post("/options")
-      .send(mockCreateOptionFalse01);
+      .set("Authorization", `Bearer ${admLogin.body.token}`)
+      .send(data);
 
     expect(response.status).toBe(201);
-    expect(response.body).toContain({
-      ...mockCreateOptionFalse01,
-      id: response.body.id,
-    });
+    expect(response.body).toHaveProperty("answer");
+    expect(response.body).toHaveProperty("point");
+    expect(response.body).toHaveProperty("isCorrect");
+    expect(response.body).toHaveProperty("id");
   });
 
   test("POST /options Shold be create other options", async () => {

@@ -16,14 +16,13 @@ export const AuthMiddleware = (
   token = token.split(" ")[1];
 
   return jwt.verify(token, process.env.SECRET_KEY!, (error, decoded: any) => {
-    
     if (error) {
       throw new AppError(error.message, 401);
     }
 
     req.users = {
       id: decoded.sub,
-      isAdm: decoded.isAdm
+      isAdm: decoded.isAdm,
     };
 
     return next();
