@@ -10,6 +10,7 @@ import { ensureQuizzesExistsInQuizzes_QuestionsMiddleware } from "../middlewares
 import { ensureQuestionsExistsInQuizzes_QuestionsMiddleware } from "../middlewares/quizzes_questions/ensureQuestionsExists.middleware";
 import { quizzes_questionsRequestSchema } from "../schemas/quizzes_questions.schema";
 import { listAllQuizzes_QuestionsController } from "../controllers/quizzes_questions/listAllQuizzes_Questions.controller";
+import { listQuizzes_QuestionsByQuizzesIdController } from "../controllers/quizzes_questions/listQuizzes_QuestionsByQuizzesId.controller";
 
 export const quizzes_questionsRouter = Router();
 
@@ -28,6 +29,13 @@ quizzes_questionsRouter.get(
 	AuthMiddleware,
 	isAdmMiddleware,
 	listAllQuizzes_QuestionsController
+);
+
+quizzes_questionsRouter.get(
+	"/quizzes/:id",
+	AuthMiddleware,
+	isAdmMiddleware,
+	listQuizzes_QuestionsByQuizzesIdController
 );
 
 quizzes_questionsRouter.patch(

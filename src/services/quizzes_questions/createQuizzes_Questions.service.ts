@@ -10,18 +10,30 @@ import {
 
 export const createQuizzes_QuestionsService = async (
 	quizzes_questionsData: IQuizzes_QuestionsRequest
-): Promise<IQuizzes_QuestionsResponse> => {
+): Promise<IQuizzes_QuestionsResponse[]> => {
 	const quizzes_questionsRep =
 		dataSourceConfig.getRepository(Quizzes_Questions);
 	const quizzesRep = dataSourceConfig.getRepository(Quizzes);
 	const questionsRep = dataSourceConfig.getRepository(Questions);
 
-	const questionsFound = await questionsRep.findOneBy({
-		id: quizzes_questionsData.questionsId
+	const questionsFound = await questionsRep.findOne({
+		relations: {
+			options: true
+		},
+		where: {
+			id: quizzes_questionsData.questionsId
+		}
 	});
 
-	const quizzesFound = await quizzesRep.findOneBy({
-		id: quizzes_questionsData.quizzesId
+	const quizzesFound = await quizzesRep.findOne({
+		relations: {
+			quizzes_questions: {
+				questions: true
+			}
+		},
+		where: {
+			id: quizzes_questionsData.quizzesId
+		}
 	});
 
 	const quizzes_questionsFound = await quizzes_questionsRep.findOne({
@@ -45,6 +57,8 @@ export const createQuizzes_QuestionsService = async (
 		throw new AppError("Quiz collection already exists!", 409);
 	}
 
+	console.log("createQC:", quizzesFound, questionsFound);
+
 	const newQuiz_Collection = quizzes_questionsRep.create({
 		questions: questionsFound!,
 		quizzes: quizzesFound!
@@ -52,5 +66,19 @@ export const createQuizzes_QuestionsService = async (
 
 	await quizzes_questionsRep.save(newQuiz_Collection);
 
-	return newQuiz_Collection;
+	const listQuizzes = await quizzes_questionsRep.find({
+		relations: {
+			questions: {
+				options: true
+			},
+			quizzes: true
+		},
+		where: {
+			quizzes: {
+				id: quizzesFound?.id
+			}
+		}
+	});
+
+	return listQuizzes;
 };
