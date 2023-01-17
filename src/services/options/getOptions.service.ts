@@ -1,4 +1,3 @@
-import { AppError } from "../../errors/AppErrors";
 import DataSource from "../../data-source";
 import { Options } from "../../entities/options.entity";
 

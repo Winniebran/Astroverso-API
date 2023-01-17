@@ -10,10 +10,7 @@ export class Questions {
   @Column({ length: 150 })
   question: string;
 
-  @OneToMany(
-    () => Quizzes_Questions,
-    (quizzes_questions) => quizzes_questions.quizzes
-  )
+  @OneToMany(() => Quizzes_Questions, (quizzes_questions) => quizzes_questions.quizzes)
   quizzes_questions: Quizzes_Questions[];
 
   @OneToMany(() => Options, (options) => options.questions)

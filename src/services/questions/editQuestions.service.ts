@@ -1,32 +1,36 @@
-import dataSource from "../../data-source";
+import dataSourceConfig from "../../data-source";
 import { AppError } from "../../errors/AppErrors";
+
 import { Questions } from "../../entities/questions.entity";
-import { IQuestionsEdit } from "../../interfaces/questions";
+import { IQuestionsResponse, IQuestionsEdit } from "../../interfaces/questions";
+import { QuestionsWithoutOptions } from "../../schemas/questions.schema";
 
 
-const editQuestionsService = async (data: IQuestionsEdit, QuestionID: string, isAdm: boolean) => {
+const editQuestionsService = async (id: string, data: IQuestionsEdit): Promise<IQuestionsResponse> => {
 
     const {question} = data
 
-    const repository = dataSource.getRepository(Questions)
-    const findQuestion = await repository.findOneBy({id: QuestionID})
+    const repository = dataSourceConfig.getRepository(Questions)
 
-    if(!findQuestion){
-        throw new AppError('Pergunta não encontrada')
-    }
+    const [foundQuestion] = await repository.find({
+        where: { id: id },
+        withDeleted: true,
+    });
 
-    if(!isAdm){
-        throw new AppError('Permission adm is necessary', 409)
+    if(!foundQuestion){
+        throw new AppError('Pergunta não encontrada', 404)
     }
 
     const editQuestion = repository.create({
-        ...findQuestion,
-        question: question || findQuestion.question
-    })
+        ...foundQuestion,
+        ...data,
+    });
 
-    await repository.save(editQuestion)
+    await repository.save(editQuestion);
 
-    return editQuestion
+    const editedQuestion = await QuestionsWithoutOptions.validate( editQuestion, { stripUnknown: true });
+
+    return editedQuestion;
 };
 
 export default editQuestionsService;
