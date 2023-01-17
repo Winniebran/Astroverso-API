@@ -7,7 +7,7 @@ import { AppError } from "../../errors/AppErrors";
 
 export const createFavoritePostService = async (
   favoriteData: IFavoritePosts
-) => {
+): Promise<Users> => {
   const userRepository = dataSourceConfig.getRepository(Users);
   const postsRepository = dataSourceConfig.getRepository(Posts);
   const favoritePostsRepository =
@@ -54,28 +54,28 @@ export const createFavoritePostService = async (
   });
   await favoritePostsRepository.save(likedPost);
 
-  const returnAllPosts = favoritePostsRepository.find({
+  const [returnAllPosts] = await userRepository.find({
     relations: {
-      posts: true,
-      users: true,
+      favorite_posts: {
+        posts: {
+          astros: true,
+          categories: true,
+        },
+      },
     },
     where: {
-      users: {
-        id: findUsers.id,
-      },
+      id: findUsers.id,
     },
     select: {
-      users: {
-        id: true,
-        name: true,
-        email: true,
-        score: true,
-        isAdm: true,
-        isActive: true,
-        createdAt: true,
-        deletedAt: true,
-        updatedAt: true,
-      },
+      id: true,
+      name: true,
+      email: true,
+      score: true,
+      isAdm: true,
+      isActive: true,
+      createdAt: true,
+      deletedAt: true,
+      updatedAt: true,
     },
   });
 

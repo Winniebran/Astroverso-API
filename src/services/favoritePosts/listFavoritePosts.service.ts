@@ -1,17 +1,17 @@
 import dataSourceConfig from "../../data-source";
-import { Favorite_Posts } from "../../entities/favorite_posts.entity";
+import { Users } from "../../entities/users.entity";
 
-export const listFavoritePostService = async () => {
-  const favoritePostsRepository =
-    dataSourceConfig.getRepository(Favorite_Posts);
+export const listFavoritePostService = async (): Promise<Users[]> => {
+  const usersRepository = dataSourceConfig.getRepository(Users);
 
-  const returnAllPosts = favoritePostsRepository.find({
+  const returnAllPosts = await usersRepository.find({
     relations: {
-      posts: {
-        categories: true,
-        astros: true,
+      favorite_posts: {
+        posts: {
+          astros: true,
+          categories: true,
+        },
       },
-      users: true,
     },
   });
 
