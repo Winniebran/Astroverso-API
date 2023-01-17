@@ -1,12 +1,10 @@
 import { Request, Response } from "express";
-import { IFavoritePosts } from "../../interfaces/favoritePosts";
-import { createFavoritePostService } from "../../services/favoritePosts/listFavoritePosts.service";
+import { listFavoritePostService } from "../../services/favoritePosts/listFavoritePosts.service";
 
-export const createFavoritePostController = async (
+export const listFavoritePostController = async (
   req: Request,
   res: Response
 ) => {
-  const favoriteData: IFavoritePosts = req.body;
-  const newFavoriteData = await createFavoritePostService(favoriteData);
-  return res.status(201).json(newFavoriteData);
+  const FavoritePostsData = await listFavoritePostService();
+  return res.json(FavoritePostsData);
 };

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createFavoritePostController } from "../controllers/favoritePosts/listFavoritePosts.controller";
+import { createFavoritePostController } from "../controllers/favoritePosts/createFavoritePosts.controller";
 import { AuthMiddleware } from "../middlewares/authentication.middleware";
 import { dataIsValidMiddleware } from "../middlewares/dataIsValid.middleware";
 import { likedPostsSchema } from "../schemas/favoritePosts.schema";
