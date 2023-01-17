@@ -11,8 +11,7 @@ export const createAstrosService = async (
 	const astrosRepository = dataSourceConfig.getRepository(Astros);
 
 	const astroAlrealdyExists = await astrosRepository.findOneBy({
-		name: ILike(`%${astro.name}%`),
-		image: ILike(`%${astro.image}%`)
+		name: ILike(`%${astro.name}%`)
 	});
 
 	if (astroAlrealdyExists) {

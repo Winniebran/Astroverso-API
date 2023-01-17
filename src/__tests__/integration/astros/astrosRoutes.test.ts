@@ -133,9 +133,8 @@ describe("/astros", () => {
 			.set("Authorization", `Bearer ${admLogin.body.token}`)
 			.send({ name: "", image: "" });
 
-		const mockError = { errors: response.body.error };
 		expect(response.status).toBe(400);
-		expect(mockError).toMatchObject<Partial<ValidationError>>(mockError);
+		expect(response.body).toHaveProperty("message");
 	});
 
 	test("PATCH /astros/:id - should not be able to update astro without authentication", async () => {
