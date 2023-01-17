@@ -26,10 +26,7 @@ questionsRouter.post(
 );
 
 // LISTAR PERGUNTAS
-questionsRouter.get("", 
-    AuthMiddleware,
-    listQuestionsController
-);
+questionsRouter.get("", AuthMiddleware, listQuestionsController);
 
 // ALTERAR PERGUNTA
 questionsRouter.patch(
@@ -43,7 +40,7 @@ questionsRouter.patch(
     editQuestionsController
 );
 
-// DELETAR PERGUNTA 
+// DELETAR PERGUNTA
 questionsRouter.delete(
     "/:id",
     AuthMiddleware,

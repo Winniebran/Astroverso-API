@@ -10,7 +10,7 @@ export const postOptionsSchema: SchemaOf<IOptions> = yup.object().shape({
 });
 
 export const updateOptionsSchema: SchemaOf<IUpdateOption> = yup.object().shape({
-	answer: yup.string(),
-	point: yup.number(),
-	isCorrect: yup.boolean()
+  answer: yup.string(),
+  point: yup.number(),
+  isCorrect: yup.boolean(),
 });

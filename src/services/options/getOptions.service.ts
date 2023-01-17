@@ -1,10 +1,19 @@
 import DataSource from "../../data-source";
 import { Options } from "../../entities/options.entity";
+import { AppError } from "../../errors/AppErrors";
 
 export const getOptionsService = async (): Promise<Options[]> => {
-  const optionsRepository = DataSource.getRepository(Options);
+  try {
+    const myTable = DataSource.getRepository(Options);
 
-  const options = await optionsRepository.find();
+    const options = await myTable.find({
+      relations: {
+        questions: true,
+      },
+    });
 
-  return options;
+    return options;
+  } catch (error) {
+    throw new AppError(error as string);
+  }
 };

@@ -1,10 +1,10 @@
 import { IQuestionsResponse } from "../questions";
 
 export interface IOptions {
-	answer: string;
-	point: number;
-	isCorrect: boolean;
-	questionsId: string;
+  answer: string;
+  point: number;
+  isCorrect?: boolean;
+  questionsId: string;
 }
 
 export interface IOptionsResponse {
@@ -15,7 +15,13 @@ export interface IOptionsResponse {
 }
 
 export interface IUpdateOption {
-	answer?: string;
-	point?: number;
-	isCorrect?: boolean;
+  answer?: string;
+  point?: number;
+  isCorrect?: boolean;
+}
+
+export interface IupdateOption {
+  answer?: string;
+  point?: number;
+  isCorrect?: boolean;
 }

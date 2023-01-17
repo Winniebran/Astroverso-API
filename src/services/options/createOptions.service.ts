@@ -6,34 +6,23 @@ import { IOptions, IOptionsResponse } from "../../interfaces/options";
 
 export const createOptionsService = async (
   optionData: IOptions
-): Promise<IOptionsResponse> => {
-  const optionsRepository = DataSource.getRepository(Options);
-  const questionsRepository = DataSource.getRepository(Questions);
+): Promise<Options> => {
+  try {
+    const { questionsId } = optionData;
 
-  const optionsExists = await optionsRepository.findOneBy({
-    answer: optionData.answer,
-  });
+    const otherTable = DataSource.getRepository(Questions);
+    const myTable = DataSource.getRepository(Options);
 
-  if (optionsExists) {
-    throw new AppError("Option already exists!", 409);
+    const find = await otherTable.findOneBy({
+      id: questionsId,
+    });
+
+    const createData = myTable.create({ ...optionData, questions: find! });
+
+    const saveData = await myTable.save(createData);
+
+    return saveData;
+  } catch (error) {
+    throw new AppError(error as string);
   }
-
-  const questionsExists = await questionsRepository.findOneBy({
-    id: optionData.questionsId,
-  });
-
-  if (!questionsExists) {
-    throw new AppError("Question not found", 404);
-  }
-
-  const newOption = optionsRepository.create({
-    answer: optionData.answer,
-    point: optionData.point,
-    isCorrect: optionData.isCorrect,
-    questions: questionsExists,
-  });
-  console.log(newOption)
-  await optionsRepository.save(newOption);
-
-  return newOption;
 };

@@ -1,9 +1,8 @@
-import { IOptions } from "../../interfaces/options";
+import { IOptions } from "./../interfaces/options/index";
 import { Request, Response, NextFunction } from "express";
-import { AppError } from "../../errors/AppErrors";
-import { object } from "yup";
+import { AppError } from "../errors/AppErrors";
 
-export const verifyCorrectOptionsMiddleware = async (
+const verifyCorrectOptionsMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -13,6 +12,8 @@ export const verifyCorrectOptionsMiddleware = async (
 
     if (data.point === 0 && data.isCorrect === true) {
       throw new AppError("Correct answer must have a score equal to 2");
+    } else {
+      req.body = { ...req.body, isCorrect: false };
     }
 
     if (data.point === 2 && data.isCorrect === false) {
@@ -23,12 +24,10 @@ export const verifyCorrectOptionsMiddleware = async (
       throw new AppError("the score must be equal to 0 or 2");
     }
 
-    if (data.point === 0 && !data.hasOwnProperty("isCorrect")) {
-      req.body.isCorrect === false;
-    }
-
     next();
   } catch (error) {
     throw new AppError(error as string);
   }
 };
+
+export default verifyCorrectOptionsMiddleware;
