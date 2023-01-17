@@ -12,6 +12,10 @@ export const isSameUsersMiddleware = async (
 
   const users = await userRepository.findOneBy({ id: req.params.id });
 
+  if (!users?.id) {
+    throw new AppError("User not found", 404);
+  }
+
   if (req.users.id === users!.id || req.users.isAdm) {
     return next();
   }

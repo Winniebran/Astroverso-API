@@ -105,20 +105,6 @@ describe("/users", () => {
     expect(res.body).toHaveProperty("message");
   });
 
-  // GET /users/:id/favoritePosts
-
-  //   test("GET /users/:id/favoritePosts - Shouldn't be able to list favorite posts without authentication", async () => {
-  //     const userLogin = await request(app).post("/login").send(mockUserLogin);
-  //     const loggedUSer = await request(app)
-  //       .get("/users")
-  //       .set("Authorization", `Bearer ${userLogin.body.token}`);
-  //     const res = await request(app).get(
-  //       `/users/${loggedUSer.body[0].id}/favoritePosts`
-  //     );
-  //     expect(res.status).toBe(401);
-  //     expect(res.body).toHaveProperty("message");
-  //   });
-
   // POST /users
 
   test("POST /users - Must be able to create a user", async () => {

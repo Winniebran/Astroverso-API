@@ -23,23 +23,21 @@ usersRouter.post(
 
 usersRouter.get("", AuthMiddleware, isAdmMiddleware, listUsersController);
 
-usersRouter.get("/:id", AuthMiddleware, idIsValidMiddleware, isSameUsersMiddleware, listOneUserController);
-
 usersRouter.get(
-  "/:id/favoritePosts",
+  "/:id",
   AuthMiddleware,
-  isAdmMiddleware,
   idIsValidMiddleware,
-  listFavoritePostFromUserController
+  isSameUsersMiddleware,
+  listOneUserController
 );
 
 usersRouter.patch(
   "/:id",
   AuthMiddleware,
   isValidToUpdateMiddleware,
-  dataIsValidMiddleware(updateUsersSchema),
   idIsValidMiddleware,
   isSameUsersMiddleware,
+  dataIsValidMiddleware(updateUsersSchema),
   updateUsersController
 );
 
