@@ -7,7 +7,7 @@ export const QuestionSchema: SchemaOf<IQuestions> = yup.object().shape({
 });
 
 export const QuestionEditSchema: SchemaOf<IQuestionsEdit> = yup.object().shape({
-    question: yup.string().min(2).trim(),
+    question: yup.string().min(2).trim().required(),
 });
 
 export const QuestionsWithoutOptions: SchemaOf<IQuestionsResponse> = yup

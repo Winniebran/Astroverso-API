@@ -95,49 +95,28 @@ describe("/questions", () => {
      
     })
 
-    /*
-    test("GET /questions/:id -  Must be able to list question",async () => {
-      
-        const question = await request(app).get('/questions')
-        const response = await request(app).get(`/questions/${question.body[0].id}`)
-        expect(response.status).toBe(200)
-        expect(response.body).toHaveProperty("id")
-        expect(response.body).toHaveProperty("question")
-        
-    })
-
-    /*test("GET /categories/:id/properties -  Should not be able to list properties of a category with invalid id",async () => {
-      
-        const response = await request(app).get(`/categories/13970660-5dbe-423a-9a9d-5c23b37943cf/properties`)
-        expect(response.body).toHaveProperty("message")
-        expect(response.status).toBe(404)
-        
-    })*/
-
     test("PATCH /questions/:id -  should be able to update questions",async () => {
-        const admLoginResponse = await request(app)
-			.post("/login")
-			.send(mockAdmLogin);
-		const categoryTobeUpdate = await request(app).get("/questions");
+        const admLogin = await request(app).post("/login").send(mockAdmLogin);
+        const userToBeUpdated = await request(app)
+        .get("/questions")
+        .set("Authorization", `Bearer ${admLogin.body.token}`);
+        const response = await request(app)
+        .patch(`/questions/${userToBeUpdated.body[0].id}`)
+        .set("Authorization", `Bearer ${admLogin.body.token}`)
+        .send(mockQuestionEdit);
 
-		const response = await request(app)
-			.patch(`/categories/${categoryTobeUpdate.body[0].id}`)
-			.set("Authorization", `Bearer ${admLoginResponse.body.token}`)
-			.send(mockQuestionEdit);
-
-		expect(response.status).toBe(200);
+        expect(response.status).toBe(200);
 		expect(response.body.question).toEqual(mockQuestionEdit.question);
     })
 
     test("PATCH /questions/:id - should not be able to update questions without authentication", async () => {
-		const questionTobeUpdate = await request(app).get("/questions");
-
-		const response = await request(app)
-			.patch(`/questions/${questionTobeUpdate.body[0].id}`)
-			.send(mockQuestionEdit);
-
-		expect(response.body).toHaveProperty("message");
-		expect(response.status).toBe(401);
+        const admLogin = await request(app).post("/login").send(mockAdmLogin);
+        const updatedUser = await request(app)
+        .get("/questions")
+        .set("Authorization", `Bearer ${admLogin.body.token}`);
+        const res = await request(app).patch(`/questions/${updatedUser.body[0].id}`);
+        expect(res.status).toBe(401);
+        expect(res.body).toHaveProperty("message");
 	})
 
     test("PATCH /questions/:id -  should not be able to update questions not being admin",async () => {
@@ -167,22 +146,32 @@ describe("/questions", () => {
 	})
 
 	test("PATCH /questions/:id - should not be able to update id field value", async () => {
-		const categoryTobeUpdate = await request(app).get("/questions");
-		const admLoginResponse = await request(app)
-			.post("/login")
-			.send(mockAdmLogin);
+        const admLogin = await request(app).post("/login").send(mockAdmLogin);
+        const userToBeUpdated = await request(app)
+        .get("/questions")
+        .set("Authorization", `Bearer ${admLogin.body.token}`);
 
-		const response = await request(app)
-			.patch(`/questions/${categoryTobeUpdate.body[0].id}`)
-			.set("Authorization", `Bearer ${admLoginResponse.body.token}`)
-			.send({
-				...mockQuestionEdit,
-				id: "6620d602-dcdb-4f4a-9105-70e3cd7fe953"
-			});
+        const valuesToBeUpdated = { id: '123' };
+        const res = await request(app)
+        .patch(`/questions/${userToBeUpdated.body[0].id}`)
+        .set("Authorization", `Bearer ${admLogin.body.token}`)
+        .send(valuesToBeUpdated);
 
-		expect(response.body).toHaveProperty("message");
-		expect(response.status).toBe(401);
+        expect(res.status).toBe(401);
+        expect(res.body).toHaveProperty("message");
 	})
+
+    test("DELETE /questions/:id - Shouldn't be able to delete user without authentication", async () => {
+        const admLogin = await request(app).post("/login").send(mockAdmLogin);
+        const UserTobeDeleted = await request(app)
+          .get("/questions")
+          .set("Authorization", `Bearer ${admLogin.body.token}`);
+        const res = await request(app).delete(
+          `/questions/${UserTobeDeleted.body[0].id}`
+        );
+        expect(res.status).toBe(401);
+        expect(res.body).toHaveProperty("message");
+    });
 
     test("DELETE /questions/:id -  should not be able to delete questions not being admin",async () => {
         const userLoginResponse = await request(app).post("/login").send(mockUser);
@@ -202,20 +191,19 @@ describe("/questions", () => {
 
         expect(response.status).toBe(404)
         expect(response.body).toHaveProperty("message")
-     
     })
 
     test("DELETE /questions/:id - should be able to delete category", async () => {
-		const admLoginResponse = await request(app)
-			.post("/login")
-			.send(mockAdm);
-		const questionTobeDelete = await request(app).get("/questions");
 
-		const response = await request(app)
-			.delete(`/questions/${questionTobeDelete.body[0].id}`)
-			.set("Authorization", `Bearer ${admLoginResponse.body.token}`);
+        const admLogin = await request(app).post("/login").send(mockAdmLogin);
+        const userToBeUpdated = await request(app)
+        .get("/questions")
+        .set("Authorization", `Bearer ${admLogin.body.token}`);
+        const response = await request(app)
+        .delete(`/questions/${userToBeUpdated.body[0].id}`)
+        .set("Authorization", `Bearer ${admLogin.body.token}`);
 
 		expect(response.status).toBe(204);
-	}) 
+	});
 
 })
