@@ -5,7 +5,7 @@ import { IOptions, IUpdateOption } from "../interfaces/options";
 export const postOptionsSchema: SchemaOf<IOptions> = yup.object().shape({
 	answer: yup.string().required(),
 	point: yup.number().required(),
-	isCorrect: yup.boolean(),
+	isCorrect: yup.boolean().required(),
 	questionsId: yup.string().required()
 });
 
