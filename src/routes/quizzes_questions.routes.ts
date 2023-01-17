@@ -11,7 +11,6 @@ import { ensureQuestionsExistsInQuizzes_QuestionsMiddleware } from "../middlewar
 import { quizzes_questionsRequestSchema } from "../schemas/quizzes_questions.schema";
 import { listAllQuizzes_QuestionsController } from "../controllers/quizzes_questions/listAllQuizzes_Questions.controller";
 
-export const questionsRouter = Router();
 export const quizzes_questionsRouter = Router();
 
 quizzes_questionsRouter.post(
