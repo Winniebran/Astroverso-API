@@ -15,6 +15,7 @@ import { createOptionsController } from "../controllers/options/createOptions.co
 import { getOptionsController } from "./../controllers/options/getOptions.controller";
 import { deleteOptionController } from "../controllers/options/deleteOptions.controller";
 import { updateOptionsController } from "../controllers/options/updateOptions.controller";
+import { verifyOptionExistsMiddleware } from "../middlewares/options/verifyOptionIdExists.middleware";
 
 export const optionsRouter = Router();
 
@@ -35,14 +36,16 @@ optionsRouter.delete(
   AuthMiddleware,
   isAdmMiddleware,
   idIsValidMiddleware,
+  verifyOptionExistsMiddleware,
   deleteOptionController
 );
 
 optionsRouter.patch(
   "/:id",
-  AuthMiddleware,
   isAdmMiddleware,
+  AuthMiddleware,
   idIsValidMiddleware,
+  verifyOptionExistsMiddleware,
   dataIsValidMiddleware(updateOptionsSchema),
   verifyCorrectOptionsMiddleware,
   updateOptionsController
