@@ -13,6 +13,7 @@ import { optionsRouter } from "./routes/options.routes";
 import { postsRouter } from "./routes/posts.routes";
 import { questionsRouter } from "./routes/questions.routes";
 import { favoritePostsRouter } from "./routes/favoritePosts.routes";
+import { quizzes_questionsRouter } from "./routes/quizzes_questions.routes";
 
 export const app = express();
 app.use(express.json());
@@ -28,5 +29,6 @@ app.use("/questions", questionsRouter);
 app.use("/options", optionsRouter);
 app.use("/extras", extrasRouter);
 app.use("/types", typesRouter);
+app.use("/quizzes_collections", quizzes_questionsRouter);
 
 app.use(handleError);
