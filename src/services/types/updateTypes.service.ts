@@ -10,7 +10,7 @@ export const updateTypesService = async (types: ITypes, updateId: string) => {
   });
 
   if (!typeAlreadyExists) {
-    throw new AppError("Type doesn't exist!", 409);
+    throw new AppError("Type doesn't exist!", 404);
   }
 
   const updatedType = typesRepository.create({

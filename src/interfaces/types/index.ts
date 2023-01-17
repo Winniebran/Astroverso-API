@@ -7,6 +7,10 @@ export interface ITypesRequest{
   name: string;
 }
 
+export interface ITypesUpdate{
+  name: string;
+}
+
 export interface ITypesResponse extends ITypesRequest {
   name: string,
   id: string
