@@ -26,7 +26,7 @@ export const createExtraService = async (
   const { typesId } = extrasData;
   const repositoryTypes = dataSource.getRepository(Types);
   const extraTypes = await repositoryTypes.findOneBy({ id: typesId });
-
+  
   if (extraAlrealdyExists) {
     throw new AppError("Extra already exists!", 409);
   }

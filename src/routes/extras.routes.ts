@@ -5,6 +5,8 @@ import { listExtrasController } from "../controllers/extras/listExtras.controlle
 import { updateExtrasController } from "../controllers/extras/updateExtras.controller";
 import { AuthMiddleware } from "../middlewares/authentication.middleware";
 import { dataIsValidMiddleware } from "../middlewares/dataIsValid.middleware";
+import { ensureIdExistsMiddleware } from "../middlewares/extras/ensureIdExists.middleware";
+import { typeIdIsValidMiddleware } from "../middlewares/extras/typeIdIsValid.middleware";
 import { idIsValidMiddleware } from "../middlewares/IdIsValid.middleware";
 import { isAdmMiddleware } from "../middlewares/isAdm.middleware";
 import { isValidToUpdateMiddleware } from "../middlewares/isValidToUpdate.middleware";
@@ -20,6 +22,7 @@ extrasRouter.post(
   AuthMiddleware,
   isAdmMiddleware,
   dataIsValidMiddleware(extrasRequestSchema),
+  typeIdIsValidMiddleware,
   createExtrasController
 );
 
@@ -30,6 +33,7 @@ extrasRouter.patch(
   AuthMiddleware,
   isAdmMiddleware,
   dataIsValidMiddleware(extrasUpdateSchema),
+  typeIdIsValidMiddleware,
   idIsValidMiddleware,
   isValidToUpdateMiddleware,
   updateExtrasController
@@ -40,5 +44,6 @@ extrasRouter.delete(
   AuthMiddleware,
   isAdmMiddleware,
   idIsValidMiddleware,
+  ensureIdExistsMiddleware,
   deleteExtrasController
 );
