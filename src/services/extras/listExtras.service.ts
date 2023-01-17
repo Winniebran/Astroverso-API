@@ -3,7 +3,11 @@ import { Extras } from "../../entities/extras.entity";
 
 export const listExtrasService = async (): Promise<Extras[]> => {
   const repository = dataSource.getRepository(Extras);
-  const extras = await repository.find();
+  const extras = await repository.find({
+    relations:{
+      types: true
+    }
+  });
 
   return extras;
 };
