@@ -51,6 +51,8 @@ postsRouter.patch(
   AuthMiddleware,
   isAdmMiddleware,
   idIsValidMiddleware,
+  ensureAstroExistsInPostsMiddleware,
+  ensureCategoryExistsInPostsMiddleware,
   updatePostController
 );
 

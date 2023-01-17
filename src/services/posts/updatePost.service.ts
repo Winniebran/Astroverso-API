@@ -1,3 +1,5 @@
+import { Categories } from "./../../entities/categories.entity";
+import { Astros } from "./../../entities/astros.entity";
 import { IPostsUpdate, IPostsResponse } from "./../../interfaces/posts/index";
 import { AppError } from "./../../errors/AppErrors";
 import { Posts } from "./../../entities/posts.entity";
@@ -8,9 +10,19 @@ export const updatePostsService = async (
   postData: IPostsUpdate
 ): Promise<IPostsResponse> => {
   const postRep = setDataSourceConfig.getRepository(Posts);
+  const astroRep = setDataSourceConfig.getRepository(Astros);
+  const categoryRep = setDataSourceConfig.getRepository(Categories);
+
+  const categoryFound = await categoryRep.findOneBy({
+    id: postData.categoriesId,
+  });
 
   const postFound = await postRep.findOneBy({
     id: postId,
+  });
+
+  const astroFound = await astroRep.findOneBy({
+    id: postData.astrosId,
   });
 
   if (!postFound) {
@@ -20,6 +32,8 @@ export const updatePostsService = async (
   const updatedPost = postRep.create({
     ...postFound,
     ...postData,
+    astros: astroFound ? astroFound : postFound.astros,
+    categories: categoryFound ? categoryFound : postFound.categories,
   });
 
   await postRep.save(updatedPost);
