@@ -96,6 +96,15 @@ describe("/users", () => {
     expect(res.body).toHaveProperty("message");
   });
 
+  test("GET /users/:id - Shouldn't be able to list one user with invalid id", async () => {
+    const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const res = await request(app)
+      .get("/users/1")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+    expect(res.status).toBe(404);
+    expect(res.body).toHaveProperty("message");
+  });
+
   // GET /users/:id/favoritePosts
 
   //   test("GET /users/:id/favoritePosts - Shouldn't be able to list favorite posts without authentication", async () => {
