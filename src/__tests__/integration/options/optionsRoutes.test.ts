@@ -6,6 +6,7 @@ import {
   mockCreateOptionFalse02,
   mockCreateOptionFalse03,
   mockCreateOptionTrue,
+  mockUpdateOptionTrue,
 } from "../../mocks/options.mock";
 import { DataSource } from "typeorm";
 import dataSource from "../../../data-source";
@@ -110,6 +111,27 @@ describe("/options", () => {
     expect(response.body).toHaveProperty("point");
     expect(response.body).toHaveProperty("isCorrect");
     expect(response.body).toHaveProperty("id");
+  });
+
+  test("POST /optons - Cant create a option already exists", async () => {
+    await request(app).post("/users").send(mockAdm);
+    const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const question = await request(app)
+      .get("/questions")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+
+    const data: IOptions = {
+      ...mockCreateOptionTrue,
+      questionsId: question.body[0].id,
+    };
+
+    const response = await request(app)
+      .post("/options")
+      .set("Authorization", `Bearer ${admLogin.body.token}`)
+      .send(data);
+
+    expect(response.status).toBe(409);
+    expect(response.body).toHaveProperty("message");
   });
 
   test("POST /options - Cant create false option can point equal 2", async () => {
@@ -298,7 +320,7 @@ describe("/options", () => {
     expect(response.body).toHaveLength(4);
   });
 
-  test("DELETE /options - Can Delete option", async () => {
+  test("DELETE /options/:id - Can Delete option", async () => {
     await request(app).post("/users").send(mockAdm);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const question = await request(app)
@@ -329,7 +351,7 @@ describe("/options", () => {
     expect(response.status).toBe(204);
   });
 
-  test("DELETE /options - Cant Delete Option without Authentication", async () => {
+  test("DELETE /options/:id - Cant Delete Option without Authentication", async () => {
     await request(app).post("/users").send(mockAdm);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const question = await request(app)
@@ -358,7 +380,7 @@ describe("/options", () => {
     expect(response.body).toHaveProperty("message");
   });
 
-  test("DELETE /options - Cant delete option if not adm", async () => {
+  test("DELETE /options/:id - Cant delete option if not adm", async () => {
     await request(app).post("/users").send(mockUser);
     const admLogin = await request(app).post("/login").send(mockUserLogin);
     const question = await request(app)
@@ -385,7 +407,106 @@ describe("/options", () => {
       .delete(`/options/${option.body.id}`)
       .set("Authorization", `Bearer ${admLogin.body.token}`);
 
+    expect(response.status).toBe(403);
+    expect(response.body).toHaveProperty("message");
+  });
+
+  test("PATCH /options/:id - Can update option", async () => {
+    await request(app).post("/users").send(mockAdm);
+    const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const question = await request(app)
+      .get("/questions")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+
+    const questionId = question.body[1].id;
+
+    const { answer, point, isCorrect } = mockCreateOptionTrue;
+
+    const data: IOptions = {
+      answer,
+      point,
+      isCorrect,
+      questionsId: questionId,
+    };
+
+    const option = await request(app)
+      .get("/options")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+
+    const response = await request(app)
+      .patch(`/options/${option.body[0].id}`)
+      .set("Authorization", `Bearer ${admLogin.body.token}`)
+      .send(mockUpdateOptionTrue);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+      answer: "option 1 updated",
+      id: option.body[0].id,
+      isCorrect: option.body[0].isCorrect,
+      point: option.body[0].point,
+    });
+  });
+
+  test("PATCH /options/:id - Cant update option if not is adm", async () => {
+    await request(app).post("/users").send(mockAdm);
+    const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const question = await request(app)
+      .get("/questions")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+
+    const questionId = question.body[1].id;
+
+    const { answer, point, isCorrect } = mockCreateOptionTrue;
+
+    const data: IOptions = {
+      answer,
+      point,
+      isCorrect,
+      questionsId: questionId,
+    };
+
+    const option = await request(app)
+      .post("/options")
+      .set("Authorization", `Bearer ${admLogin.body.token}`)
+      .send(data);
+
+    const response = await request(app)
+      .patch(`/options/${option.body.id}`)
+      .send(mockUpdateOptionTrue);
+
     expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message");
+  });
+
+  test("PATCH /options/:id - Cant update option without Authentication", async () => {
+    await request(app).post("/users").send(mockUser);
+    const admLogin = await request(app).post("/login").send(mockUserLogin);
+    const question = await request(app)
+      .get("/questions")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+
+    const questionId = question.body[1].id;
+
+    const { answer, point, isCorrect } = mockCreateOptionTrue;
+
+    const data: IOptions = {
+      answer,
+      point,
+      isCorrect,
+      questionsId: questionId,
+    };
+
+    const option = await request(app)
+      .post("/options")
+      .set("Authorization", `Bearer ${admLogin.body.token}`)
+      .send(data);
+
+    const response = await request(app)
+      .patch(`/options/${option.body.id}`)
+      .set("Authorization", `Bearer ${admLogin.body.token}`)
+      .send(mockUpdateOptionTrue);
+
+    expect(response.status).toBe(403);
     expect(response.body).toHaveProperty("message");
   });
 });

@@ -12,7 +12,7 @@ export const verifyOptionExistsMiddleware = async (
   try {
     const myTable = dataSource.getRepository(Options);
 
-    const find = myTable.findOneBy({
+    const find = await myTable.findOneBy({
       id: req.params.id,
     });
 
