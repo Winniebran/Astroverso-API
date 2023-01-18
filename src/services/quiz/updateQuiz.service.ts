@@ -4,24 +4,19 @@ import { Quizzes } from "../../entities/quizzes.entity";
 import { AppError } from "../../errors/AppErrors";
 
 export const updateQuizService = async (
-  id: string,
-  quizDataUpdate: IQuizzes
+	id: string,
+	quizDataUpdate: IQuizzes
 ): Promise<IQuizzesResponse> => {
-  const quizRepository = dataSourceConfig.getRepository(Quizzes);
+	const quizRepository = dataSourceConfig.getRepository(Quizzes);
 
-  const [existQuiz] = await quizRepository.find({
-    where: { id: id },
-    withDeleted: true,
-  });
+	const existQuiz = await quizRepository.findOneBy({
+		id
+	});
 
-  if (!existQuiz) {
-    throw new AppError("Quiz not found", 404);
-  }
-
-  const updatedQuiz = quizRepository.create({
-    ...existQuiz,
-    ...quizDataUpdate,
-  });
-  await quizRepository.save(updatedQuiz);
-  return updatedQuiz;
+	const updatedQuiz = quizRepository.create({
+		...existQuiz,
+		...quizDataUpdate
+	});
+	await quizRepository.save(updatedQuiz);
+	return updatedQuiz;
 };
