@@ -13,13 +13,16 @@ export const verifyOptionsLimitMiddleware = async (
     const data: IOptions = req.body;
     const myTable = DataSource.getRepository(Questions);
 
-    const questions = await myTable
-      .createQueryBuilder("questions")
-      .innerJoinAndSelect("schedule.options", "options")
-      .where("questions.id = :id", { id: data.questionsId })
-      .getMany();
+    const questions = await myTable.findOne({
+      where: {
+        id: data.questionsId
+      },
+      relations: {
+        options: true
+      }
+    })
 
-    if (questions.length === 4) {
+    if (questions?.options.length === 4) {
       throw new AppError("Maximum number of options must be equal to 4");
     }
 

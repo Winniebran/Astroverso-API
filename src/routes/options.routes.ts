@@ -25,6 +25,7 @@ optionsRouter.post(
   AuthMiddleware,
   isAdmMiddleware,
   dataIsValidMiddleware(postOptionsSchema),
+  // verifyHaveUnicTrueMiddleware,
   verifyCorrectOptionsMiddleware,
   verifyOptionsLimitMiddleware,
   createOptionsController
