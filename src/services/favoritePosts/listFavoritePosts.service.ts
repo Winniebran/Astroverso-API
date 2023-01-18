@@ -13,6 +13,17 @@ export const listFavoritePostService = async (): Promise<Users[]> => {
         },
       },
     },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      score: true,
+      isAdm: true,
+      isActive: true,
+      createdAt: true,
+      deletedAt: true,
+      updatedAt: true,
+    },
   });
 
   return returnAllPosts;
