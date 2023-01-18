@@ -12,8 +12,6 @@ export const verifyCorrectOptionsMiddleware = async (
 
     if (data.point === 0 && data.isCorrect === true) {
       throw new AppError("Correct answer must have a score equal to 2");
-    } else {
-      req.body = { ...req.body, isCorrect: false };
     }
 
     if (data.point === 2 && data.isCorrect === false) {

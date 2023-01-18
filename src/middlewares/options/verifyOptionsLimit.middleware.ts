@@ -15,14 +15,31 @@ export const verifyOptionsLimitMiddleware = async (
 
     const questions = await myTable.findOne({
       where: {
-        id: data.questionsId
+        id: data.questionsId,
       },
       relations: {
-        options: true
-      }
-    })
+        options: true,
+      },
+    });
 
-    if (questions?.options.length === 4) {
+    const options = questions?.options;
+
+    if (options?.length! <= 3) {
+      for (let i = 0; i < options?.length!; i++) {
+        if (options![i].point === 2 && data.point === 2) {
+          throw new AppError("Correct Answer already exists");
+        }
+        if (options![i].point >= data.point) {
+          break;
+        } else {
+          throw new AppError(
+            "Correct Answer already exists or must be submitted"
+          );
+        }
+      }
+    }
+
+    if (options?.length === 4) {
       throw new AppError("Maximum number of options must be equal to 4");
     }
 
