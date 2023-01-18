@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { createUsersController } from "../controllers/user/createUsers.controller";
 import { deleteUsersController } from "../controllers/user/deleteUsers.controller";
-import { listFavoritePostFromUserController } from "../controllers/user/listFavoritePostFromUser.controller";
+import { listOneUserController } from "../controllers/user/listOneUser.controller";
 import { listUsersController } from "../controllers/user/listUsers.controller";
 import { updateUsersController } from "../controllers/user/updateUsers.controller";
 import { AuthMiddleware } from "../middlewares/authentication.middleware";
@@ -15,35 +15,35 @@ import { createUsersSchema, updateUsersSchema } from "../schemas/users.schema";
 export const usersRouter = Router();
 
 usersRouter.post(
-  "",
-  dataIsValidMiddleware(createUsersSchema),
-  createUsersController
+	"",
+	dataIsValidMiddleware(createUsersSchema),
+	createUsersController
 );
 
 usersRouter.get("", AuthMiddleware, isAdmMiddleware, listUsersController);
 
 usersRouter.get(
-  "/:id/favoritePosts",
-  AuthMiddleware,
-  isAdmMiddleware,
-  idIsValidMiddleware,
-  listFavoritePostFromUserController
+	"/:id",
+	AuthMiddleware,
+	idIsValidMiddleware,
+	isSameUsersMiddleware,
+	listOneUserController
 );
 
 usersRouter.patch(
-  "/:id",
-  AuthMiddleware,
-  isValidToUpdateMiddleware,
-  dataIsValidMiddleware(updateUsersSchema),
-  idIsValidMiddleware,
-  isSameUsersMiddleware,
-  updateUsersController
+	"/:id",
+	AuthMiddleware,
+	isValidToUpdateMiddleware,
+	idIsValidMiddleware,
+	isSameUsersMiddleware,
+	dataIsValidMiddleware(updateUsersSchema),
+	updateUsersController
 );
 
 usersRouter.delete(
-  "/:id",
-  AuthMiddleware,
-  isAdmMiddleware,
-  idIsValidMiddleware,
-  deleteUsersController
+	"/:id",
+	AuthMiddleware,
+	isAdmMiddleware,
+	idIsValidMiddleware,
+	deleteUsersController
 );
