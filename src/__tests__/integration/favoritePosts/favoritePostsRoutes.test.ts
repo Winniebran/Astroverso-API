@@ -244,4 +244,60 @@ describe("/favoritePosts", () => {
   });
 
   //DELETE /:id
+
+  test("DELETE /favoritePosts - Should not be able to delete favorite post without authorization", async () => {
+    const admLoginResponse = await request(app)
+      .post("/login")
+      .send(mockAdmLogin);
+
+    const userResponse = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${admLoginResponse.body.token}`);
+
+    const postResponse = await request(app)
+      .get(`/favoritePosts/${userResponse.body[1].id}`)
+      .set("Authorization", `Bearer ${admLoginResponse.body.token}`);
+
+    const response = await request(app).delete(
+      `/favoritePosts/${postResponse.body.favorite_posts[0].id}`
+    );
+
+    const mockError = { errors: response.body.error };
+    expect(mockError).toMatchObject<Partial<ValidationError>>(mockError);
+    expect(response.status).toBe(401);
+  });
+
+  test("DELETE /favoritePosts - Should not be able to delete favorite post with an invalid id", async () => {
+    const admLoginResponse = await request(app)
+      .post("/login")
+      .send(mockAdmLogin);
+
+    const response = await request(app)
+      .delete(`/favoritePosts/96609ec9-076c-4ea3-af0d-8dc09e2a50`)
+      .set("Authorization", `Bearer ${admLoginResponse.body.token}`);
+
+    const mockError = { errors: response.body.error };
+    expect(mockError).toMatchObject<Partial<ValidationError>>(mockError);
+    expect(response.status).toBe(404);
+  });
+
+  test("DELETE /favoritePosts - Must be able to delete favorite post", async () => {
+    const admLoginResponse = await request(app)
+      .post("/login")
+      .send(mockAdmLogin);
+
+    const userResponse = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${admLoginResponse.body.token}`);
+
+    const postResponse = await request(app)
+      .get(`/favoritePosts/${userResponse.body[1].id}`)
+      .set("Authorization", `Bearer ${admLoginResponse.body.token}`);
+
+    const response = await request(app)
+      .delete(`/favoritePosts/${postResponse.body.favorite_posts[0].id}`)
+      .set("Authorization", `Bearer ${admLoginResponse.body.token}`);
+
+    expect(response.status).toBe(204);
+  });
 });
