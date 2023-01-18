@@ -90,35 +90,11 @@ describe("/options", () => {
       .post("/questions")
       .set("Authorization", `Bearer ${admLogin.body.token}`)
       .send(mockQuestion);
-      const questionId = question.body.id;
-      
-      const data: IOptions = {
-        ...mockCreateOptionTrue,
-        questionsId: questionId,
-      };
-      
-      const response = await request(app)
-      .post("/options")
-      .set("Authorization", `Bearer ${admLogin.body.token}`)
-      .send(data);
-      
-    expect(response.status).toBe(201);
-    expect(response.body).toHaveProperty("answer");
-    expect(response.body).toHaveProperty("point");
-    expect(response.body).toHaveProperty("isCorrect");
-    expect(response.body).toHaveProperty("id");
-  });
-
-  test("POST /optons - Shouldn't be able to create options already exists", async () => {
-    await request(app).post("/users").send(mockAdm);
-    const admLogin = await request(app).post("/login").send(mockAdmLogin);
-    const question = await request(app)
-      .get("/questions")
-      .set("Authorization", `Bearer ${admLogin.body.token}`);
+    const questionId = question.body.id;
 
     const data: IOptions = {
       ...mockCreateOptionTrue,
-      questionsId: question.body[0].id,
+      questionsId: questionId,
     };
 
     const response = await request(app)
@@ -126,8 +102,11 @@ describe("/options", () => {
       .set("Authorization", `Bearer ${admLogin.body.token}`)
       .send(data);
 
-    expect(response.status).toBe(409);
-    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty("answer");
+    expect(response.body).toHaveProperty("point");
+    expect(response.body).toHaveProperty("isCorrect");
+    expect(response.body).toHaveProperty("id");
   });
 
   test("POST /options - Shouldn't be able to create a fake option with point equal to 2", async () => {
@@ -209,6 +188,27 @@ describe("/options", () => {
     expect(response.body).toHaveProperty("point");
     expect(response.body).toHaveProperty("isCorrect");
     expect(response.body).toHaveProperty("id");
+  });
+
+  test("POST /optons - Shouldn't be able to create options already exists", async () => {
+    await request(app).post("/users").send(mockAdm);
+    const admLogin = await request(app).post("/login").send(mockAdmLogin);
+    const question = await request(app)
+      .get("/questions")
+      .set("Authorization", `Bearer ${admLogin.body.token}`);
+
+    const data: IOptions = {
+      ...mockCreateOptionFalse01,
+      questionsId: question.body[0].id,
+    };
+
+    const response = await request(app)
+      .post("/options")
+      .set("Authorization", `Bearer ${admLogin.body.token}`)
+      .send(data);
+
+    expect(response.status).toBe(409);
+    expect(response.body).toHaveProperty("message");
   });
 
   test("POST /options - Should be able to create another options", async () => {

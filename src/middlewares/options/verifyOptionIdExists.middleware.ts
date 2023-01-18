@@ -3,7 +3,7 @@ import { Options } from "./../../entities/options.entity";
 import { NextFunction, Request, Response } from "express";
 import dataSource from "../../data-source";
 
-export const verifyOptionExistsMiddleware = async (
+export const verifyOptionIdExistsMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -16,7 +16,7 @@ export const verifyOptionExistsMiddleware = async (
     });
 
     if (!find) {
-      throw new AppError("Option Id Not exists");
+      throw new AppError("Option Id Not exists", 404);
     }
 
     next();
