@@ -4,9 +4,9 @@ import { Categories } from "../../entities/categories.entity";
 import { ICategoriesResponse } from "../../interfaces/categories";
 
 export const updateCategoriesService = async (
-	updatedCategory: ICategoriesResponse
+  updatedCategory: ICategoriesResponse
 ): Promise<Categories> => {
-	const categoriesRepository = dataSourceConfig.getRepository(Categories);
+  const categoriesRepository = dataSourceConfig.getRepository(Categories);
 
-	return await categoriesRepository.save(updatedCategory);
+  return await categoriesRepository.save(updatedCategory);
 };

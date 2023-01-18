@@ -25,7 +25,7 @@ export const updateExtrasService = async (
   const newExtra = repositoryData.create({
     ...extraAlrealdyExists,
     ...extrasData,
-    types:  typeAlrealdyExists? typeAlrealdyExists: extraAlrealdyExists.types
+    types: typeAlrealdyExists ? typeAlrealdyExists : extraAlrealdyExists.types,
   });
   return await repositoryData.save(newExtra);
 };

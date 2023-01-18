@@ -1,7 +1,7 @@
 import { Response, Request, NextFunction } from "express";
-import DataSource from "../data-source";
-import { Options } from "../entities/options.entity";
-import { AppError } from "../errors/AppErrors";
+import DataSource from "../../data-source";
+import { Options } from "../../entities/options.entity";
+import { AppError } from "../../errors/AppErrors";
 
 export const verifyOptionsExistsMiddleware = async (
   req: Request,

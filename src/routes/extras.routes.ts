@@ -32,10 +32,10 @@ extrasRouter.patch(
   "/:id",
   AuthMiddleware,
   isAdmMiddleware,
-  dataIsValidMiddleware(extrasUpdateSchema),
   typeIdIsValidMiddleware,
   idIsValidMiddleware,
   isValidToUpdateMiddleware,
+  dataIsValidMiddleware(extrasUpdateSchema),
   updateExtrasController
 );
 

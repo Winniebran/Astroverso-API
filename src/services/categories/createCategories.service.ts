@@ -6,20 +6,20 @@ import { Categories } from "../../entities/categories.entity";
 import { ICategoriesRequest } from "../../interfaces/categories";
 
 export const createCategoriesService = async (
-	category: ICategoriesRequest
+  category: ICategoriesRequest
 ): Promise<Categories> => {
-	const categoriesRepository = dataSourceConfig.getRepository(Categories);
+  const categoriesRepository = dataSourceConfig.getRepository(Categories);
 
-	const categoryAlrealdyExists = await categoriesRepository.findOneBy({
-		name: ILike(`%${category.name}%`)
-	});
+  const categoryAlrealdyExists = await categoriesRepository.findOneBy({
+    name: ILike(`%${category.name}%`),
+  });
 
-	if (categoryAlrealdyExists) {
-		throw new AppError("Category already exists!", 409);
-	}
+  if (categoryAlrealdyExists) {
+    throw new AppError("Category already exists!", 409);
+  }
 
-	const newCategory = categoriesRepository.create(category);
-	await categoriesRepository.save(newCategory);
+  const newCategory = categoriesRepository.create(category);
+  await categoriesRepository.save(newCategory);
 
-	return newCategory;
+  return newCategory;
 };

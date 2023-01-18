@@ -37,7 +37,7 @@ describe("/options", () => {
     await connect.destroy();
   });
 
-  test("POST /options - Cant create option not ADM", async () => {
+  test("POST /options - Shouldn't be able to create options not being admin", async () => {
     await request(app).post("/users").send(mockUser);
     const admLogin = await request(app).post("/login").send(mockUserLogin);
     const question = await request(app)
@@ -64,7 +64,7 @@ describe("/options", () => {
     expect(response.body).toHaveProperty("message");
   });
 
-  test("POST /optons - Cant create option is invalid token", async () => {
+  test("POST /optons - Shouldn't be able to create options without authentication", async () => {
     const question = await request(app).post("/questions").send(mockQuestion);
     const questionId = question.body.id;
 
@@ -83,29 +83,25 @@ describe("/options", () => {
     expect(response.body).toHaveProperty("message");
   });
 
-  test("POST /optons - Shold be able to create a new option", async () => {
+  test("POST /optons - Should be able to create a new option", async () => {
     await request(app).post("/users").send(mockAdm);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const question = await request(app)
       .post("/questions")
       .set("Authorization", `Bearer ${admLogin.body.token}`)
       .send(mockQuestion);
-    const questionId = question.body.id;
-
-    const { answer, point, isCorrect } = mockCreateOptionTrue;
-
-    const data: IOptions = {
-      answer,
-      point,
-      isCorrect,
-      questionsId: questionId,
-    };
-
-    const response = await request(app)
+      const questionId = question.body.id;
+      
+      const data: IOptions = {
+        ...mockCreateOptionTrue,
+        questionsId: questionId,
+      };
+      
+      const response = await request(app)
       .post("/options")
       .set("Authorization", `Bearer ${admLogin.body.token}`)
       .send(data);
-
+      
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty("answer");
     expect(response.body).toHaveProperty("point");
@@ -113,7 +109,7 @@ describe("/options", () => {
     expect(response.body).toHaveProperty("id");
   });
 
-  test("POST /optons - Cant create a option already exists", async () => {
+  test("POST /optons - Shouldn't be able to create options already exists", async () => {
     await request(app).post("/users").send(mockAdm);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const question = await request(app)
@@ -134,7 +130,7 @@ describe("/options", () => {
     expect(response.body).toHaveProperty("message");
   });
 
-  test("POST /options - Cant create false option can point equal 2", async () => {
+  test("POST /options - Shouldn't be able to create a fake option with point equal to 2", async () => {
     await request(app).post("/users").send(mockAdm);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const question = await request(app)
@@ -160,7 +156,7 @@ describe("/options", () => {
     expect(response.body).toHaveProperty("message");
   });
 
-  test("POST /options - Cant create true option can point equal 0", async () => {
+  test("POST /options - Shouldn't be able to create a true option with point equal to 0", async () => {
     await request(app).post("/users").send(mockAdm);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const question = await request(app)
@@ -186,7 +182,7 @@ describe("/options", () => {
     expect(response.body).toHaveProperty("message");
   });
 
-  test("POST /options - Shold be create other options", async () => {
+  test("POST /options - Should be able to create another options", async () => {
     await request(app).post("/users").send(mockAdm);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const question = await request(app)
@@ -215,7 +211,7 @@ describe("/options", () => {
     expect(response.body).toHaveProperty("id");
   });
 
-  test("POST /options - Shold be create other options", async () => {
+  test("POST /options - Should be able to create another options", async () => {
     await request(app).post("/users").send(mockAdm);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const question = await request(app)
@@ -244,7 +240,7 @@ describe("/options", () => {
     expect(response.body).toHaveProperty("id");
   });
 
-  test("POST /options - Shold be create other options", async () => {
+  test("POST /options - Should be able to create another options", async () => {
     await request(app).post("/users").send(mockAdm);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const question = await request(app)
@@ -273,7 +269,7 @@ describe("/options", () => {
     expect(response.body).toHaveProperty("id");
   });
 
-  test("POST /options - Cant create more options", async () => {
+  test("POST /options - Must not be able to create more than four options per question", async () => {
     await request(app).post("/users").send(mockAdm);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const question = await request(app)
@@ -299,7 +295,7 @@ describe("/options", () => {
     expect(response.body).toHaveProperty("message");
   });
 
-  test("GET /options - Cant get options without Authentication", async () => {
+  test("GET /options - Shouldn't be able to list options without authentication", async () => {
     await request(app).post("/users").send(mockAdm);
 
     const response = await request(app).get("/options");
@@ -308,7 +304,7 @@ describe("/options", () => {
     expect(response.body).toHaveProperty("message");
   });
 
-  test("GET /options - get all options", async () => {
+  test("GET /options - Must be able to list all options", async () => {
     await request(app).post("/users").send(mockAdm);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
 
@@ -320,7 +316,7 @@ describe("/options", () => {
     expect(response.body).toHaveLength(4);
   });
 
-  test("DELETE /options/:id - Can Delete option", async () => {
+  test("DELETE /options/:id - Must be able to delete options", async () => {
     await request(app).post("/users").send(mockAdm);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const question = await request(app)
@@ -351,7 +347,7 @@ describe("/options", () => {
     expect(response.status).toBe(204);
   });
 
-  test("DELETE /options/:id - Cant Delete Option without Authentication", async () => {
+  test("DELETE /options/:id - Shouldn't be able to delete options without authentication", async () => {
     await request(app).post("/users").send(mockAdm);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const question = await request(app)
@@ -380,7 +376,7 @@ describe("/options", () => {
     expect(response.body).toHaveProperty("message");
   });
 
-  test("DELETE /options/:id - Cant delete option if not adm", async () => {
+  test("DELETE /options/:id - Shouldn't be able to delete options without admin permission", async () => {
     await request(app).post("/users").send(mockUser);
     const admLogin = await request(app).post("/login").send(mockUserLogin);
     const question = await request(app)
@@ -411,7 +407,7 @@ describe("/options", () => {
     expect(response.body).toHaveProperty("message");
   });
 
-  test("PATCH /options/:id - Can update option", async () => {
+  test("PATCH /options/:id - Must be able to update options", async () => {
     await request(app).post("/users").send(mockAdm);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const question = await request(app)
@@ -447,7 +443,7 @@ describe("/options", () => {
     });
   });
 
-  test("PATCH /options/:id - Cant update option if not is adm", async () => {
+  test("PATCH /options/:id - Shouldn't be able to update options without admin permission", async () => {
     await request(app).post("/users").send(mockAdm);
     const admLogin = await request(app).post("/login").send(mockAdmLogin);
     const question = await request(app)
@@ -478,7 +474,7 @@ describe("/options", () => {
     expect(response.body).toHaveProperty("message");
   });
 
-  test("PATCH /options/:id - Cant update option without Authentication", async () => {
+  test("PATCH /options/:id - Shouldn't be able to update options without authentication", async () => {
     await request(app).post("/users").send(mockUser);
     const admLogin = await request(app).post("/login").send(mockUserLogin);
     const question = await request(app)

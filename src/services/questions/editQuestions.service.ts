@@ -5,32 +5,33 @@ import { Questions } from "../../entities/questions.entity";
 import { IQuestionsResponse, IQuestionsEdit } from "../../interfaces/questions";
 import { QuestionsWithoutOptions } from "../../schemas/questions.schema";
 
+export const editQuestionsService = async (
+  id: string,
+  data: IQuestionsEdit
+): Promise<IQuestionsResponse> => {
+  const { question } = data;
 
-const editQuestionsService = async (id: string, data: IQuestionsEdit): Promise<IQuestionsResponse> => {
+  const repository = dataSourceConfig.getRepository(Questions);
 
-    const {question} = data
+  const [foundQuestion] = await repository.find({
+    where: { id: id },
+    withDeleted: true,
+  });
 
-    const repository = dataSourceConfig.getRepository(Questions)
+  if (!foundQuestion) {
+    throw new AppError("Pergunta não encontrada", 404);
+  }
 
-    const [foundQuestion] = await repository.find({
-        where: { id: id },
-        withDeleted: true,
-    });
+  const editQuestion = repository.create({
+    ...foundQuestion,
+    ...data,
+  });
 
-    if(!foundQuestion){
-        throw new AppError('Pergunta não encontrada', 404)
-    }
+  await repository.save(editQuestion);
 
-    const editQuestion = repository.create({
-        ...foundQuestion,
-        ...data,
-    });
+  const editedQuestion = await QuestionsWithoutOptions.validate(editQuestion, {
+    stripUnknown: true,
+  });
 
-    await repository.save(editQuestion);
-
-    const editedQuestion = await QuestionsWithoutOptions.validate( editQuestion, { stripUnknown: true });
-
-    return editedQuestion;
+  return editedQuestion;
 };
-
-export default editQuestionsService;

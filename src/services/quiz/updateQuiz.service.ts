@@ -9,10 +9,13 @@ export const updateQuizService = async (
 ): Promise<IQuizzesResponse> => {
   const quizRepository = dataSourceConfig.getRepository(Quizzes);
 
-  const existQuiz = await quizRepository.findOneBy({ id: id });
+  const [existQuiz] = await quizRepository.find({
+    where: { id: id },
+    withDeleted: true,
+  });
 
   if (!existQuiz) {
-    throw new AppError("Quiz not found", 409);
+    throw new AppError("Quiz not found", 404);
   }
 
   const updatedQuiz = quizRepository.create({

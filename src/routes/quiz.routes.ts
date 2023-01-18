@@ -9,6 +9,7 @@ import { isAdmMiddleware } from "../middlewares/isAdm.middleware";
 import { idIsValidMiddleware } from "../middlewares/IdIsValid.middleware";
 import { createQuizSchema, updateQuizSchema } from "../schemas/quiz.schema";
 import { createQuizController } from "../controllers/quiz/createQuiz.controller";
+import { isValidToUpdateMiddleware } from "../middlewares/isValidToUpdate.middleware";
 
 export const quizzesRouter = Router();
 
@@ -25,8 +26,10 @@ quizzesRouter.patch(
   "/:id",
   AuthMiddleware,
   isAdmMiddleware,
-  dataIsValidMiddleware(updateQuizSchema),
   idIsValidMiddleware,
+  isValidToUpdateMiddleware,
+
+  dataIsValidMiddleware(updateQuizSchema),
   updateQuizController
 );
 quizzesRouter.delete(
