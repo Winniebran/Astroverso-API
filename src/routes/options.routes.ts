@@ -6,7 +6,7 @@ import { dataIsValidMiddleware } from "../middlewares/dataIsValid.middleware";
 import { idIsValidMiddleware } from "../middlewares/IdIsValid.middleware";
 
 import { verifyCorrectOptionsMiddleware } from "../middlewares/options/verifyIsCorrectOptions.middleware";
-import { verifyOptionExistsMiddleware } from "../middlewares/options/verifyOptionIdExists.middleware";
+import { verifyOptionIdExistsMiddleware } from "../middlewares/options/verifyOptionIdExists.middleware";
 import { verifyOptionsLimitMiddleware } from "../middlewares/options/verifyOptionsLimit.middleware";
 import {
   postOptionsSchema,
@@ -37,7 +37,7 @@ optionsRouter.delete(
   AuthMiddleware,
   isAdmMiddleware,
   idIsValidMiddleware,
-  verifyOptionExistsMiddleware,
+  verifyOptionIdExistsMiddleware,
   deleteOptionController
 );
 
@@ -46,7 +46,7 @@ optionsRouter.patch(
   AuthMiddleware,
   isAdmMiddleware,
   idIsValidMiddleware,
-  verifyOptionExistsMiddleware,
+  verifyOptionIdExistsMiddleware,
   dataIsValidMiddleware(updateOptionsSchema),
   updateOptionsController
 );
