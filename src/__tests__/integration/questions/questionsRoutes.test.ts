@@ -95,6 +95,64 @@ describe("/questions", () => {
      
     })
 
+    test("GET /questions -  should not be able to list questions without authentication",async () => {
+        const response = await request(app).get('/questions')
+
+        expect(response.body).toHaveProperty("message")
+        expect(response.status).toBe(401)
+    })
+
+    test("GET /questions/:id/options -  Must be able to list all options from a question",async () => {
+
+        await request(app).post("/users").send(mockUser);
+		const userLoginResponse = await request(app)
+			.post("/login")
+			.send(mockUserLogin);
+
+		const pergunta = await request(app)
+			.get("/questions")
+			.set("Authorization", `Bearer ${userLoginResponse.body.token}`);
+
+        const response = await request(app)
+            .get(`/questions/${pergunta.body[0].id}/options`)
+            .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
+
+        expect(response.status).toBe(200)
+        expect(response.body).toHaveProperty("id")
+        expect(response.body).toHaveProperty("options")
+        
+    })
+
+    test("GET /questions/:id/options -  should not be able to list question's options without authentication",async () => {
+        await request(app).post("/users").send(mockUser);
+		const userLoginResponse = await request(app)
+			.post("/login")
+			.send(mockUserLogin);
+
+		const pergunta = await request(app)
+			.get("/questions")
+			.set("Authorization", `Bearer ${userLoginResponse.body.token}`);
+
+        const response = await request(app)
+            .get(`/questions/${pergunta.body[0].id}/options`);
+
+        expect(response.body).toHaveProperty("message")
+        expect(response.status).toBe(401)
+    })
+
+    test("GET /questions/:id/options - should not be able to list question's options with a invalid id", async () => {
+		const admLoginResponse = await request(app)
+			.post("/login")
+			.send(mockAdmLogin);
+
+		const response = await request(app)
+			.get(`/questions/6620d602-dcdb-4f4a-9105-70e3cd7fe953/options`)
+			.set("Authorization", `Bearer ${admLoginResponse.body.token}`);
+
+		expect(response.body).toHaveProperty("message");
+		expect(response.status).toBe(404);
+	})
+
     test("PATCH /questions/:id -  should be able to update questions",async () => {
         const admLogin = await request(app).post("/login").send(mockAdmLogin);
         const userToBeUpdated = await request(app)

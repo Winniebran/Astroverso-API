@@ -11,6 +11,7 @@ import createQuestionsController from "../controllers/questions/createQuestions.
 import listQuestionsController from "../controllers/questions/listQuestions.controller";
 import editQuestionsController from "../controllers/questions/editQuestions.Controller";
 import deleteQuestionsController from "../controllers/questions/deleteQuestions.controller";
+import getQuestionOptionsController from "../controllers/questions/getQuestionOptions.controller";
 
 import { QuestionSchema, QuestionEditSchema } from "../schemas/questions.schema";
 
@@ -26,7 +27,17 @@ questionsRouter.post(
 );
 
 // LISTAR PERGUNTAS
-questionsRouter.get("", AuthMiddleware, listQuestionsController);
+questionsRouter.get("", 
+    AuthMiddleware, 
+    listQuestionsController
+);
+
+// LISTAR OPÇÕES DE UMA PERGUNTA
+questionsRouter.get("/:id/options", 
+    AuthMiddleware,
+    idIsValidMiddleware,
+    getQuestionOptionsController
+);
 
 // ALTERAR PERGUNTA
 questionsRouter.patch(
