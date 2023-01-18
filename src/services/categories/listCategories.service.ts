@@ -4,14 +4,14 @@ import { ICategoriesResponse } from "../../interfaces/categories";
 import { listCategoriesSchema } from "../../schemas/categories.schema";
 
 export const listCategoriesService = async (): Promise<
-	ICategoriesResponse[] | undefined
+  ICategoriesResponse[] | undefined
 > => {
-	const categoriesRepository = dataSourceConfig.getRepository(Categories);
-	const listCategories = await categoriesRepository.find();
+  const categoriesRepository = dataSourceConfig.getRepository(Categories);
+  const listCategories = await categoriesRepository.find();
 
-	const validatedData = await listCategoriesSchema.validate(listCategories, {
-		stripUnknown: true
-	});
+  const validatedData = await listCategoriesSchema.validate(listCategories, {
+    stripUnknown: true,
+  });
 
-	return validatedData;
+  return validatedData;
 };

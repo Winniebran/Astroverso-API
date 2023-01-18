@@ -4,26 +4,26 @@ import { Astros } from "../../entities/astros.entity";
 import { NextFunction, Request, Response } from "express";
 
 export const updateAstrosExistsMiddleware = async (
-	req: Request,
-	res: Response,
-	next: NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) => {
-	const astrosRepository = dataSourceConfig.getRepository(Astros);
+  const astrosRepository = dataSourceConfig.getRepository(Astros);
 
-	const foundAstro = await astrosRepository.findOneBy({
-		id: req.params.id
-	});
+  const foundAstro = await astrosRepository.findOneBy({
+    id: req.params.id,
+  });
 
-	if (!foundAstro) {
-		throw new AppError("Astro not found", 404);
-	}
+  if (!foundAstro) {
+    throw new AppError("Astro not found", 404);
+  }
 
-	const updatedAstro = astrosRepository.create({
-		...foundAstro,
-		...req.body
-	});
+  const updatedAstro = astrosRepository.create({
+    ...foundAstro,
+    ...req.body,
+  });
 
-	req.body = updatedAstro;
+  req.body = updatedAstro;
 
-	return next();
+  return next();
 };

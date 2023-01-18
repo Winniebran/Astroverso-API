@@ -12,7 +12,7 @@ export const createTypesService = async (types: ITypes): Promise<Types> => {
   if (typeAlreadyExists) {
     throw new AppError("type already exists!", 409);
   }
-  
+
   const newType = typesRepository.create(types);
   await typesRepository.save(newType);
 

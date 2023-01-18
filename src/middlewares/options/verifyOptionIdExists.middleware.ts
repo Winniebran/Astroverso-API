@@ -1,6 +1,5 @@
 import { AppError } from "./../../errors/AppErrors";
 import { Options } from "./../../entities/options.entity";
-import { IOptions } from "./../../interfaces/options/index";
 import { NextFunction, Request, Response } from "express";
 import dataSource from "../../data-source";
 

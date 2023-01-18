@@ -4,7 +4,9 @@ import { AuthMiddleware } from "../middlewares/authentication.middleware";
 import { isAdmMiddleware } from "./../middlewares/isAdm.middleware";
 import { dataIsValidMiddleware } from "../middlewares/dataIsValid.middleware";
 import { idIsValidMiddleware } from "../middlewares/IdIsValid.middleware";
+
 import { verifyCorrectOptionsMiddleware } from "../middlewares/options/verifyIsCorrectOptions.middleware";
+import { verifyOptionExistsMiddleware } from "../middlewares/options/verifyOptionIdExists.middleware";
 import { verifyOptionsLimitMiddleware } from "../middlewares/options/verifyOptionsLimit.middleware";
 import {
   postOptionsSchema,
@@ -15,8 +17,6 @@ import { createOptionsController } from "../controllers/options/createOptions.co
 import { getOptionsController } from "./../controllers/options/getOptions.controller";
 import { deleteOptionController } from "../controllers/options/deleteOptions.controller";
 import { updateOptionsController } from "../controllers/options/updateOptions.controller";
-import { verifyOptionExistsMiddleware } from "../middlewares/options/verifyOptionIdExists.middleware";
-// import { verifyHaveUnicTrueMiddleware } from "../middlewares/options/verifyHaveUnicTrue.middleware";
 
 export const optionsRouter = Router();
 
@@ -25,7 +25,6 @@ optionsRouter.post(
   AuthMiddleware,
   isAdmMiddleware,
   dataIsValidMiddleware(postOptionsSchema),
-  // verifyHaveUnicTrueMiddleware,
   verifyCorrectOptionsMiddleware,
   verifyOptionsLimitMiddleware,
   createOptionsController
