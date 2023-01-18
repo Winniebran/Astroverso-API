@@ -15,43 +15,43 @@ import { listQuizzes_QuestionsByQuizzesIdController } from "../controllers/quizz
 export const quizzes_questionsRouter = Router();
 
 quizzes_questionsRouter.post(
-	"",
-	AuthMiddleware,
-	isAdmMiddleware,
-	dataIsValidMiddleware(quizzes_questionsRequestSchema),
-	ensureQuizzesExistsInQuizzes_QuestionsMiddleware,
-	ensureQuestionsExistsInQuizzes_QuestionsMiddleware,
-	createQuizzes_QuestionsController
+  "",
+  AuthMiddleware,
+  isAdmMiddleware,
+  dataIsValidMiddleware(quizzes_questionsRequestSchema),
+  ensureQuizzesExistsInQuizzes_QuestionsMiddleware,
+  ensureQuestionsExistsInQuizzes_QuestionsMiddleware,
+  createQuizzes_QuestionsController
 );
 
 quizzes_questionsRouter.get(
-	"",
-	AuthMiddleware,
-	isAdmMiddleware,
-	listAllQuizzes_QuestionsController
+  "",
+  AuthMiddleware,
+  isAdmMiddleware,
+  listAllQuizzes_QuestionsController
 );
 
 quizzes_questionsRouter.get(
-	"/quizzes/:id",
-	AuthMiddleware,
-	isAdmMiddleware,
-	listQuizzes_QuestionsByQuizzesIdController
+  "/quizzes/:id",
+  AuthMiddleware,
+  isAdmMiddleware,
+  listQuizzes_QuestionsByQuizzesIdController
 );
 
 quizzes_questionsRouter.patch(
-	"/:id",
-	AuthMiddleware,
-	isAdmMiddleware,
-	idIsValidMiddleware,
-	ensureQuizzesExistsInQuizzes_QuestionsMiddleware,
-	ensureQuestionsExistsInQuizzes_QuestionsMiddleware,
-	updateQuizzes_QuestionsController
+  "/:id",
+  AuthMiddleware,
+  isAdmMiddleware,
+  idIsValidMiddleware,
+  ensureQuizzesExistsInQuizzes_QuestionsMiddleware,
+  ensureQuestionsExistsInQuizzes_QuestionsMiddleware,
+  updateQuizzes_QuestionsController
 );
 
 quizzes_questionsRouter.delete(
-	"/:id",
-	AuthMiddleware,
-	isAdmMiddleware,
-	idIsValidMiddleware,
-	deleteQuizzes_QuestionsController
+  "/:id",
+  AuthMiddleware,
+  isAdmMiddleware,
+  idIsValidMiddleware,
+  deleteQuizzes_QuestionsController
 );

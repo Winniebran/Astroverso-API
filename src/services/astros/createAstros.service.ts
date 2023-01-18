@@ -6,20 +6,20 @@ import { AppError } from "../../errors/AppErrors";
 import { IAstrosRequest } from "../../interfaces/astros";
 
 export const createAstrosService = async (
-	astro: IAstrosRequest
+  astro: IAstrosRequest
 ): Promise<Astros> => {
-	const astrosRepository = dataSourceConfig.getRepository(Astros);
+  const astrosRepository = dataSourceConfig.getRepository(Astros);
 
-	const astroAlrealdyExists = await astrosRepository.findOneBy({
-		name: ILike(`%${astro.name}%`)
-	});
+  const astroAlrealdyExists = await astrosRepository.findOneBy({
+    name: ILike(`%${astro.name}%`),
+  });
 
-	if (astroAlrealdyExists) {
-		throw new AppError("Astro already exists!", 409);
-	}
+  if (astroAlrealdyExists) {
+    throw new AppError("Astro already exists!", 409);
+  }
 
-	const newAstro = astrosRepository.create(astro);
-	await astrosRepository.save(newAstro);
+  const newAstro = astrosRepository.create(astro);
+  await astrosRepository.save(newAstro);
 
-	return newAstro;
+  return newAstro;
 };
