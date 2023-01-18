@@ -34,7 +34,7 @@ export const updateQuizzes_QuestionsService = async (
   });
 
   if (!quizzes_questionsFound) {
-    throw new AppError("C Quiz collection not found!", 404);
+    throw new AppError("Quiz collection not found!", 404);
   }
   const quizzesFound = await quizzesRep.findOne({
     where: {
