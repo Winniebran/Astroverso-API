@@ -16,7 +16,7 @@ export const verifyOptionsExistsMiddleware = async (
     });
 
     if (!verify) {
-      throw new AppError("Option id not exists");
+      throw new AppError("Option id not exists", 404);
     }
 
     next();
