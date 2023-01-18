@@ -26,7 +26,7 @@ const setDataSourceConfig = (): DataSourceOptions => {
     host: process.env.PGHOST,
     port: parseInt(process.env.PGPORT!),
     username: process.env.PGUSER,
-    password: 'julitha123',
+    password: process.env.PGPASSWORD,
     database: process.env.PGDATABASE,
     logging: true,
     synchronize: false,

@@ -16,6 +16,7 @@ import { getOptionsController } from "./../controllers/options/getOptions.contro
 import { deleteOptionController } from "../controllers/options/deleteOptions.controller";
 import { updateOptionsController } from "../controllers/options/updateOptions.controller";
 import { verifyOptionExistsMiddleware } from "../middlewares/options/verifyOptionIdExists.middleware";
+// import { verifyHaveUnicTrueMiddleware } from "../middlewares/options/verifyHaveUnicTrue.middleware";
 
 export const optionsRouter = Router();
 
@@ -24,6 +25,7 @@ optionsRouter.post(
   AuthMiddleware,
   isAdmMiddleware,
   dataIsValidMiddleware(postOptionsSchema),
+  // verifyHaveUnicTrueMiddleware,
   verifyCorrectOptionsMiddleware,
   verifyOptionsLimitMiddleware,
   createOptionsController
@@ -42,11 +44,10 @@ optionsRouter.delete(
 
 optionsRouter.patch(
   "/:id",
-  isAdmMiddleware,
   AuthMiddleware,
+  isAdmMiddleware,
   idIsValidMiddleware,
   verifyOptionExistsMiddleware,
   dataIsValidMiddleware(updateOptionsSchema),
-  verifyCorrectOptionsMiddleware,
   updateOptionsController
 );

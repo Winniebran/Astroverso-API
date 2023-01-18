@@ -8,19 +8,13 @@ export interface IOptions {
 }
 
 export interface IOptionsResponse {
-	answer: string;
-	point: number;
-	isCorrect: boolean;
-	questions: IQuestionsResponse;
+  answer: string;
+  point: number;
+  isCorrect: boolean;
+  questions: IQuestionsResponse;
 }
 
 export interface IUpdateOption {
-  answer?: string;
-  point?: number;
-  isCorrect?: boolean;
-}
-
-export interface IupdateOption {
   answer?: string;
   point?: number;
   isCorrect?: boolean;

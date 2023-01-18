@@ -1,4 +1,4 @@
-import { IOptions, IupdateOption } from "../../interfaces/options";
+import { IOptions, IUpdateOption } from "../../interfaces/options";
 
 export const mockCreateOptionTrue: IOptions = {
   answer: "option 1",
@@ -47,4 +47,8 @@ export const mockCantCreateOptionFalseByPointEqual2: IOptions = {
   point: 2,
   questionsId: "",
   isCorrect: false,
+};
+
+export const mockUpdateOptionTrue: IUpdateOption = {
+  answer: "option 1 updated",
 };
