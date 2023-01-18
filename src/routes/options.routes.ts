@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { AuthMiddleware } from "../middlewares/authentication.middleware";
-import { isAdmMiddleware } from "./../middlewares/isAdm.middleware";
+import { isAdmMiddleware } from "../middlewares/isAdm.middleware";
 import { dataIsValidMiddleware } from "../middlewares/dataIsValid.middleware";
 import { idIsValidMiddleware } from "../middlewares/IdIsValid.middleware";
 
@@ -14,7 +14,7 @@ import {
 } from "../schemas/options.schema";
 
 import { createOptionsController } from "../controllers/options/createOptions.controller";
-import { getOptionsController } from "./../controllers/options/getOptions.controller";
+import { getOptionsController } from "../controllers/options/getOptions.controller";
 import { deleteOptionController } from "../controllers/options/deleteOptions.controller";
 import { updateOptionsController } from "../controllers/options/updateOptions.controller";
 

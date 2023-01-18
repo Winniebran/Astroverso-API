@@ -1,5 +1,5 @@
-import { IPosts, IPostsResponse } from "./../../interfaces/posts/index";
-import { Posts } from "./../../entities/posts.entity";
+import { IPosts, IPostsResponse } from "../../interfaces/posts/index";
+import { Posts } from "../../entities/posts.entity";
 import dataSourceConfig from "../../data-source";
 
 export const listAllPostsService = async (): Promise<IPostsResponse[]> => {

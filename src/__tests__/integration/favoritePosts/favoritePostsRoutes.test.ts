@@ -1,5 +1,5 @@
-import { mockAstro } from "./../../mocks/astros.mocks";
-import { mockCategory } from "./../../mocks/categories.mock";
+import { mockAstro } from "../../mocks/astros.mocks";
+import { mockCategory } from "../../mocks/categories.mock";
 import request from "supertest";
 import { app } from "../../../app";
 import { DataSource } from "typeorm";

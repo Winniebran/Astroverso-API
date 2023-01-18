@@ -1,5 +1,5 @@
-import { IPostsUpdate } from "./../../interfaces/posts/index";
-import { updatePostsService } from "./../../services/posts/updatePost.service";
+import { IPostsUpdate } from "../../interfaces/posts/index";
+import { updatePostsService } from "../../services/posts/updatePost.service";
 import { Request, Response } from "express";
 
 export const updatePostController = async (req: Request, res: Response) => {

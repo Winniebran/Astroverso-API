@@ -1,5 +1,5 @@
-import { IFavoritePosts } from "./../interfaces/favoritePosts/index";
-import { IPosts, IPostsResponse } from "./../interfaces/posts/index";
+import { IFavoritePosts } from "../interfaces/favoritePosts/index";
+import { IPosts, IPostsResponse } from "../interfaces/posts/index";
 import * as yup from "yup";
 import { SchemaOf } from "yup";
 import {

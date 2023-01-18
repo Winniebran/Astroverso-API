@@ -1,5 +1,5 @@
-import { AppError } from "./../../errors/AppErrors";
-import { Posts } from "./../../entities/posts.entity";
+import { AppError } from "../../errors/AppErrors";
+import { Posts } from "../../entities/posts.entity";
 import setDataSourceConfig from "../../data-source";
 
 export const deletePostService = async (postId: string): Promise<void> => {

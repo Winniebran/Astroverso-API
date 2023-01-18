@@ -1,4 +1,4 @@
-import { Posts } from "./../../entities/posts.entity";
+import { Posts } from "../../entities/posts.entity";
 import dataSourceConfig from "../../data-source";
 
 export const listPostsFromCategoryService = async (categoryId: string) => {

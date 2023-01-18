@@ -1,4 +1,4 @@
-import { IPosts } from "./../../interfaces/posts/index";
+import { IPosts } from "../../interfaces/posts/index";
 
 export const mockNewPost: IPosts = {
   astrosId: "1",

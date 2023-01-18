@@ -1,5 +1,5 @@
-import { AppError } from "./../../errors/AppErrors";
-import { Options } from "./../../entities/options.entity";
+import { AppError } from "../../errors/AppErrors";
+import { Options } from "../../entities/options.entity";
 import { NextFunction, Request, Response } from "express";
 import dataSource from "../../data-source";
 

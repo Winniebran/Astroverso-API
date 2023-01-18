@@ -1,8 +1,8 @@
-import { Categories } from "./../../entities/categories.entity";
-import { Astros } from "./../../entities/astros.entity";
-import { IPostsUpdate, IPostsResponse } from "./../../interfaces/posts/index";
-import { AppError } from "./../../errors/AppErrors";
-import { Posts } from "./../../entities/posts.entity";
+import { Categories } from "../../entities/categories.entity";
+import { Astros } from "../../entities/astros.entity";
+import { IPostsUpdate, IPostsResponse } from "../../interfaces/posts/index";
+import { AppError } from "../../errors/AppErrors";
+import { Posts } from "../../entities/posts.entity";
 import setDataSourceConfig from "../../data-source";
 
 export const updatePostsService = async (

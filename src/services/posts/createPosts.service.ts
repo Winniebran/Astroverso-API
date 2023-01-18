@@ -1,9 +1,9 @@
-import { Astros } from "./../../entities/astros.entity";
-import { Categories } from "./../../entities/categories.entity";
-import { postsResponseSchema } from "./../../schemas/posts.schema";
-import { Posts } from "./../../entities/posts.entity";
+import { Astros } from "../../entities/astros.entity";
+import { Categories } from "../../entities/categories.entity";
+import { postsResponseSchema } from "../../schemas/posts.schema";
+import { Posts } from "../../entities/posts.entity";
 import dataSourceConfig from "../../data-source";
-import { IPosts, IPostsResponse } from "./../../interfaces/posts/index";
+import { IPosts, IPostsResponse } from "../../interfaces/posts/index";
 import { AppError } from "../../errors/AppErrors";
 
 export const createPostService = async (

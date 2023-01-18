@@ -1,6 +1,6 @@
 import dataSourceConfig from "../../data-source";
 import * as yup from "yup";
-import { AppError } from "./../../errors/AppErrors";
+import { AppError } from "../../errors/AppErrors";
 import { Request, Response, NextFunction } from "express";
 import { Astros } from "../../entities/astros.entity";
 
