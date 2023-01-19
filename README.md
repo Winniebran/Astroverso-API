@@ -1,4 +1,4 @@
-# astroverso-api
+# Astroverso Api
 
 Visto a falta de uma API que viabiliza conteúdos de astronomia de forma simples, agradável e de fácil entendimento. <br>
 O <strong>ASTROVERSO API</strong> tem como objetivo ser uma ferramenta de ensino interativo, trazendo conhecimento de uma forma dinâmica e divertida para todos os públicos. <br><br>
@@ -11,7 +11,7 @@ https://documentation-astroverso.vercel.app/ <br><br>
 https://astroverso-api-ve9g.onrender.com <br><br>
 
 ## <strong>Insomnia:</strong>
-[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Astroverso-api-insomnia&uri=%2FUsers%2Fwinniebran%2FDesktop%2Fdocumentation%2Finsomnia.json)<br><br>
+<a href="https://insomnia.rest/run/?label=Astroverso-api&uri=https%3A%2F%2Fdocumentation-7o6377s9w-astroverso.vercel.app%2Finsomnia.json" target="_blank"><img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia"></a><br><br>
 
 ## <strong>Tecnologias/libs utilizadas:</strong>
  1. Node.js;
