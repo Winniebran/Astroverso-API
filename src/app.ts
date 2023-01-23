@@ -14,12 +14,14 @@ import { postsRouter } from "./routes/posts.routes";
 import { questionsRouter } from "./routes/questions.routes";
 import { favoritePostsRouter } from "./routes/favoritePosts.routes";
 import { quizzes_questionsRouter } from "./routes/quizzes_questions.routes";
+import { profileRouter } from "./routes/profile.routes";
 
 export const app = express();
 app.use(express.json());
 
 app.use("/users", usersRouter);
 app.use("/login", loginRouter);
+app.use("/profile", profileRouter);
 app.use("/favoritePosts", favoritePostsRouter);
 app.use("/posts", postsRouter);
 app.use("/astros", astrosRouter);
