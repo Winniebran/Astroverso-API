@@ -4,6 +4,9 @@ Visto a falta de uma API que viabiliza conteúdos de astronomia de forma simples
 O <strong>ASTROVERSO API</strong> tem como objetivo ser uma ferramenta de ensino interativo, trazendo conhecimento de uma forma dinâmica e divertida para todos os públicos. <br><br>
 Projeto desenvolvido em Janeiro/23.<br><br>
 
+## <strong>Diagrama ER: </strong>
+![Diagrams](diagrams.png)<br><br>
+
 ## <strong>Documentação:</strong>
 https://documentation-astroverso.vercel.app/ <br><br>
 
