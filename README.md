@@ -1,7 +1,6 @@
 # Astroverso Api
 
-Visto a falta de uma API que viabiliza conteúdos de astronomia de forma simples, agradável e de fácil entendimento. <br>
-O <strong>ASTROVERSO API</strong> tem como objetivo ser uma ferramenta de ensino interativo, trazendo conhecimento de uma forma dinâmica e divertida para todos os públicos. <br><br>
+O ASTROVERSO API é uma solução inovadora que visa preencher a lacuna existente ao oferecer conteúdos de astronomia de maneira simples, agradável e de fácil entendimento. Com o objetivo de ser uma ferramenta de ensino interativo, o ASTROVERSO API busca trazer conhecimento astronômico de forma dinâmica e divertida para todos os públicos. <br><br>
 Projeto desenvolvido em Janeiro/23.<br><br>
 
 ## <strong>Diagrama ER: </strong>
